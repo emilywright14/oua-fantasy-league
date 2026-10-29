@@ -23,3 +23,5 @@ This website is **not connected** to Supabase. It has no real logins, real roste
 5. Import final verified draft ownership from the existing Supabase draft tables after draft night, with player/OUA team IDs.
 
 Keep secrets and passwords out of the public repo. Continue with the exact same Supabase project and create *separate* league tables, rather than altering tomorrow's draft tables.
+
+OUA Fantasy League HQ — Website preview
