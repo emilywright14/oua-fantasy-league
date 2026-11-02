@@ -224,7 +224,22 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 #faMarketTable .fa-table th:nth-child(9),#faMarketTable .fa-table td:nth-child(9){min-width:160px}#faMarketTable .fa-table th:last-child,#faMarketTable .fa-table td:last-child{min-width:94px;text-align:center}#faMarketTable .fa-claim{min-width:68px}
 @media(max-width:760px){#faMarketTable{padding:13px 10px}#faMarketTable .fa-table th:first-child,#faMarketTable .fa-table td:first-child{min-width:145px;max-width:160px}#faMarketTable .fa-table th,#faMarketTable .fa-table td{padding:9px 8px;font-size:11px}}
 </style>
-</head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
+<style>
+.hq-now-grid{align-items:start}
+.hq-now-grid>.hq-now-panel:first-child{align-self:start}
+.hq-analytics-explorer{scroll-margin-top:24px}
+.hq-compare-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
+.hq-compare-picker label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted)}
+.hq-compare-picker select{min-width:0;width:100%;background:#10283a;color:var(--text);border:1px solid #3b6375;border-radius:9px;padding:11px}
+.hq-compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.hq-compare-athlete{padding:14px;border:1px solid var(--line);border-radius:12px;background:#10273b}
+.hq-compare-athlete h4{margin:0 0 5px}.hq-compare-athlete p{color:var(--muted);font-size:12px;margin:0 0 12px}
+.hq-week-trends{margin:14px 0}.hq-week-trend{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12px}.hq-week-trend>span{width:32px}.hq-week-trend>b{min-width:52px;text-align:right}
+.hq-trend-track{height:11px;flex:1;background:#0d2435;border-radius:10px;overflow:hidden}.hq-trend-track>div{height:100%;border-radius:10px}
+.hq-compare-table th,.hq-compare-table td{text-align:center;white-space:nowrap}.hq-compare-table th:first-child,.hq-compare-table td:first-child{text-align:left}
+.hq-analytics-week{border-bottom:1px solid var(--line);padding:8px 0}.hq-profile-open{font-weight:750;text-align:left;color:inherit;cursor:pointer;background:transparent;border:0;padding:0}.hq-profile-open:hover{text-decoration:underline;color:var(--teal)}
+@media(max-width:650px){.hq-compare-picker{grid-template-columns:1fr}}
+</style></head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
 <p id="faMarketDescription">Check when bidding closes and when free agency opens.</p>
@@ -908,7 +923,7 @@ function lineup(id){
   const rule=isTeam?'University scoring includes match and set results.':position==='L'?'Libero: dig points earn a 1.5× multiplier.':position==='MB'?'Middle: block points earn a 1.5× multiplier.':'Fantasy points are calculated from official match statistics.';
   const code=`w1-${id}-${String(r.asset_id||'').replace(/[^a-zA-Z0-9_-]/g,'_')}`;
   const record=isBench?'Bench · points not counted':isTeam?'University team · points counted':'Starter · points counted';
-  return `<tr class="${isBench?'hq-w1-out':''} hq-click-player" data-player-toggle="${esc(code)}" tabindex="0" role="button" aria-expanded="false" aria-controls="${esc(code)}" title="View player details"><td><b>${esc(name(st.athlete))} <span class="hq-player-expand-icon">⌄</span></b><small class="hq-player-school">${esc(st.athlete.university??'')}</small></td><td><span class="hq-slot ${isBench?'hq-bench-slot':isTeam?'hq-team-slot':''}">${isBench?'BENCH':isTeam?'TEAM':'STARTER'}</span></td><td>${esc(st.athlete.position??'—')}</td><td class="num">${isTeam?'—':(st.p||hasScore(r))?st.gp:'—'}</td><td class="num">${isTeam?'—':st.gp&&available?fp((pts??0)/st.gp):'—'}</td><td class="num"><div class="hq-player-score"><strong>${available?fp(pts):'—'}</strong>${available?`<span class="hq-player-bar" style="--bar-width:${Math.max(0,Math.min(100,(Number(pts)||0)/120*100))}%"></span>`:''}</div></td></tr><tr id="${esc(code)}" class="hq-player-expanded-row" hidden><td colspan="6"><div class="hq-player-expanded"><div class="hq-player-expanded-heading"><strong>${esc(name(st.athlete))}</strong><span>${esc(record)}</span></div><div class="hq-player-detail-grid"><div><small>WEEK 1 FP</small><strong>${available?fp(pts):'—'}</strong></div><div><small>GAMES PLAYED</small><strong>${isTeam?'—':st.gp}</strong></div><div><small>FP / GAME</small><strong>${isTeam||!st.gp?'—':fp((pts??0)/st.gp)}</strong></div></div><p>${esc(rule)}</p></div></td></tr>`;
+  return `<tr class="${isBench?'hq-w1-out':''}"><td>${isTeam?`<b>${esc(name(st.athlete))}</b>`:`<button type="button" class="hq-profile-open" data-hq-profile="${esc(r.asset_id)}" title="Open athlete profile in Analytics">${esc(name(st.athlete))} ↗</button>`}<small class="hq-player-school">${esc(st.athlete.university??'')}</small></td><td><span class="hq-slot ${isBench?'hq-bench-slot':isTeam?'hq-team-slot':''}">${isBench?'BENCH':isTeam?'TEAM':'STARTER'}</span></td><td>${esc(st.athlete.position??'—')}</td><td class="num">${isTeam?'—':(st.p||hasScore(r))?st.gp:'—'}</td><td class="num">${isTeam?'—':st.gp&&available?fp((pts??0)/st.gp):'—'}</td><td class="num"><div class="hq-player-score"><strong>${available?fp(pts):'—'}</strong>${available?`<span class="hq-player-bar" style="--bar-width:${Math.max(0,Math.min(100,(Number(pts)||0)/120*100))}%"></span>`:''}</div></td></tr>`;
  };
  return `<details class="hq-gm-detail" style="--gm:${GM_COLORS[id]}"><summary><span class="hq-detail-gm"><span class="hq-gm-bubble"></span>${esc(NAMES[id])}</span><span class="hq-detail-right">${fp(managerTotal(total))} FP <span class="hq-chevron">⌄</span></span></summary><div class="hq-roster-statbar"><div><small>STARTERS</small><strong>${week1.lineupScores.length?fp(total?.starter_points??sorted.filter(x=>role(x)==='starter').reduce((n,r)=>n+points(r),0)):'—'}</strong></div><div><small>UNIVERSITY</small><strong>${week1.lineupScores.length?fp(total?.team_points??sorted.filter(x=>role(x)==='university').reduce((n,r)=>n+points(r),0)):'—'}</strong></div><div><small>BENCH · EXCLUDED</small><strong>${week1.lineupScores.length?fp(total?.bench_points??total?.bench_points_not_counted??bench.reduce((n,r)=>n+raw(r),0)):'—'}</strong></div></div><div class="tablewrap"><table class="hq-player-table"><thead><tr><th>Athlete / University</th><th>Lineup</th><th>Pos</th><th>GP</th><th>FP / GP</th><th>Week FP</th></tr></thead><tbody>${sorted.map(row).join('')}</tbody></table></div></details>`;
 }
@@ -922,7 +937,7 @@ function standings(){
 
 function nextWeekPanel(){return `<section class="hq-now-panel hq-upcoming-panel">
  <div class="hq-upcoming-head"><div><div class="kicker">UP NEXT · WEEK 2</div><h3>Make your next move.</h3><p class="hq-now-sub">Nov 6–7 · Week 2 matchups</p></div><span class="hq-upcoming-label">NEXT UP</span></div>
- <div class="hq-upcoming-pairings" aria-label="Week 2 head-to-head matchups"><div class="hq-upcoming-pairings-title">⚔️ WEEK 2 MATCHUPS</div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#FF8ABB"></span><b>Nolan</b><em>vs</em><span class="hq-gm-dot" style="--team:#62A6FF"></span><b>Josh N.</b></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#F3C47B"></span><b>Alex</b><em>vs</em><span class="hq-gm-dot" style="--team:#69DAD4"></span><b>Amit</b></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#A89CFF"></span><b>Robbie</b><em>vs</em><span class="hq-gm-dot" style="--team:#9FE293"></span><b>Josh T.</b></div></div>
+ <div class="hq-upcoming-pairings" aria-label="Week 2 head-to-head matchups"><div class="hq-upcoming-pairings-title">⚔️ WEEK 2 MATCHUPS</div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#FF8ABB"></span><b>Nolan</b><em>vs</em><b>Josh N.</b><span class="hq-gm-dot" style="--team:#62A6FF"></span></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#F3C47B"></span><b>Alex</b><em>vs</em><b>Amit</b><span class="hq-gm-dot" style="--team:#69DAD4"></span></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#A89CFF"></span><b>Robbie</b><em>vs</em><b>Josh T.</b><span class="hq-gm-dot" style="--team:#9FE293"></span></div></div>
  <div class="hq-upcoming-callout"><span class="hq-upcoming-callout-icon">⏳</span><div><div class="hq-upcoming-kicker">FIRST DEADLINE</div><strong>Waivers close Tuesday</strong><span>Nov 3 · 11:59 PM ET</span></div></div>
  <div class="hq-upcoming-timeline">
   <div class="hq-upcoming-event"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">WED · NOV 4</span><strong>Waiver review</strong><small>Commissioner processes claims</small></div></div>
@@ -1069,25 +1084,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 .hq-player-detail-grid strong{font-variant-numeric:tabular-nums}
 @media(max-width:600px){.hq-player-detail-grid{gap:5px}.hq-player-detail-grid>div{padding:7px}}
 </style>
-<script>
-document.addEventListener('click',function(event){
- const row=event.target.closest('tr[data-player-toggle]');
- if(!row)return;
- const panel=document.getElementById(row.dataset.playerToggle);
- if(!panel)return;
- const opening=panel.hidden;
- panel.hidden=!opening;
- row.setAttribute('aria-expanded',String(opening));
- const caret=row.querySelector('.hq-player-expand-icon');
- if(caret)caret.textContent=opening?'⌃':'⌄';
-});
-document.addEventListener('keydown',function(event){
- if(event.key!=='Enter'&&event.key!==' ')return;
- const row=event.target.closest('tr[data-player-toggle]');
- if(!row||event.target!==row)return;
- event.preventDefault();row.click();
-});
-</script>
+
 <script>
 document.addEventListener('click',function(event){
  if(event.target.closest('#faFreeSubmit'))faSubmitFreeAdd();
@@ -1138,13 +1135,13 @@ const GM_PALETTE={1:'#69DAD4',2:'#F3C47B',3:'#A89CFF',4:'#9FE293',5:'#FF8ABB',6:
 const h=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const val=x=>Number(x)||0;
 const fmt=x=>Number.isFinite(Number(x))?Number(x).toFixed(3).replace(/0+$/,'').replace(/\.$/,''):'—';
-const seasonRows=()=>typeof faState!=='undefined'?faState.scoring:[];
+const seasonRows=()=>analytics.players.length?analytics.players.map(r=>({...r,fantasy_week:rowWeek(r),fantasy_points:val(r.fantasy_points??r.raw_points??r.total_points??r.points),games:val(r.games_played??r.games??r.gp)})):(typeof faState!=='undefined'?faState.scoring:[]);
 const people=()=>typeof faState!=='undefined'?faState.pool:[];
 const findPlayer=id=>people().find(p=>p.asset_id===id);
 const statRows=id=>seasonRows().filter(r=>r.asset_id===id).sort((a,b)=>val(a.fantasy_week)-val(b.fantasy_week));
 const getProfile=id=>{const p=findPlayer(id);if(!p)return null;const rows=statRows(id);const games=rows.reduce((n,r)=>n+val(r.games),0),points=rows.reduce((n,r)=>n+val(r.fantasy_points),0);return {p,rows,games,points};};
 let overlay=null,lastFocus=null;
-function showProfile(id){const x=getProfile(id);if(!x)return;const {p,rows,games,points}=x;lastFocus=document.activeElement;
+function showProfile(id){openAnalyticsProfile(id);return;const x=getProfile(id);if(!x)return;const {p,rows,games,points}=x;lastFocus=document.activeElement;
  const next=typeof faWeekGames==='function'?faWeekGames(p.university,Number(document.getElementById('faWeek')?.value)||2):null;
  overlay=document.getElementById('hqProfileOverlay');if(!overlay){overlay=document.createElement('div');overlay.id='hqProfileOverlay';overlay.className='hq-profile-overlay';overlay.hidden=true;document.body.appendChild(overlay);}
  const scoringNote=p.position==='L'?'Libero: digs earn 1.5× fantasy points.':p.position==='MB'?'Middle: solo and assisted blocks earn 1.5× fantasy points.':'Fantasy points are based on official match statistics.';
@@ -1163,9 +1160,9 @@ function addLeaderboard(){const waivers=document.getElementById('waivers'),marke
  // Make the free-agent name column open the profile, without affecting the claim button.
  const table=document.getElementById('faRows');if(table){const displayed=[...table.querySelectorAll('tr')];displayed.forEach(tr=>{const first=tr.querySelector('td');if(!first||first.querySelector('[data-hq-profile]'))return;const name=first.querySelector('b');if(!name)return;const matching=pool.find(p=>p.asset_name===name.textContent.trim()&&!owned.has(p.asset_id));if(!matching)return;name.innerHTML=`<button type="button" class="hq-profile-open" data-hq-profile="${h(matching.asset_id)}">${h(matching.asset_name)}</button>`;});}
 }
-const analytics={managers:[],lineups:[],loading:false,loaded:false,checkedAt:null};
+const analytics={managers:[],lineups:[],players:[],loading:false,loaded:false,checkedAt:null};
 async function fetchAnalytics(){if(analytics.loading||analytics.loaded||!window.leagueClient)return;analytics.loading=true;
- try{const [m,l]=await Promise.all([leagueClient.from('fantasy_weekly_manager_scores').select('*').limit(1000),leagueClient.from('fantasy_weekly_lineup_scores').select('*').limit(2000)]);if(m.error)throw m.error;analytics.managers=m.data||[];analytics.lineups=l.data||[];analytics.loaded=true;analytics.checkedAt=new Date();}catch(e){console.warn('League analytics read:',e?.message||e);}finally{analytics.loading=false;renderAnalytics();}}
+ try{const [m,l,p]=await Promise.all([leagueClient.from('fantasy_weekly_manager_scores').select('*').limit(1000),leagueClient.from('fantasy_weekly_lineup_scores').select('*').limit(2000),leagueClient.from('fantasy_weekly_player_scores').select('*').limit(4000)]);if(m.error)throw m.error;analytics.managers=m.data||[];analytics.lineups=l.data||[];analytics.players=p.error?[]:(p.data||[]);analytics.loaded=true;analytics.checkedAt=new Date();if(analytics.players.length&&typeof faState!=='undefined'){faState.scoring=analytics.players.map(r=>({asset_id:r.asset_id,fantasy_week:rowWeek(r),fantasy_points:val(r.fantasy_points??r.raw_points??r.total_points??r.points),games:val(r.games_played??r.games??r.gp)}));if(faState.loaded&&typeof renderFreeAgents==='function')renderFreeAgents();}}catch(e){console.warn('League analytics read:',e?.message||e);}finally{analytics.loading=false;renderAnalytics();}}
 const rowWeek=r=>val(r.week_num??r.fantasy_week??r.week??1);
 const ownId=r=>val(r.manager_id);
 const points=r=>val(r.counted_points??r.counted_fp??r.points_counted??r.fantasy_points??r.raw_points??r.points??0);
@@ -1206,10 +1203,59 @@ function renderAnalytics(){const root=document.getElementById('analytics');if(!r
  const bench=document.getElementById('leagueBench');if(bench)bench.innerHTML=chart(summaries.map(m=>({label:m.name,value:roster.filter(r=>ownId(r)===m.id&&role(r)==='bench').reduce((n,r)=>n+raw(r),0),color:GM_PALETTE[m.id]})));
  const position=document.getElementById('leaguePosition');if(position){const byPos={};for(const r of roster){if(role(r)==='bench')continue;const k=String(r.position||'TEAM').toUpperCase();byPos[k]=(byPos[k]||0)+points(r);}position.innerHTML=chart(Object.entries(byPos).sort((a,b)=>b[1]-a[1]).map(([k,n])=>({label:k,value:n,color:'#69DAD4'})));}
  const tbody=document.getElementById('leagueRows');if(tbody)tbody.innerHTML=summaries.map(m=>{const rm=roster.filter(r=>ownId(r)===m.id);const ben=rm.filter(r=>role(r)==='bench').reduce((n,r)=>n+raw(r),0);const starters=rm.filter(r=>role(r)!=='bench').reduce((n,r)=>n+points(r),0);return `<tr><td><span class="legenddot" style="background:${GM_PALETTE[m.id]}"></span>${h(m.name)}</td><td>—</td><td>${fmt(starters)}</td><td>${fmt(ben)}</td><td>${fmt(m.fp)}</td></tr>`;}).join('');
+ renderFilteredAnalytics();renderExplorer();
 }
+
+let activeAthlete=null, comparisonAthlete=null;
+function setupExplorer(){
+ const root=document.getElementById('analytics');if(!root||document.getElementById('hqAthleteExplorer'))return;
+ const cards=[...root.querySelectorAll('.card')];
+ for(const card of cards){const heading=card.querySelector('h3')?.textContent||'';if(heading.includes('Compare Two Athletes')||heading.includes('Home vs Away Performance'))card.remove();}
+ const panel=document.createElement('div');panel.id='hqAthleteExplorer';panel.className='hq-feature-panel hq-analytics-explorer';
+ const live=document.getElementById('hqLiveLeagueAnalytics');if(live)live.insertAdjacentElement('afterend',panel);else root.querySelector('h2')?.insertAdjacentElement('afterend',panel);
+ panel.innerHTML='<div class="kicker">ATHLETE EXPLORER</div><h3>🏐 Player performance & comparisons</h3><p class="hq-feature-sub">Choose athletes to explore official weekly FP, GP and game averages. Match-stat breakdowns will appear when available.</p><div class="hq-compare-picker"><label>Player profile<select id="hqAthletePick"><option value="">Choose an athlete</option></select></label><label>Compare with<select id="hqAthleteCompare"><option value="">No comparison</option></select></label></div><div id="hqAthleteView" aria-live="polite"></div>';
+ panel.querySelector('#hqAthletePick').onchange=e=>{activeAthlete=e.target.value||null;renderExplorer();};
+ panel.querySelector('#hqAthleteCompare').onchange=e=>{comparisonAthlete=e.target.value||null;renderExplorer();};
+}
+function listedPlayers(){return people().filter(p=>p.asset_id&&p.asset_name).sort((a,b)=>a.asset_name.localeCompare(b.asset_name));}
+function refreshExplorerOptions(){setupExplorer();const p=document.getElementById('hqAthletePick'),q=document.getElementById('hqAthleteCompare');if(!p||!q)return;
+ const players=listedPlayers();const markup=players.map(x=>`<option value="${h(x.asset_id)}">${h(x.asset_name)} · ${h(x.university)} (${h(x.position)})</option>`).join('');
+ if(p.options.length!==players.length+1){p.innerHTML='<option value="">Choose an athlete</option>'+markup;q.innerHTML='<option value="">No comparison</option>'+markup;}
+ p.value=activeAthlete||'';q.value=comparisonAthlete||'';
+}
+function profileSummary(id){const x=getProfile(id);if(!x)return null;return {...x,rows:statRows(id)};}
+function renderExplorer(){refreshExplorerOptions();const node=document.getElementById('hqAthleteView');if(!node)return;
+ const primary=activeAthlete?profileSummary(activeAthlete):null,secondary=comparisonAthlete?profileSummary(comparisonAthlete):null;
+ if(!primary&&!secondary){node.innerHTML='<p class="hq-feature-sub">Select any player to view their weekly scoring history.</p>';return;}
+ const peopleShown=[primary,secondary].filter(Boolean);const weeks=[...new Set(peopleShown.flatMap(x=>x.rows.map(r=>Number(r.fantasy_week))))].sort((a,b)=>a-b);
+ const stat=(x,label,n)=>`<div class="hq-live-stat"><small>${label}</small><strong>${n}</strong></div>`;
+ const cols=peopleShown.map(x=>`<section class="hq-compare-athlete"><h4>${h(x.p.asset_name)}</h4><p>${h(x.p.university)} · ${h(x.p.position)}</p><div class="hq-profile-metrics">${stat(x,'SEASON FP',x.rows.length?fmt(x.points):'—')}${stat(x,'GAMES PLAYED',x.rows.length?x.games:'—')}${stat(x,'FP / GAME',x.games?fmt(x.points/x.games):'—')}</div></section>`).join('');
+ const lines=weeks.map(w=>`<tr><td>Week ${w}</td>${peopleShown.map(x=>{const r=x.rows.find(z=>Number(z.fantasy_week)===w);return `<td>${r?fmt(r.fantasy_points):'—'}</td><td>${r?val(r.games):'—'}</td><td>${r&&val(r.games)?fmt(val(r.fantasy_points)/val(r.games)):'—'}</td>`;}).join('')}</tr>`).join('');
+ const max=Math.max(1,...peopleShown.flatMap(x=>x.rows.map(r=>val(r.fantasy_points))));
+ const bars=weeks.map(w=>`<div class="hq-week-trend"><span>W${w}</span>${peopleShown.map((x,i)=>{const r=x.rows.find(z=>Number(z.fantasy_week)===w);const v=val(r?.fantasy_points);return `<div class="hq-trend-track"><div style="width:${100*v/max}%;background:${i?'#ff8abb':'#69dad4'}"></div></div><b>${r?fmt(v):'—'}</b>`;}).join('')}</div>`).join('');
+ node.innerHTML=`<div class="hq-compare-grid">${cols}</div><h4>Weekly scoring history</h4>${weeks.length?`<div class="hq-week-trends">${bars}</div><div class="tablewrap"><table class="table hq-compare-table"><thead><tr><th>Week</th>${peopleShown.map(x=>`<th colspan="3">${h(x.p.asset_name)} · FP / GP / FP per game</th>`).join('')}</tr></thead><tbody>${lines}</tbody></table></div>`:'<p class="hq-feature-sub">No completed games yet.</p>'}`;
+}
+function openAnalyticsProfile(id){const player=findPlayer(id);if(!player)return;activeAthlete=id;setupExplorer();if(typeof changeTab==='function')changeTab('analytics');renderExplorer();document.getElementById('hqAthleteExplorer')?.scrollIntoView({behavior:'smooth',block:'start'});}
+function renderFilteredAnalytics(){
+ if(!analytics.loaded)return;
+ const manager=document.getElementById('leagueGM')?.value||'all',from=Number(document.getElementById('leagueFrom')?.value)||1,to=Number(document.getElementById('leagueTo')?.value)||12,metric=document.getElementById('leagueMetric')?.value||'total';
+ const rows=analytics.managers.filter(r=>rowWeek(r)>=from&&rowWeek(r)<=to&&(manager==='all'||GM_NAMES[ownId(r)]===manager));
+ const ids=[...new Set(rows.map(ownId))];const score=r=>val(r.total_points??r.total_fp??r.fantasy_points);
+ const totals=ids.map(id=>{const rr=rows.filter(r=>ownId(r)===id),ll=analytics.lineups.filter(r=>ownId(r)===id&&rowWeek(r)>=from&&rowWeek(r)<=to);const bench=ll.filter(r=>role(r)==='bench').reduce((a,r)=>a+raw(r),0),starter=ll.filter(r=>role(r)!=='bench').reduce((a,r)=>a+points(r),0);return {id,name:GM_NAMES[id],total:rr.reduce((a,r)=>a+score(r),0),starter,bench,weeks:rr.length};}).sort((a,b)=>b.total-a.total);
+ const chart=(list)=>typeof barChart==='function'?barChart(list.map(x=>({label:x.label,value:x.value})),list.map(x=>x.color)):'<p>No data</p>';
+ const source=metric==='bench'?'bench':metric==='starter'?'starter':'total';
+ const cumulative=document.getElementById('leagueCumulative');if(cumulative)cumulative.innerHTML=chart(totals.map(x=>({label:x.name,value:x[source],color:GM_PALETTE[x.id]})));
+ const weekly=document.getElementById('leagueWeekly');if(weekly){const weekValues=[...new Set(rows.map(rowWeek))].sort((a,b)=>a-b);weekly.innerHTML=weekValues.length?weekValues.map(w=>{const wr=rows.filter(r=>rowWeek(r)===w);return `<div class="hq-analytics-week"><b>Week ${w}</b>${chart(wr.map(r=>({label:GM_NAMES[ownId(r)],value:score(r),color:GM_PALETTE[ownId(r)]})))}</div>`;}).join(''):'<p class="hq-feature-sub">No completed scores in the selected weeks.</p>';}
+ const bench=document.getElementById('leagueBench');if(bench)bench.innerHTML=chart(totals.map(x=>({label:x.name,value:x.bench,color:GM_PALETTE[x.id]})));
+ const positions={};for(const r of analytics.lineups.filter(r=>rowWeek(r)>=from&&rowWeek(r)<=to&&role(r)!=='bench'&&(manager==='all'||GM_NAMES[ownId(r)]===manager))){const k=String(r.position||'TEAM').toUpperCase();positions[k]=(positions[k]||0)+points(r);}
+ const pos=document.getElementById('leaguePosition');if(pos)pos.innerHTML=chart(Object.entries(positions).sort((a,b)=>b[1]-a[1]).map(([label,value])=>({label,value,color:'#69DAD4'})));
+ const tbody=document.getElementById('leagueRows');if(tbody)tbody.innerHTML=totals.map(x=>`<tr><td><span class="legenddot" style="background:${GM_PALETTE[x.id]}"></span>${h(x.name)}</td><td>${x.weeks} wk</td><td>${fmt(x.starter)}</td><td>${fmt(x.bench)}</td><td>${fmt(x.weeks?x.total/x.weeks:0)}</td></tr>`).join('');
+}
+
 const oldRenderFree=typeof renderFreeAgents==='function'?renderFreeAgents:null;
 if(oldRenderFree){renderFreeAgents=function(){oldRenderFree();addLeaderboard();};}
-function tick(){if(typeof faState!=='undefined'&&faState.loaded)addLeaderboard();fetchAnalytics();}
+function tick(){setupExplorer();if(typeof faState!=='undefined'&&faState.loaded)addLeaderboard();fetchAnalytics();}
+for(const id of ['leagueMetric','leagueGM','leagueFrom','leagueTo'])document.getElementById(id)?.addEventListener('change',()=>setTimeout(renderFilteredAnalytics,0));
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tick);else tick();
 setTimeout(tick,1800);setTimeout(tick,4500);
 // Poll for newly imported results during matches; this refreshes published scores,
