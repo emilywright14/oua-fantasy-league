@@ -836,7 +836,9 @@ const hqPointBarCss=document.createElement('style');hqPointBarCss.textContent=`
 `;document.head.appendChild(hqPointBarCss);
 function lineup(id){
  const rows=week1.lineups.filter(r=>mid(r)===id),total=scoreFor(id);
- const sorted=[...rows].sort((a,b)=>({starter:0,university:1,bench:2}[role(a)]??3)-({starter:0,university:1,bench:2}[role(b)]??3));
+ const scoreValue=r=>{const lineupScore=week1.lineupScores.find(x=>x.asset_id===r.asset_id&&mid(x)===mid(r));const athleteScore=getPlayerStat(r.asset_id);return lineupScore?(role(r)==='bench'?raw(lineupScore):points(lineupScore)):athleteScore?raw(athleteScore):hasScore(r)?raw(r):0;};
+ const groupOrder={starter:0,university:1,bench:2};
+ const sorted=[...rows].sort((a,b)=>(groupOrder[role(a)]??3)-(groupOrder[role(b)]??3)||scoreValue(b)-scoreValue(a)||name(rosterAsset(a.asset_id)||a).localeCompare(name(rosterAsset(b.asset_id)||b)));
  const bench=sorted.filter(r=>role(r)==='bench');
  const row=r=>{
   const st=statLine(r),isBench=role(r)==='bench',isTeam=role(r)==='university'||st.athlete.position==='TEAM';
