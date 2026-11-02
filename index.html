@@ -1162,6 +1162,24 @@ document.addEventListener('click',function(event){
 .hq-now-grid .hq-award-points{font-size:18px}
 @media(max-width:900px){.hq-now-grid>.hq-now-panel:first-child{min-height:0}.hq-now-grid .hq-latest-awards{margin-top:20px!important}}
 @media(max-width:550px){.hq-now-grid .hq-awards-grid{grid-template-columns:1fr}.hq-now-grid .hq-award{flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center}.hq-now-grid .hq-award-eyebrow{width:100%}}
+
+/* Match both homepage panels in height, using natural spacing in Up Next. */
+@media (min-width: 901px) {
+  .hq-now-grid { align-items: stretch; }
+  .hq-now-grid > .hq-upcoming-panel { height: 100%; box-sizing: border-box; }
+  .hq-now-grid > .hq-upcoming-panel .hq-upcoming-head { margin-bottom: 24px; }
+  .hq-now-grid > .hq-upcoming-panel .hq-upcoming-pairings { margin-top: 14px; margin-bottom: 20px; }
+  .hq-now-grid > .hq-upcoming-panel .hq-upcoming-callout { margin-bottom: 24px; }
+  .hq-now-grid > .hq-upcoming-panel .hq-upcoming-timeline {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    min-height: 220px;
+    margin-bottom: 22px;
+  }
+  .hq-now-grid > .hq-upcoming-panel .hq-upcoming-buttons { margin-top: 0; }
+}
 </style>
 <script>
 /* Additional read-only analytics and player scouting. Existing waiver transactions unchanged. */
