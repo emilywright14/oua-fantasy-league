@@ -239,6 +239,19 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 .hq-compare-table th,.hq-compare-table td{text-align:center;white-space:nowrap}.hq-compare-table th:first-child,.hq-compare-table td:first-child{text-align:left}
 .hq-analytics-week{border-bottom:1px solid var(--line);padding:8px 0}.hq-profile-open{font-weight:750;text-align:left;color:inherit;cursor:pointer;background:transparent;border:0;padding:0}.hq-profile-open:hover{text-decoration:underline;color:var(--teal)}
 @media(max-width:650px){.hq-compare-picker{grid-template-columns:1fr}}
+</style><style>
+/* A balanced two-column dashboard: three matchups expand naturally to use the available height. */
+@media(min-width:901px){
+ .hq-now-grid>.hq-latest-panel{display:flex;flex-direction:column;}
+ .hq-latest-panel>.hq-w1-grid{display:flex;flex-direction:column;flex:1;min-height:0;gap:11px;}
+ .hq-latest-panel>.hq-w1-grid>.hq-w1-game{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:112px;padding:15px 16px;}
+ .hq-latest-panel>.hq-now-actions{margin:11px 0 0;}
+ .hq-latest-panel>.hq-latest-awards{margin:14px 0 0!important;padding:13px 0 0!important;flex:none;}
+}
+.hq-latest-panel .hq-latest-awards{display:block;margin-top:14px;border-top:1px solid var(--line);padding-top:13px;}
+.hq-latest-panel .hq-awards-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.hq-latest-panel .hq-award{min-height:90px;}
+@media(max-width:550px){.hq-latest-panel .hq-awards-grid{grid-template-columns:1fr;}}
 </style></head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
@@ -954,9 +967,19 @@ function render(){const good=week1.totals.length===6;const hasLineups=week1.line
  const title='<div class="kicker">OFFICIAL LEAGUE SCORING</div><h3>🏆 Week 1 · Final results</h3>';
  if(home){
   const next=nextWeekPanel();
-  const latest=good?`<section class="hq-now-panel"><div class="kicker">LATEST WEEK · FINAL</div><h3>Week 1 · At a glance</h3><p class="hq-now-sub">Oct 30–31 · All three matchups decided. Alex, Robbie and Amit open the season 1–0.</p><div class="hq-w1-grid">${scorecards}</div><div class="hq-now-actions"><button type="button" onclick="changeTab('matchups')">See roster points</button></div></section>`:`<section class="hq-now-panel"><div class="kicker">LATEST WEEK</div><h3>Week 1 · Results</h3><p class="hq-now-sub">Week 1 results are being updated.</p></section>`;
+  const scoreTotals=week1.totals.map(r=>({id:mid(r),fp:managerTotal(r)})).sort((a,b)=>b.fp-a.fp);
+  const highest=scoreTotals[0],lowest=scoreTotals[scoreTotals.length-1];
+  const benchByManager=new Map();
+  // Locked lineups define bench status; scoring rows may not include that role.
+  for(const row of week1.lineups){if(role(row)!=='bench')continue;const id=mid(row);const scoreRow=week1.lineupScores.find(x=>x.asset_id===row.asset_id&&mid(x)===id);
+   const score=scoreRow?raw(scoreRow):(getPlayerStat(row.asset_id)?raw(getPlayerStat(row.asset_id)):0);
+   benchByManager.set(id,(benchByManager.get(id)||0)+score);}
+  const benchReady=week1.lineupScores.length>0 && benchByManager.size===6;
+  const bestBench=benchReady?[...benchByManager].sort((a,b)=>b[1]-a[1])[0]:null;
+  const weekAward=(label,manager,amount,icon)=>`<div class="hq-award" style="--award-color:${GM_COLORS[manager?.id]||'#69DAD4'}"><span class="hq-award-eyebrow">${icon} ${label}</span>${manager?`<strong class="hq-award-manager">${esc(NAMES[manager.id])}</strong><span class="hq-award-points">${fp(amount)} <small>FP</small></span>`:'<span class="hq-award-wait">Updating bench scores…</span>'}</div>`;
+  const awards=good?`<section id="hqLatestWeekAwards" class="hq-latest-awards" aria-label="Week 1 awards"><div class="hq-awards-heading"><div><div class="kicker">WEEK 1 HIGHLIGHTS</div><h3>🏅 Latest Week Awards</h3></div></div><div class="hq-awards-grid">${weekAward('Highest Score',highest,highest?.fp,'🏆')}${weekAward('Lowest Score',lowest,lowest?.fp,'📉')}${weekAward('Best Bench',bestBench?{id:bestBench[0]}:null,bestBench?.[1],'💺')}</div></section>`:'';
+  const latest=good?`<section class="hq-now-panel hq-latest-panel"><div class="kicker">LATEST WEEK · FINAL</div><h3>Week 1 · At a glance</h3><p class="hq-now-sub">Oct 30–31 · All three matchups decided. Alex, Robbie and Amit open the season 1–0.</p><div class="hq-w1-grid">${scorecards}</div><div class="hq-now-actions"><button type="button" onclick="changeTab('matchups')">See roster points</button></div>${awards}</section>`:`<section class="hq-now-panel"><div class="kicker">LATEST WEEK</div><h3>Week 1 · Results</h3><p class="hq-now-sub">Week 1 results are being updated.</p></section>`;
   document.getElementById('hqW1Home').innerHTML=`<div class="hq-now-grid">${latest}${next}</div>`+(good?standings():'');
-  if(typeof renderLatestAwards==='function' && typeof analytics!=='undefined' && analytics.loaded) renderLatestAwards();
   // Hide old duplicated opening-week and awaiting-recap placeholders; preserve the rest of League Home.
   const snapshot=document.querySelector('#home .weekly-snapshot');if(snapshot)snapshot.style.display='none';
   const oldRecap=[...document.querySelectorAll('#home .card')].find(c=>c.querySelector('h3')?.textContent.includes('Latest Weekly Recap'));if(oldRecap)oldRecap.style.display='none';
