@@ -226,7 +226,7 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 </style>
 <style>
 .hq-now-grid{align-items:start}
-.hq-now-grid>.hq-now-panel:first-child{align-self:start}
+.hq-now-grid>.hq-now-panel:first-child{align-self:stretch;display:flex;flex-direction:column}
 .hq-analytics-explorer{scroll-margin-top:24px}
 .hq-compare-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0}
 .hq-compare-picker label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted)}
@@ -956,6 +956,7 @@ function render(){const good=week1.totals.length===6;const hasLineups=week1.line
   const next=nextWeekPanel();
   const latest=good?`<section class="hq-now-panel"><div class="kicker">LATEST WEEK · FINAL</div><h3>Week 1 · At a glance</h3><p class="hq-now-sub">Oct 30–31 · All three matchups decided. Alex, Robbie and Amit open the season 1–0.</p><div class="hq-w1-grid">${scorecards}</div><div class="hq-now-actions"><button type="button" onclick="changeTab('matchups')">See roster points</button></div></section>`:`<section class="hq-now-panel"><div class="kicker">LATEST WEEK</div><h3>Week 1 · Results</h3><p class="hq-now-sub">Week 1 results are being updated.</p></section>`;
   document.getElementById('hqW1Home').innerHTML=`<div class="hq-now-grid">${latest}${next}</div>`+(good?standings():'');
+  if(typeof renderLatestAwards==='function' && typeof analytics!=='undefined' && analytics.loaded) renderLatestAwards();
   // Hide old duplicated opening-week and awaiting-recap placeholders; preserve the rest of League Home.
   const snapshot=document.querySelector('#home .weekly-snapshot');if(snapshot)snapshot.style.display='none';
   const oldRecap=[...document.querySelectorAll('#home .card')].find(c=>c.querySelector('h3')?.textContent.includes('Latest Weekly Recap'));if(oldRecap)oldRecap.style.display='none';
@@ -1125,6 +1126,19 @@ document.addEventListener('click',function(event){
 .hq-award-points{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}.hq-award-points small{font-size:11px;font-weight:500;color:#b6c9d6}
 .hq-award-wait{font-size:12px;color:#acc0cf}
 @media(max-width:650px){.hq-awards-grid{grid-template-columns:1fr}.hq-award{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}.hq-award-eyebrow{width:100%}}
+
+/* Latest-week awards integrated into the Week 1 result panel. */
+.hq-now-grid>.hq-now-panel:first-child .hq-latest-awards{margin:auto 0 0;padding:18px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent}
+.hq-now-grid .hq-awards-heading{margin-bottom:12px}
+.hq-now-grid .hq-awards-heading h3{font-size:17px;letter-spacing:0;margin:4px 0 0}
+.hq-now-grid .hq-awards-check{font-size:10px}
+.hq-now-grid .hq-awards-grid{gap:8px}
+.hq-now-grid .hq-award{padding:12px 10px;gap:5px}
+.hq-now-grid .hq-award-eyebrow{font-size:10px}
+.hq-now-grid .hq-award-manager{font-size:15px}
+.hq-now-grid .hq-award-points{font-size:18px}
+@media(max-width:900px){.hq-now-grid>.hq-now-panel:first-child{min-height:0}.hq-now-grid .hq-latest-awards{margin-top:20px!important}}
+@media(max-width:550px){.hq-now-grid .hq-awards-grid{grid-template-columns:1fr}.hq-now-grid .hq-award{flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center}.hq-now-grid .hq-award-eyebrow{width:100%}}
 </style>
 <script>
 /* Additional read-only analytics and player scouting. Existing waiver transactions unchanged. */
@@ -1176,7 +1190,10 @@ function latestCompleteWeek(){
 function renderLatestAwards(){
  const home=document.getElementById('hqW1Home');if(!home)return;
  let panel=document.getElementById('hqLatestWeekAwards');
- if(!panel){panel=document.createElement('section');panel.id='hqLatestWeekAwards';panel.className='hq-latest-awards';home.insertAdjacentElement('afterend',panel);}
+ if(!panel){panel=document.createElement('section');panel.id='hqLatestWeekAwards';panel.className='hq-latest-awards';}
+ // Keep the current week's awards inside the Latest Week card rather than below the two-column dashboard.
+ const latestCard=home.querySelector('.hq-now-grid > .hq-now-panel:first-child');
+ if(latestCard && panel.parentElement!==latestCard) latestCard.appendChild(panel);
  const week=latestCompleteWeek();
  if(week===null){panel.innerHTML='';return;}
  const m=analytics.managers.filter(r=>rowWeek(r)===week).map(r=>({id:ownId(r),name:GM_NAMES[ownId(r)]||r.manager_name||'Manager',fp:val(r.total_points??r.total_fp??r.fantasy_points)}));
