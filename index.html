@@ -805,7 +805,10 @@ function insert(){
  if(home&&!document.getElementById('hqW1Home')){
   const wrap=document.createElement('div');wrap.id='hqW1Home';wrap.className='hq-w1';
   const snapshot=home.querySelector('.weekly-snapshot');
-  if(snapshot){snapshot.insertAdjacentElement('beforebegin',wrap);}
+  // Keep the welcome heading above the weekly dashboard.
+  const welcome=home.querySelector(':scope > .flex.spaced');
+  if(welcome) welcome.insertAdjacentElement('afterend',wrap);
+  else if(snapshot) snapshot.insertAdjacentElement('beforebegin',wrap);
   else home.prepend(wrap);
  }
  if(matchups&&!document.getElementById('hqW1Matchups')){const wrap=document.createElement('div');wrap.id='hqW1Matchups';wrap.className='hq-w1';matchups.prepend(wrap);}
