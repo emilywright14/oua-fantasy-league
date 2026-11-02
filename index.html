@@ -74,6 +74,11 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 .hq-option:hover,.hq-option:focus-visible{background:#2B4A60;color:#fff;outline:none}
 .hq-option[aria-selected=true]{background:#385D71;color:#69DAD4;font-weight:750}
 .hq-option:disabled{opacity:.45;cursor:not-allowed}
+.hq-option[hidden]{display:none!important}
+.hq-option-search-wrap{position:sticky;top:-6px;z-index:1;background:#172E43;padding:6px 4px 9px}
+.hq-option-search{display:block;width:100%;box-sizing:border-box;background:#102B40;color:#F0F6FA;border:1px solid #69DAD4;border-radius:8px;padding:10px 12px;font:inherit;outline-offset:2px}
+.hq-options{overflow-y:scroll!important;-webkit-overflow-scrolling:touch;scrollbar-width:auto}
+
 @media(max-width:640px){.hq-select-button{min-height:48px;font-size:16px}.hq-options{max-height:220px}.hq-option{font-size:15px;min-height:44px}}
 
 /* Compact Draft Room inspired roster wall: live ownership, no inferred bench roles */
@@ -295,6 +300,80 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 .hq-gm-choice-dot{height:8px;width:8px;border-radius:50%;display:inline-block}
 @media(max-width:650px){.hq-gm-bar-row{grid-template-columns:75px minmax(0,1fr) 55px;gap:6px}.hq-gm-bars{padding:9px 2px}}
 </style>
+<style>
+/* Top-athlete leaderboard: names are clickable without truncating. */
+#leaguePosition .hq-gm-bar-row{grid-template-columns:minmax(148px,205px) minmax(0,1fr) 65px}
+#leaguePosition .hq-athlete-rank-name{border:0;background:transparent;color:#eff7fa;text-align:left;padding:2px 0;cursor:pointer;min-width:0;font:inherit}
+#leaguePosition .hq-athlete-rank-name span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;font-size:12px}
+#leaguePosition .hq-athlete-rank-name small{display:block;color:#aac4d2;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+#leaguePosition .hq-athlete-rank-name:hover span,#leaguePosition .hq-athlete-rank-name:focus-visible span{color:#69dad4;text-decoration:underline}
+@media(max-width:650px){#leaguePosition .hq-gm-bar-row{grid-template-columns:minmax(106px,150px) minmax(0,1fr) 52px;gap:6px}}
+</style>
+<style>
+/* Compact but readable Top 10 leaderboard: no fixed-height chart clipping. */
+#leaguePosition.chartarea{height:auto;min-height:0;display:block;overflow:visible;padding:12px 12px 10px;background:#112b40;border:1px solid #35556a}
+#leaguePosition .hq-top-athletes-list{display:grid;gap:2px;width:100%}
+#leaguePosition .hq-top-athlete-row{display:grid;grid-template-columns:minmax(145px,1.35fr) minmax(45px,1fr) 81px;align-items:center;gap:12px;min-width:0;padding:7px 5px;border-bottom:1px solid rgba(137,179,198,.12)}
+#leaguePosition .hq-top-athlete-row:last-child{border-bottom:none}
+#leaguePosition .hq-athlete-rank-name{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;border:0;background:transparent;color:#eff7fa;padding:0;cursor:pointer;font:inherit}
+#leaguePosition .hq-athlete-rank-name:hover b,#leaguePosition .hq-athlete-rank-name:focus-visible b{color:#69dad4;text-decoration:underline}
+#leaguePosition .hq-athlete-place{color:#aac4d2;font-size:11px;width:21px;flex:none}
+#leaguePosition .hq-athlete-title{min-width:0;display:block}
+#leaguePosition .hq-athlete-title b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#leaguePosition .hq-athlete-title small{display:block;color:#a9c3d1;font-size:10px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#leaguePosition .hq-athlete-meter{height:10px;background:#0b2739;border-radius:999px;overflow:hidden}
+#leaguePosition .hq-athlete-meter span{display:block;height:100%;border-radius:999px}
+#leaguePosition .hq-athlete-total{text-align:right;color:#eff7fa;white-space:nowrap;font-size:12px;font-variant-numeric:tabular-nums}
+#leaguePosition .hq-top-athletes-caption{color:#a9c3d1;margin:10px 6px 0;font-size:11px}
+@media(max-width:650px){#leaguePosition .hq-top-athlete-row{grid-template-columns:minmax(115px,1.3fr) minmax(30px,.65fr) 65px;gap:7px}#leaguePosition .hq-athlete-total{font-size:11px}#leaguePosition.chartarea{padding:9px 7px}}
+</style>
+
+<style>
+/* Consistent, solid borders and clean chart backgrounds in League Analytics. */
+#analytics .chartarea {
+  border: 1px solid #35556a;
+  background: #112b40;
+  background-image: none;
+  box-sizing: border-box;
+}
+/* Balance bench production against the taller Top 10 leaderboard without overflow. */
+.grid2:has(> .card > #leagueBench) > .card:has(> #leagueBench) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#leagueBench.chartarea {
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  padding: 14px 16px;
+  overflow: hidden;
+}
+#leagueBench .hq-gm-bars {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+}
+#leagueBench .hq-gm-bar-row {
+  flex: 0 0 auto;
+  min-height: 28px;
+  padding: 5px 0;
+  grid-template-columns: minmax(75px, 105px) minmax(0, 1fr) 70px;
+  gap: 10px;
+}
+#leagueBench .hq-gm-bar-track { height: 16px; }
+@media(max-width:750px) {
+  #leagueBench.chartarea { min-height: 275px; }
+  #leagueBench .hq-gm-bar-row { grid-template-columns: 75px minmax(0,1fr) 55px; gap: 6px; }
+}
+</style>
 </head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><div class="hq-roster-title"><div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p></div><span id="hqRosterChecked" class="hq-roster-checked" aria-live="polite">Checking roster moves…</span></div><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
@@ -314,7 +393,7 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
   <label>Your player to drop<select id="faFreeDropPlayer"><option value="">Choose a player</option></select></label>
   <button type="button" id="faFreeSubmit" class="primary">Add / drop · 0 WB</button>
   <p class="tiny" role="status" aria-live="polite" id="faFreeResult"></p>
-</div></div></div></div><div class="section" id="matchups"><h2>⚔️ Matchups &amp; Playoffs</h2><p class="muted">See weekly matchups and results.</p><div class="card tablewrap"><table class="table"><thead><tr><th>Week</th><th>Dates</th><th>Format</th><th>Matchups</th></tr></thead><tbody id="weeks"></tbody></table></div><p class="tiny">Matchup scores will use OUA regular-season statistics only. Bench points remain visible but do not count.</p><div class="card spaced playoff-section"><div class="kicker">FANTASY PLAYOFFS · WEEKS 10–12</div><h3>🏆 Playoff Bracket &amp; Finals</h3><p class="muted">Postseason matchups and results will appear here after regular-season seeding is finalized.</p><div class="grid"><div class="card"><div class="kicker">W10 · FEB 5–6</div><h3>Quarterfinals</h3><p class="muted">Seeds 1 and 2 have byes. Seed 3 chooses its opponent from Seeds 5–6; Seed 4 faces the other.</p></div><div class="card"><div class="kicker">W11 · FEB 12–13</div><h3>Semifinals</h3><p class="muted">Seed 1 chooses a quarterfinal winner; Seed 2 faces the other.</p></div><div class="card"><div class="kicker">W12 · FEB 19–20</div><h3>Finals</h3><p class="muted">Championship, bronze match and fifth-place match.</p></div></div></div></div><div class="section" id="analytics"><div class="kicker">ATHLETES & MANAGERS · LEAGUE ANALYTICS</div><h2>Player &amp; League Analytics 📊</h2><p class="muted sectionintro">Explore player performance, compare athletes, and see how each manager stacks up.</p><div class="card spaced"><div class="filterrow"><label>Metric<select id="leagueMetric"><option value="total">Total fantasy points</option><option value="starter">Starter points</option><option value="bench">Bench points</option></select></label><label>Manager<select id="leagueGM"><option value="all">All six GMs</option></select></label><label>From week<select id="leagueFrom"></select></label><label>Through week<select id="leagueTo"></select></label></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">WHO'S LEADING?</div><h3>Cumulative fantasy points</h3><div class="chartarea" id="leagueCumulative"></div></div><div class="card"><div class="kicker">WEEK-TO-WEEK</div><h3>Weekly manager FP</h3><div class="chartarea" id="leagueWeekly"></div></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">ROSTER EFFICIENCY</div><h3>Points left on the bench</h3><div class="chartarea" id="leagueBench"></div></div><div class="card"><div class="kicker">POSITION BREAKDOWN</div><h3>Fantasy points by position</h3><div class="chartarea" id="leaguePosition"></div></div></div><div class="card"><h3>Manager comparison</h3><div class="tablewrap"><table class="table"><thead><tr><th>Manager</th><th>Record</th><th>Starter FP</th><th>Bench FP</th><th>Avg FP / week</th></tr></thead><tbody id="leagueRows"></tbody></table></div><p class="smallnote">Live scoring summaries appear above. Stats refresh when new results are available.</p></div><div class="grid2 spaced"><div class="card"><div class="kicker">PLAYER SCOUTING</div><h3>🔍 Compare Two Athletes</h3><p class="muted">Choose any two athletes to compare total FP, FP/match, recent form, scheduled matches and weekly trends.</p><div class="disabled-form"><label>Player A<select disabled=""><option>Available after player import</option></select></label><label>Player B<select disabled=""><option>Available after player import</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Player comparisons will unlock with official athlete scoring.</div></div></div><div class="card"><div class="kicker">UNIVERSITY HOME COURT ADVANTAGE</div><h3>🏠 Home vs Away Performance</h3><p class="muted">Compare university and athlete FP per match at home vs away, opponent strength and sample size. No automatic home-court fantasy bonus.</p><div class="disabled-form"><label>University<select disabled=""><option>All universities · awaiting stats</option></select></label><label>Position<select disabled=""><option>All positions · awaiting stats</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Home/away splits will appear once match-level results are imported.</div></div></div></div></div><div class="section" id="rules"><div class="kicker">OFFICIAL LEAGUE GUIDE · 2026–27</div><h2>📖 League Rules</h2><p class="muted">The roster, scoring, waivers, schedule and league traditions in one place. The handbook is the reference for any commissioner interpretation.</p>
+</div></div></div></div><div class="section" id="matchups"><h2>⚔️ Matchups &amp; Playoffs</h2><p class="muted">See weekly matchups and results.</p><div class="card tablewrap"><table class="table"><thead><tr><th>Week</th><th>Dates</th><th>Format</th><th>Matchups</th></tr></thead><tbody id="weeks"></tbody></table></div><p class="tiny">Matchup scores will use OUA regular-season statistics only. Bench points remain visible but do not count.</p><div class="card spaced playoff-section"><div class="kicker">FANTASY PLAYOFFS · WEEKS 10–12</div><h3>🏆 Playoff Bracket &amp; Finals</h3><p class="muted">Postseason matchups and results will appear here after regular-season seeding is finalized.</p><div class="grid"><div class="card"><div class="kicker">W10 · FEB 5–6</div><h3>Quarterfinals</h3><p class="muted">Seeds 1 and 2 have byes. Seed 3 chooses its opponent from Seeds 5–6; Seed 4 faces the other.</p></div><div class="card"><div class="kicker">W11 · FEB 12–13</div><h3>Semifinals</h3><p class="muted">Seed 1 chooses a quarterfinal winner; Seed 2 faces the other.</p></div><div class="card"><div class="kicker">W12 · FEB 19–20</div><h3>Finals</h3><p class="muted">Championship, bronze match and fifth-place match.</p></div></div></div></div><div class="section" id="analytics"><div class="kicker">ATHLETES & MANAGERS · LEAGUE ANALYTICS</div><h2>Player &amp; League Analytics 📊</h2><p class="muted sectionintro">Explore player performance, compare athletes, and see how each manager stacks up.</p><div class="card spaced"><div class="filterrow"><label>Metric<select id="leagueMetric"><option value="total">Total fantasy points</option><option value="starter">Starter points</option><option value="bench">Bench points</option></select></label><label>Manager<select id="leagueGM"><option value="all">All six GMs</option></select></label><label>From week<select id="leagueFrom"></select></label><label>Through week<select id="leagueTo"></select></label></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">WHO'S LEADING?</div><h3>Cumulative fantasy points</h3><div class="chartarea" id="leagueCumulative"></div></div><div class="card"><div class="kicker">WEEK-TO-WEEK</div><h3>Weekly manager FP</h3><div class="chartarea" id="leagueWeekly"></div></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">ROSTER EFFICIENCY</div><h3>Points left on the bench</h3><div class="chartarea" id="leagueBench"></div></div><div class="card"><div class="kicker">PLAYER LEADERBOARD</div><h3>Top 10 fantasy athletes</h3><div class="chartarea" id="leaguePosition"></div></div></div><div class="card"><h3>Manager comparison</h3><div class="tablewrap"><table class="table"><thead><tr><th>Manager</th><th>Record</th><th>Starter FP</th><th>Bench FP</th><th>Avg FP / week</th></tr></thead><tbody id="leagueRows"></tbody></table></div><p class="smallnote">Live scoring summaries appear above. Stats refresh when new results are available.</p></div><div class="grid2 spaced"><div class="card"><div class="kicker">PLAYER SCOUTING</div><h3>🔍 Compare Two Athletes</h3><p class="muted">Choose any two athletes to compare total FP, FP/match, recent form, scheduled matches and weekly trends.</p><div class="disabled-form"><label>Player A<select disabled=""><option>Available after player import</option></select></label><label>Player B<select disabled=""><option>Available after player import</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Player comparisons will unlock with official athlete scoring.</div></div></div><div class="card"><div class="kicker">UNIVERSITY HOME COURT ADVANTAGE</div><h3>🏠 Home vs Away Performance</h3><p class="muted">Compare university and athlete FP per match at home vs away, opponent strength and sample size. No automatic home-court fantasy bonus.</p><div class="disabled-form"><label>University<select disabled=""><option>All universities · awaiting stats</option></select></label><label>Position<select disabled=""><option>All positions · awaiting stats</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Home/away splits will appear once match-level results are imported.</div></div></div></div></div><div class="section" id="rules"><div class="kicker">OFFICIAL LEAGUE GUIDE · 2026–27</div><h2>📖 League Rules</h2><p class="muted">The roster, scoring, waivers, schedule and league traditions in one place. The handbook is the reference for any commissioner interpretation.</p>
 <details class="rulesdetails" open=""><summary>🏐 Rosters &amp; lineup lock</summary><div class="rulesbody"><p><b>11 assets per manager:</b> 9 starters (4 OH, 2 MB, 1 setter, 1 libero and 1 OUA university team), plus 2 bench athletes of any player position. Outside, left-side, right-side and opposite hitters qualify for OH.</p><p>Players and university teams can only have one fantasy owner. Bench points are visible but do not count toward weekly matchup scores unless moved to an eligible starting position <b>before lineup lock</b>. Lineups and transactions lock one hour before the first OUA game of that fantasy week. Only OUA regular-season matches earn points.</p></div></details>
 <details class="rulesdetails"><summary>🧮 Fantasy scoring</summary><div class="rulesbody"><div class="tablewrap"><table class="table"><thead><tr><th>Action</th><th>Fantasy points</th></tr></thead><tbody><tr><td>Kill</td><td>+2</td></tr><tr><td>Attack error</td><td>−2</td></tr><tr><td>Attack attempt</td><td>+0.5</td></tr><tr><td>Dig</td><td>+2.25 (libero: +3.375)</td></tr><tr><td>Service ace / service error</td><td>+2 / −1</td></tr><tr><td>Assist</td><td>+0.5</td></tr><tr><td>Solo block</td><td>+3 (MB: +4.5)</td></tr><tr><td>Block assist</td><td>+1.5 (MB: +2.25)</td></tr></tbody></table></div><p>Libero digs and middle-blocker blocks use their enhanced point value <b>instead of</b> the standard value, not in addition to it.</p><p><b>University team scoring:</b> set won +1; match won +1; sweep +1; reverse sweep +5.</p></div></details>
 <details class="rulesdetails"><summary>🎟️ Draft format</summary><div class="rulesbody"><p>Six managers, eleven snake-draft rounds (66 picks total). First-round order: <b>Amit → Alex → Robbie → Josh T. → Nolan → Josh</b>. Even-numbered rounds reverse the order. Commissioner records draft picks in the shared Draft Room.</p></div></details>
@@ -539,10 +618,19 @@ const faWeekFixtures=(school,week)=>ouaFixtures.filter(g=>g.fantasy_week===week&
 const faWeekGames=(school,week)=>faWeekFixtures(school,week).length;
 const faOpponents=(school,week)=>faWeekFixtures(school,week).map(g=>(g.home_team===school?"vs "+g.away_team:"@ "+g.home_team)).join(" · ")||"No games";
 const faLastCompletedWeek=()=>{
- const completed=faState.weekWindows.filter(w=>w.locks_at&&Date.parse(w.locks_at)<Date.now()).map(w=>w.fantasy_week);
- return Math.max(0,...completed);
+ // Prefer weeks with actual scoring rows; the lineup-lock calendar alone
+ // cannot tell us whether fantasy scores have been imported.
+ const selected=Number(faElement('faWeek')?.value)||2;
+ const scored=faState.scoring
+   .map(r=>Number(r.fantasy_week))
+   .filter(w=>Number.isInteger(w)&&w>0&&w<selected);
+ if(scored.length)return Math.max(...scored);
+ // For browsing completed historical weeks, allow the selected week itself.
+ const allScored=faState.scoring.map(r=>Number(r.fantasy_week))
+   .filter(w=>Number.isInteger(w)&&w>0&&w<=selected);
+ return allScored.length?Math.max(...allScored):0;
 };
-function faWeeklyStats(id,week){const games=faState.scoring.filter(r=>r.asset_id===id&&r.fantasy_week===week);return {fp:games.reduce((a,r)=>a+Number(r.fantasy_points||0),0),gp:games.reduce((a,r)=>a+Math.max(0,Number(r.games??1)),0)};}
+function faWeeklyStats(id,week){const games=faState.scoring.filter(r=>r.asset_id===id&&Number(r.fantasy_week)===Number(week));return {fp:games.reduce((a,r)=>a+Number(r.fantasy_points||0),0),gp:games.reduce((a,r)=>a+Math.max(0,Number(r.games??1)),0)};}
 function faSeasonStats(id){const games=faState.scoring.filter(r=>r.asset_id===id);return {fp:games.reduce((a,r)=>a+Number(r.fantasy_points||0),0),gp:games.reduce((a,r)=>a+Math.max(0,Number(r.games??1)),0),weekends:new Set(games.map(r=>r.fantasy_week)).size};}
 function faRowsFiltered(){const q=faElement('faSearch').value.trim().toLowerCase(),pos=faElement('faPos').value,uni=faElement('faUni').value,w=Number(faElement('faWeek').value)||2,minimum=Number(faElement('faMinGames').value),lastWeek=faLastCompletedWeek();let rows=faState.pool.filter(p=>!faState.owned.has(p.asset_id)).map(p=>{const last=faWeeklyStats(p.asset_id,lastWeek),season=faSeasonStats(p.asset_id);return {...p,lastweek:last.gp?last.fp:null,lastavg:last.gp?last.fp/last.gp:null,weekendavg:season.weekends?season.fp/season.weekends:null,seasonavg:season.gp?season.fp/season.gp:null,games:season.gp,upcoming:faWeekGames(p.university,w),opponents:faOpponents(p.university,w),historical:p.historical_avg_fp===null?null:Number(p.historical_avg_fp)};}).filter(p=>(!q||p.asset_name.toLowerCase().includes(q)||p.university.toLowerCase().includes(q))&&(pos==='all'||p.position===pos)&&(uni==='all'||p.university===uni)&&p.games>=minimum);const key=faElement('faSort').value;rows.sort((a,b)=>key==='name'?a.asset_name.localeCompare(b.asset_name):(b[key]??-Infinity)-(a[key]??-Infinity)||a.asset_name.localeCompare(b.asset_name));return rows;}
 function faWindow(){return faState.weekWindows.find(x=>x.fantasy_week===Number(faElement('faWeek').value));}
@@ -655,11 +743,40 @@ const awardWeekInput=document.getElementById("awardWeek"); if(awardWeekInput)awa
     function open(){
       if(trigger.disabled)return;
       if(current?.trigger===trigger){close();return;}
+      // Populate the athlete options BEFORE constructing the menu, including on the first click.
+      if((select.id==='hqAthletePick'||select.id==='hqAthleteCompare') &&
+         typeof window.hqRefreshAthleteOptions==='function'){
+        window.hqRefreshAthleteOptions();
+      }
       close();sync();
       const menu=document.createElement('div');menu.className='hq-options';menu.setAttribute('role','listbox');
       menu.setAttribute('aria-label',trigger.getAttribute('aria-label')||'Select option');
       const options=Array.from(select.options);
+      // Long athlete lists get a searchable, scrollable menu.
+      let searchBox=null;
+      if(options.length>20){
+        const search=document.createElement('div');search.className='hq-option-search-wrap';
+        searchBox=document.createElement('input');searchBox.type='search';
+        searchBox.className='hq-option-search';searchBox.placeholder='Search athletes...';
+        searchBox.setAttribute('aria-label','Search dropdown options');
+        search.appendChild(searchBox);menu.appendChild(search);
+        searchBox.addEventListener('input',()=>{
+          const q=searchBox.value.trim().toLocaleLowerCase();
+          menu.querySelectorAll('.hq-option').forEach(item=>{
+            item.hidden=!item.textContent.toLocaleLowerCase().includes(q);
+          });
+          menu.scrollTop=0;
+        });
+        searchBox.addEventListener('keydown',e=>{
+          if(e.key==='Escape'){e.stopPropagation();close();trigger.focus();}
+          if(e.key==='ArrowDown'){
+            e.preventDefault();Array.from(menu.querySelectorAll('.hq-option')).find(x=>!x.hidden&&!x.disabled)?.focus();
+          }
+        });
+      }
       options.forEach((opt,i)=>{
+        // The empty first option is a placeholder, not an extra step to open the list.
+        if(select.id==='hqAthletePick' && i===0 && options.length>1)return;
         const item=document.createElement('button');item.type='button';item.className='hq-option';
         item.setAttribute('role','option');item.setAttribute('aria-selected',String(i===select.selectedIndex));
         item.textContent=opt.textContent.trim();item.disabled=opt.disabled;
@@ -693,7 +810,8 @@ const awardWeekInput=document.getElementById("awardWeek"); if(awardWeekInput)awa
       menu.style.top=above?Math.max(8,rect.top-Math.min(desired,available)-8)+'px':rect.bottom+8+'px';
       trigger.setAttribute('aria-expanded','true');current={menu,trigger};
       const selected=menu.children[select.selectedIndex]||menu.children[0];
-      if(selected)menu.scrollTop=Math.max(0,selected.offsetTop-menu.offsetTop-55);
+      if(selected && !searchBox)menu.scrollTop=Math.max(0,selected.offsetTop-menu.offsetTop-55);
+      if(searchBox)searchBox.focus();
     }
     trigger.addEventListener('click',e=>{e.preventDefault();open();});
     trigger.addEventListener('keydown',e=>{
@@ -723,7 +841,10 @@ const awardWeekInput=document.getElementById("awardWeek"); if(awardWeekInput)awa
   }).observe(document.body,{childList:true,subtree:true});
   document.addEventListener('pointerdown',e=>{if(current&&!current.menu.contains(e.target)&&!current.trigger.contains(e.target))close();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current){close();}});
-  window.addEventListener('resize',close);window.addEventListener('scroll',close,true);
+  window.addEventListener('resize',close);
+  // Do not close on scroll: that prevented scrolling long player lists.
+  // Close only when the page itself moves, not when scrolling inside the menu.
+  window.addEventListener('scroll', e=>{if(current && !current.menu.contains(e.target) && e.target!==current.menu)close();},true);
 })();
 </script>
 <style>
@@ -1367,6 +1488,8 @@ function refreshExplorerOptions(){setupExplorer();const p=document.getElementByI
  if(p.options.length!==players.length+1){p.innerHTML='<option value="">Choose an athlete</option>'+markup;q.innerHTML='<option value="">No comparison</option>'+markup;}
  p.value=activeAthlete||'';q.value=comparisonAthlete||'';
 }
+// Let the shared dropdown populate athlete options synchronously before first opening.
+window.hqRefreshAthleteOptions=refreshExplorerOptions;
 function profileSummary(id){const x=getProfile(id);if(!x)return null;return {...x,rows:statRows(id)};}
 function getDetailedStats(id, selectedWeek){
  const all=OUA_DETAILED_MATCH_STATS.filter(r=>r.asset_id===id);
@@ -1434,29 +1557,33 @@ function renderFilteredAnalytics(){
  }
  const bench=document.getElementById('leagueBench');
  if(bench)bench.innerHTML=chart(totals.map(x=>({label:x.name,value:x.bench,color:GM_PALETTE[x.id]})));
- // Match scores to historical locked lineup positions, never current ownership.
- const lockedByAsset=new Map();
- for(const r of analytics.locked){lockedByAsset.set([rowWeek(r),ownId(r),String(r.asset_id)].join('|'),r);}
- const rosterPosition=new Map();
- for(const r of (typeof faState!=='undefined'?faState.pool:[]))rosterPosition.set(String(r.asset_id),r);
- const positions={};
- for(const r of analytics.lineups.filter(r=>rowWeek(r)>=lo&&rowWeek(r)<=hi&&role(r)!=='bench'&&(manager==='all'||GM_NAMES[ownId(r)]===manager))){
-  const asset=String(r.asset_id||'');
-  const locked=lockedByAsset.get([rowWeek(r),ownId(r),asset].join('|'));
-  const player=rosterPosition.get(asset);
-  const type=String(locked?.asset_type||r.asset_type||'').toLowerCase();
-  let key=String(locked?.position||r.position||player?.position||'').toUpperCase().trim();
-  if(type==='team'||type==='university'||key==='TEAM')key='University';
-  else if(['OH','OPP','LS','RS','OS'].includes(key))key='OH';
-  else if(['MB','M'].includes(key))key='MB';
-  else if(['L','LIB','LIBERO'].includes(key))key='L';
-  else if(key==='S')key='S';
-  else key='Other';
-  positions[key]=(positions[key]||0)+points(r);
+ // Player leaderboard uses official weekly athlete points (all athletes, including free agents).
+ // The From/Through week selectors control the period; manager filters apply to GM charts only.
+ const athleteTotals=new Map();
+ for(const r of seasonRows()){
+  const w=rowWeek(r);
+  if(w<lo||w>hi||!r.asset_id)continue;
+  const id=String(r.asset_id);
+  const current=athleteTotals.get(id)||{id,fp:0,gp:0};
+  current.fp+=val(r.fantasy_points);
+  current.gp+=val(r.games);
+  athleteTotals.set(id,current);
  }
- const color={OH:'#69DAD4',MB:'#A89CFF',S:'#F3C47B',L:'#FF8ABB',University:'#9FE293',Other:'#8AA5B7'};
+ // Match player-score IDs against both the current player pool and the imported OUA match logs.
+ // Match logs include official names/positions for players not yet found in the roster pool.
+ const officialLookup=new Map();
+ for(const r of OUA_DETAILED_MATCH_STATS){
+  if(r.asset_id&&!officialLookup.has(String(r.asset_id)))officialLookup.set(String(r.asset_id),r);
+ }
+ const athletes=[...athleteTotals.values()].map(x=>{
+  const p=findPlayer(x.id),official=officialLookup.get(x.id);
+  return {...x,name:p?.asset_name||official?.Player||'Unknown athlete',position:p?.position||official?.Position||'',university:p?.university||official?.Team||'',hasProfile:!!p};
+ }).filter(x=>x.gp>0).sort((a,b)=>b.fp-a.fp||b.fp/Math.max(b.gp,1)-a.fp/Math.max(a.gp,1)).slice(0,10);
  const pos=document.getElementById('leaguePosition');
- if(pos)pos.innerHTML=chart(Object.entries(positions).sort((a,b)=>b[1]-a[1]).map(([label,value])=>({label,value,color:color[label]})));
+ if(pos){
+  const max=Math.max(1,...athletes.map(a=>a.fp));
+  pos.innerHTML=athletes.length?`<div class="hq-top-athletes-list">${athletes.map((a,i)=>`<div class="hq-top-athlete-row"><button type="button" data-hq-profile="${h(a.id)}" class="hq-athlete-rank-name" title="View ${h(a.name)} in player analytics"><span class="hq-athlete-place">${i+1}.</span><span class="hq-athlete-title"><b>${h(a.name)}</b><small>${h(a.university)}${a.position?' · '+h(a.position):''}</small></span></button><div class="hq-athlete-meter"><span style="width:${Math.max(0,a.fp)/max*100}%;background:${['#69DAD4','#F3C47B','#A89CFF'][Math.min(i,2)]||'#62A6FF'}"></span></div><strong class="hq-athlete-total">${fmt(a.fp)} FP</strong></div>`).join('')}</div><p class="hq-top-athletes-caption">Weeks ${lo}–${hi} · Click a player to view their profile</p>`:'<p class="hq-feature-sub">No athlete scores for these weeks yet.</p>';
+ }
  const tbody=document.getElementById('leagueRows');
  if(tbody)tbody.innerHTML=totals.map(x=>`<tr><td><span class="legenddot" style="background:${GM_PALETTE[x.id]}"></span>${h(x.name)}</td><td>${x.weeks} wk</td><td>${fmt(x.starter)}</td><td>${fmt(x.bench)}</td><td>${fmt(x.weeks?x.total/x.weeks:0)}</td></tr>`).join('');
  syncManagerChoices();
