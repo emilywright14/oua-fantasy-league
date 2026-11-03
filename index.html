@@ -685,9 +685,35 @@ async function faSubmitFreeAdd(){
 function faIsOpen(){const w=faWindow(),now=Date.now();return Boolean(w&&Date.parse(w.opens_at)<=now&&now<Date.parse(w.waivers_close_at)&&!w.waivers_processed_at);}
 function renderFreeAgents(){if(!faState.loaded)return;const rows=faRowsFiltered(),w=faWindow(),open=faIsOpen(),last=faLastCompletedWeek();faElement('faAvailable').textContent=faState.pool.filter(p=>!faState.owned.has(p.asset_id)).length;faElement('faWallet').textContent=faState.wallet===null?'—':faState.wallet+' WB';faElement('faWalletNote').textContent=!leagueManager?'Sign in to view your balance':faState.walletError?'Balance unavailable · try refreshing':faState.wallet===null?'Checking balance…':'Available waiver bucks';faElement('faDeadline').textContent=w?.waivers_close_at?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(w.waivers_close_at)):'—';faElement('faWindowStatus').textContent=open?'Bidding OPEN':w?.waivers_processed_at?'Waivers processed':Date.now()<Date.parse(w?.opens_at)?'Bidding not open yet':'Bidding closed';faElement('faClaimBadge').textContent=open&&leagueManager?'BIDDING OPEN':!leagueManager?'SIGN IN REQUIRED':'BIDDING CLOSED';faElement('faSubmitBid').disabled=!(open&&leagueManager&&faState.wallet!==null);faElement('faCount').textContent=rows.length+' matching available players';faElement('faScoresBadge').textContent=faState.scoring.length?'WEEKLY FP AVAILABLE':'NO WEEKLY POINTS YET';faElement('faDataNote').textContent=faState.scoring.length?'Latest completed week: '+(last?'Week '+last:'none')+'.':'A dash means no current score is available.';
 const pages=Math.max(1,Math.ceil(rows.length/faState.pageSize));faState.page=Math.max(0,Math.min(faState.page,pages-1));const first=faState.page*faState.pageSize;const visibleRows=rows.slice(first,first+faState.pageSize);faElement('faPageSummary').textContent=rows.length?`Showing ${first+1}–${Math.min(first+faState.pageSize,rows.length)} of ${rows.length} players · Page ${faState.page+1} of ${pages}`:'No matching players';faElement('faPrev').disabled=faState.page===0;faElement('faNext').disabled=faState.page>=pages-1;faElement('faRows').innerHTML=visibleRows.length?visibleRows.map(p=>`<tr><td><b>${faSafe(p.asset_name)}</b><div class="tiny">${faSafe(p.university)}</div></td><td><span class="tag">${faSafe(p.position)}</span></td><td>${faNumber(p.lastweek)}</td><td>${faNumber(p.lastavg)}</td><td>${faNumber(p.weekendavg)}</td><td>${faNumber(p.seasonavg)}</td><td>${p.games||'—'}</td><td><b>${p.upcoming}</b></td><td class="fa-opponents">${faSafe(p.opponents)}</td><td><button class="smallbtn fa-claim" data-id="${faSafe(p.asset_id)}">Select</button></td></tr>`).join(''):'<tr><td colspan="10" class="empty">No available athletes match these filters.</td></tr>';
-for(const button of faElement('faRows').querySelectorAll('.fa-claim'))button.onclick=()=>{faElement('waiverPlayer').value=button.dataset.id;faElement('waiverPlayer').scrollIntoView({behavior:'smooth',block:'center'});};
-const choice=faElement('waiverPlayer').value,available=faState.pool.filter(p=>!faState.owned.has(p.asset_id));faElement('waiverPlayer').innerHTML='<option value="">Choose an available athlete</option>'+available.map(p=>`<option value="${faSafe(p.asset_id)}">${faSafe(p.asset_name)} · ${faSafe(p.university)} (${faSafe(p.position)})</option>`).join('');if(available.some(p=>p.asset_id===choice))faElement('waiverPlayer').value=choice;
-const drop=faElement('waiverDrop').value,owned=leagueAssets.filter(p=>p.asset_type==='player');faElement('waiverDrop').innerHTML='<option value="">Choose player to drop</option>'+owned.map(p=>`<option value="${faSafe(p.asset_id)}">${faSafe(p.asset_name)} · ${faSafe(p.university)}</option>`).join('');if(owned.some(p=>p.asset_id===drop))faElement('waiverDrop').value=drop;
+// Keep native selects stable while managers are using them. A previous version
+// rebuilt the <option> list on every scoring/ownership refresh, interrupting
+// manual selections. Only update the options when the underlying IDs change.
+const available=faState.pool.filter(p=>!faState.owned.has(p.asset_id));
+const claimSelect=faElement('waiverPlayer');
+const claimIds=available.map(p=>p.asset_id);
+const claimKey=JSON.stringify(claimIds);
+if(claimSelect.dataset.poolKey!==claimKey){
+ const previous=claimSelect.value;
+ claimSelect.innerHTML='<option value="">Choose an available athlete</option>'+available.map(p=>`<option value="${faSafe(p.asset_id)}">${faSafe(p.asset_name)} · ${faSafe(p.university)} (${faSafe(p.position)})</option>`).join('');
+ if(claimIds.includes(previous))claimSelect.value=previous;
+ claimSelect.dataset.poolKey=claimKey;
+}
+const dropSelect=faElement('waiverDrop');
+const owned=leagueAssets.filter(p=>p.asset_type==='player');
+const dropIds=owned.map(p=>p.asset_id);
+const dropKey=JSON.stringify(dropIds);
+if(dropSelect.dataset.poolKey!==dropKey){
+ const previous=dropSelect.value;
+ dropSelect.innerHTML='<option value="">Choose player to drop</option>'+owned.map(p=>`<option value="${faSafe(p.asset_id)}">${faSafe(p.asset_name)} · ${faSafe(p.university)}</option>`).join('');
+ if(dropIds.includes(previous))dropSelect.value=previous;
+ dropSelect.dataset.poolKey=dropKey;
+}
+for(const button of faElement('faRows').querySelectorAll('.fa-claim'))button.onclick=()=>{
+ if(!claimIds.includes(button.dataset.id))return;
+ claimSelect.value=button.dataset.id;
+ claimSelect.dispatchEvent(new Event('change',{bubbles:true}));
+ claimSelect.scrollIntoView({behavior:'smooth',block:'center'});
+};
 faElement('faMyBids').innerHTML=!leagueManager?'Sign in to view private bids.':faState.bids.length?faState.bids.map(b=>{const p=faState.pool.find(x=>x.asset_id===b.target_asset_id);return `<div class="fa-bid"><b>${faSafe(p?.asset_name||b.target_asset_id)}</b><span>${b.bid_amount} WB</span><button class="smallbtn" data-cancel="${b.id}" ${open?'':'disabled'}>Cancel</button></div>`}).join(''):'No pending claims for this week.';faElement('faMyBids').querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>faCancelBid(b.dataset.cancel));faRenderFreeAdd();}
 async function faFetch(){if(!leagueClient)return;const [pool,owned,windows]=await Promise.all([leagueClient.from('league_player_pool').select('asset_id,asset_name,university,position,roster_evidence,historical_avg_fp').order('asset_name').range(0,999),leagueClient.from('league_rosters').select('asset_id').range(0,999),leagueClient.from('league_week_windows').select('fantasy_week,opens_at,locks_at,waivers_close_at,waivers_processed_at').order('fantasy_week')]);if(pool.error||owned.error){faElement('faRows').innerHTML='<tr><td colspan="10">Unable to load player pool. '+faSafe(pool.error?.message||owned.error?.message)+'</td></tr>';return;}faState.pool=pool.data||[];faState.owned=new Set((owned.data||[]).map(x=>x.asset_id));faState.weekWindows=windows.data||[];faState.loaded=true;await faRefreshPrivate();renderFreeAgents();}
 async function faRefreshPrivate(){faState.wallet=null;faState.walletError=false;faState.bids=[];if(!leagueClient||!leagueManager)return;const week=Number(faElement('faWeek').value);const [wallet,bids]=await Promise.all([leagueClient.from('league_wallets').select('balance').eq('manager_id',leagueManager.manager_id).maybeSingle(),leagueClient.from('league_waiver_bids').select('id,target_asset_id,drop_asset_id,bid_amount').eq('fantasy_week',week).order('submitted_at',{ascending:false})]);if(wallet.error||!wallet.data||!Number.isFinite(Number(wallet.data.balance))){faState.walletError=true;}else faState.wallet=Number(wallet.data.balance);if(!bids.error)faState.bids=bids.data||[];}
