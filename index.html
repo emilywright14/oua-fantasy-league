@@ -179,6 +179,12 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 .market-status-foot .smallbtn{white-space:nowrap}
 #faClaimBadge[data-phase="bidding"]{color:#69dad4;border-color:#69dad4}#faClaimBadge[data-phase="free"]{color:#69dad4;border-color:#69dad4}#faClaimBadge[data-phase="review"],#faClaimBadge[data-phase="closed"]{color:#f3c47b}
 @media(max-width:850px){.market-stage-grid{grid-template-columns:1fr}.market-stage{align-items:center}.market-status-foot{flex-wrap:wrap}.market-status-top{font-size:15px}.market-status{padding:16px}}
+
+/* Trade proposal two-step flow: submission only appears after a valid preview. */
+#trades #hqTradeSendStep[hidden],#trades #hqTradeDraftSummary[hidden]{display:none!important}
+#trades .hq-trade-step-label{display:inline-block;color:var(--teal);font-size:11px;font-weight:800;letter-spacing:1.4px}
+#trades .hq-trade-send-step{margin-top:12px;padding:15px;border:1px solid var(--teal);border-radius:11px;background:rgba(105,218,212,.06)}
+#trades .hq-trade-send-step p{margin:7px 0 12px}
 </style><style>.fa-pager{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:13px;flex-wrap:wrap}.fa-pager .tiny{margin-right:auto}.fa-opponents{white-space:nowrap;color:#a8d9db;font-size:12px}.fa-table td:first-child{min-width:170px}.fa-table th[data-sort]:hover{color:#ff8abb}@media(max-width:650px){.fa-pager{justify-content:center}.fa-pager .tiny{width:100%;text-align:center}} </style><style>.hq-review-target{padding:17px 0;border-bottom:1px solid #35546b}.hq-review-target:last-child{border-bottom:0}#hqCommissionerInbox{background:#10283c;border:1px solid #34516a;border-radius:12px;padding:17px}#hqCommissionerInbox .table th,#hqCommissionerInbox .table td{padding:10px 12px} .fa-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}.fa-summary .card{min-width:0}.fa-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.fa-filters label{min-width:0;font-size:12px;color:var(--muted)}.fa-filters input,.fa-filters select{width:100%;margin-top:6px}.fa-legend{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:16px 0}.fa-table th[data-sort]{cursor:pointer}.fa-table td{white-space:nowrap}.fa-table td:first-child{min-width:175px}.fa-bid{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}@media(max-width:900px){.fa-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.fa-summary{grid-template-columns:1fr}.fa-filters{grid-template-columns:1fr}}</style><style>
 /* Week 1 scoring polish and manager colour system */
 .hq-matchup-detail{margin:17px 0 24px;display:grid;grid-template-columns:minmax(240px,.72fr) minmax(0,1.5fr);gap:13px;align-items:start}
@@ -401,7 +407,32 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 #hqMovesRosters .hq-commish-asset-name b{font-weight:600;overflow-wrap:anywhere}
 #hqMovesRosters .hq-commish-flag.bye{border:1px solid #b07c4b;background:rgba(232,173,102,.11);color:#ffd291;border-radius:5px;padding:2px 5px;font-size:9px;font-weight:800;white-space:nowrap}
 @media(max-width:700px){#hqMovesHealthSummary.hq-commish-health-summary{grid-template-columns:1fr}#hqCommishRosterDesk .hq-commish-filters{width:100%}#hqCommishRosterDesk .hq-commish-filters label{flex:1}}
-</style></head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><div class="hq-roster-title"><div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p></div><span id="hqRosterChecked" class="hq-roster-checked" aria-live="polite">Checking roster moves…</span></div><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
+</style><style id="hq-trade-tab-style">
+#trades .hq-trade-flow{border:1px solid #35566a;border-radius:12px;padding:15px;background:#102a3c;margin:12px 0 20px}
+#trades .hq-trade-flow-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}
+#trades .hq-trade-flow-steps span{border:1px solid #35566a;background:#15344a;padding:10px 7px;border-radius:8px;text-align:center;font-size:12px;color:#d6e7ef}
+#trades #hqTradeFrom{display:none!important}#trades #hqTradeFrom:disabled{opacity:.85;cursor:not-allowed}
+#trades .hq-trade-identity{padding:12px 15px;min-height:46px;border:1px solid #45667c;border-radius:10px;background:#0d293e;font-weight:700;color:#69dad4}
+#trades .hq-trade-offer{border:1px solid #3b5a6e;border-radius:10px;padding:12px;margin:10px 0;display:grid;gap:8px}
+#trades .hq-trade-offer p{margin:3px 0;color:#bcd0df;font-size:13px}
+#trades .hq-trade-offer-actions{display:flex;gap:8px;flex-wrap:wrap}
+#trades #hqTradeDraftSend:disabled{opacity:.48;cursor:not-allowed}#trades .hq-trade-summary{white-space:normal}
+#trades .hq-trade-summary ul{margin:8px 0 14px;padding-left:20px}
+#trades .hq-trade-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#trades .hq-trade-summary-grid>div{padding:12px;border:1px solid #38596e;border-radius:9px}
+@media(max-width:680px){#trades .hq-trade-summary-grid{grid-template-columns:1fr}}
+@media(max-width:720px){#trades .hq-trade-flow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<style id="hq-trade-live-approval-style">
+#hqTradeBalance{border:1px solid #496b7b;background:#112c41;border-radius:12px;padding:14px;margin:14px 0}
+#hqTradeBalanceChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}
+#hqTradeBalanceChoices .hq-trade-balance-side{background:#162e42;border:1px solid #34536b;border-radius:9px;padding:12px;display:grid;gap:9px;min-width:0}
+#hqTradeBalanceChoices select{width:100%;min-width:0;max-width:100%;background:#091d2f;color:#f0f5fa;border:1px solid #50718a;padding:9px;border-radius:7px}
+#hqCommishTradeReview .hq-trade-approval-buttons{display:flex;flex-wrap:wrap;gap:10px;padding-top:7px}
+#hqCommishTradeReview .hq-trade-approval-note{background:#0c2436;border:1px solid #385870;border-radius:8px;padding:10px;font-size:12px;color:#bbd7e2}
+@media(max-width:680px){#hqTradeBalanceChoices{grid-template-columns:1fr}}
+</style>
+</head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><div class="hq-roster-title"><div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p></div><span id="hqRosterChecked" class="hq-roster-checked" aria-live="polite">Checking roster moves…</span></div><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
 <p id="faMarketDescription">Check when bidding closes and when free agency opens.</p>
@@ -420,14 +451,45 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
   <label>Your player to drop<select id="faFreeDropPlayer"><option value="">Choose a player</option></select></label>
   <button type="button" id="faFreeSubmit" class="primary">Add / drop · 0 WB</button>
   <p class="tiny" role="status" aria-live="polite" id="faFreeResult"></p>
-</div></div></div></div><div class="section" id="matchups"><h2>⚔️ Matchups &amp; Playoffs</h2><p class="muted">See weekly matchups and results.</p><div class="card tablewrap"><table class="table"><thead><tr><th>Week</th><th>Dates</th><th>Format</th><th>Matchups</th></tr></thead><tbody id="weeks"></tbody></table></div><p class="tiny">Matchup scores will use OUA regular-season statistics only. Bench points remain visible but do not count.</p><div class="card spaced playoff-section"><div class="kicker">FANTASY PLAYOFFS · WEEKS 10–12</div><h3>🏆 Playoff Bracket &amp; Finals</h3><p class="muted">Postseason matchups and results will appear here after regular-season seeding is finalized.</p><div class="grid"><div class="card"><div class="kicker">W10 · FEB 5–6</div><h3>Quarterfinals</h3><p class="muted">Seeds 1 and 2 have byes. Seed 3 chooses its opponent from Seeds 5–6; Seed 4 faces the other.</p></div><div class="card"><div class="kicker">W11 · FEB 12–13</div><h3>Semifinals</h3><p class="muted">Seed 1 chooses a quarterfinal winner; Seed 2 faces the other.</p></div><div class="card"><div class="kicker">W12 · FEB 19–20</div><h3>Finals</h3><p class="muted">Championship, bronze match and fifth-place match.</p></div></div></div></div><div class="section" id="analytics"><div class="kicker">ATHLETES & MANAGERS · LEAGUE ANALYTICS</div><h2>Player &amp; League Analytics 📊</h2><p class="muted sectionintro">Explore player performance, compare athletes, and see how each manager stacks up.</p><div class="card spaced"><div class="filterrow"><label>Metric<select id="leagueMetric"><option value="total">Total fantasy points</option><option value="starter">Starter points</option><option value="bench">Bench points</option></select></label><label>Manager<select id="leagueGM"><option value="all">All six GMs</option></select></label><label>From week<select id="leagueFrom"></select></label><label>Through week<select id="leagueTo"></select></label></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">WHO'S LEADING?</div><h3>Cumulative fantasy points</h3><div class="chartarea" id="leagueCumulative"></div></div><div class="card"><div class="kicker">WEEK-TO-WEEK</div><h3>Weekly manager FP</h3><div class="chartarea" id="leagueWeekly"></div></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">ROSTER EFFICIENCY</div><h3>Points left on the bench</h3><div class="chartarea" id="leagueBench"></div></div><div class="card"><div class="kicker">PLAYER LEADERBOARD</div><h3>Top 10 fantasy athletes</h3><div class="chartarea" id="leaguePosition"></div></div></div><div class="card"><h3>Manager comparison</h3><div class="tablewrap"><table class="table"><thead><tr><th>Manager</th><th>Record</th><th>Starter FP</th><th>Bench FP</th><th>Avg FP / week</th></tr></thead><tbody id="leagueRows"></tbody></table></div><p class="smallnote">Live scoring summaries appear above. Stats refresh when new results are available.</p></div><div class="grid2 spaced"><div class="card"><div class="kicker">PLAYER SCOUTING</div><h3>🔍 Compare Two Athletes</h3><p class="muted">Choose any two athletes to compare total FP, FP/match, recent form, scheduled matches and weekly trends.</p><div class="disabled-form"><label>Player A<select disabled=""><option>Available after player import</option></select></label><label>Player B<select disabled=""><option>Available after player import</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Player comparisons will unlock with official athlete scoring.</div></div></div><div class="card"><div class="kicker">UNIVERSITY HOME COURT ADVANTAGE</div><h3>🏠 Home vs Away Performance</h3><p class="muted">Compare university and athlete FP per match at home vs away, opponent strength and sample size. No automatic home-court fantasy bonus.</p><div class="disabled-form"><label>University<select disabled=""><option>All universities · awaiting stats</option></select></label><label>Position<select disabled=""><option>All positions · awaiting stats</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Home/away splits will appear once match-level results are imported.</div></div></div></div></div><div class="section" id="rules"><div class="kicker">OFFICIAL LEAGUE GUIDE · 2026–27</div><h2>📖 League Rules</h2><p class="muted">The roster, scoring, waivers, schedule and league traditions in one place. The handbook is the reference for any commissioner interpretation.</p>
+</div></div></div></div><div class="section" id="trades"><div class="kicker">MANAGER TRADING DESK</div><h2>🤝 Trade Centre</h2><p class="muted">Build an offer, review incoming requests, and track trades awaiting approval.</p><div class="card spaced" id="hqTradeDraft" style="margin-top:20px">
+ <div class="flex" style="justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><div class="kicker">TRADE CENTRE</div><h3 style="margin:5px 0">🤝 Build a Trade Offer</h3><p class="tiny">Uneven player trades and Waiver Bucks are allowed in a proposal. Both managers and the commissioner must approve before ownership changes.</p></div><span class="pill warn">PROPOSAL DRAFT · NOT SUBMITTED</span></div>
+ <div class="hq-trade-grid"><label>Your GM<div id="hqTradeMyName" class="hq-trade-identity">Sign in to manage offers</div></label><label>Trade with<select id="hqTradeTo"><option value="">Select manager</option></select></label></div>
+ <div class="hq-trade-grid">
+ <div class="hq-trade-side"><strong>You send</strong><div class="hq-trade-checks" id="hqTradeSendA">Choose a manager to see their players.</div><label>Waiver Bucks included<input id="hqTradeWBA" type="number" min="0" step="1" value="0"/></label></div>
+ <div class="hq-trade-side"><strong>You receive</strong><div class="hq-trade-checks" id="hqTradeSendB">Choose a manager to see their players.</div><label>Waiver Bucks included<input id="hqTradeWBB" type="number" min="0" step="1" value="0"/></label></div>
+ </div>
+ <div id="hqTradeBalance" class="hq-trade-balance" hidden><div class="kicker">ROSTER BALANCING</div><h4 style="margin:5px 0">Make both rosters legal</h4><p class="tiny">For uneven trades, include the extra drop or free-agent pickup in the offer so both managers agree before commissioner approval.</p><div id="hqTradeBalanceChoices"></div></div>
+ <div class="hq-trade-actions"><span class="hq-trade-step-label">STEP 1</span><button id="hqTradeDraftPreview" type="button" class="primary">Preview offer →</button><span class="tiny" id="hqTradeDraftStatus" role="status" aria-live="polite">Select the players and Waiver Bucks, then preview your offer.</span></div>
+ <div id="hqTradeDraftSummary" class="hq-trade-summary" hidden></div>
+ <div id="hqTradeSendStep" class="hq-trade-send-step" hidden><div class="hq-trade-step-label">STEP 2 · READY TO SEND</div><p class="tiny">Check both sides above. Sending shares the proposal with the other GM; no assets move until final commissioner approval.</p><div class="hq-trade-actions"><button id="hqTradeDraftSend" type="button" class="primary" disabled>Send trade offer →</button><button id="hqTradeDraftCopy" type="button" class="smallbtn">Copy preview</button></div></div>
+ </div>
+<div class="hq-trade-grid hq-trade-inboxes">
+<section class="card spaced"><div class="kicker">TRADE OFFERS</div><h3>📥 Incoming offers</h3><p id="hqIncomingTradeStatus" class="tiny">Sign in to view offers addressed to your manager.</p><div id="hqIncomingTradeList"></div></section>
+<section class="card spaced"><div class="kicker">YOUR OFFERS</div><h3>📤 Sent offers</h3><p id="hqSentTradeStatus" class="tiny">Sign in to view offers you've proposed.</p><div id="hqSentTradeList"></div></section>
+</div>
+<div class="hq-trade-flow"><strong>Trade approval process</strong><div class="hq-trade-flow-steps"><span>1 · Offer proposed</span><span>2 · Other GM accepts</span><span>3 · Commissioner approves</span><span>4 · Rosters + WB update</span></div><p class="tiny">Managers can send offers and accept or decline them. Accepted offers wait for commissioner approval; player and WB transfers are not active yet.</p></div>
+</div><div class="section" id="matchups"><h2>⚔️ Matchups &amp; Playoffs</h2><p class="muted">See weekly matchups and results.</p><div class="card tablewrap"><table class="table"><thead><tr><th>Week</th><th>Dates</th><th>Format</th><th>Matchups</th></tr></thead><tbody id="weeks"></tbody></table></div><p class="tiny">Matchup scores will use OUA regular-season statistics only. Bench points remain visible but do not count.</p><div class="card spaced playoff-section"><div class="kicker">FANTASY PLAYOFFS · WEEKS 10–12</div><h3>🏆 Playoff Bracket &amp; Finals</h3><p class="muted">Postseason matchups and results will appear here after regular-season seeding is finalized.</p><div class="grid"><div class="card"><div class="kicker">W10 · FEB 5–6</div><h3>Quarterfinals</h3><p class="muted">Seeds 1 and 2 have byes. Seed 3 chooses its opponent from Seeds 5–6; Seed 4 faces the other.</p></div><div class="card"><div class="kicker">W11 · FEB 12–13</div><h3>Semifinals</h3><p class="muted">Seed 1 chooses a quarterfinal winner; Seed 2 faces the other.</p></div><div class="card"><div class="kicker">W12 · FEB 19–20</div><h3>Finals</h3><p class="muted">Championship, bronze match and fifth-place match.</p></div></div></div></div><div class="section" id="analytics"><div class="kicker">ATHLETES & MANAGERS · LEAGUE ANALYTICS</div><h2>Player &amp; League Analytics 📊</h2><p class="muted sectionintro">Explore player performance, compare athletes, and see how each manager stacks up.</p><div class="card spaced"><div class="filterrow"><label>Metric<select id="leagueMetric"><option value="total">Total fantasy points</option><option value="starter">Starter points</option><option value="bench">Bench points</option></select></label><label>Manager<select id="leagueGM"><option value="all">All six GMs</option></select></label><label>From week<select id="leagueFrom"></select></label><label>Through week<select id="leagueTo"></select></label></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">WHO'S LEADING?</div><h3>Cumulative fantasy points</h3><div class="chartarea" id="leagueCumulative"></div></div><div class="card"><div class="kicker">WEEK-TO-WEEK</div><h3>Weekly manager FP</h3><div class="chartarea" id="leagueWeekly"></div></div></div><div class="grid2 spaced"><div class="card"><div class="kicker">ROSTER EFFICIENCY</div><h3>Points left on the bench</h3><div class="chartarea" id="leagueBench"></div></div><div class="card"><div class="kicker">PLAYER LEADERBOARD</div><h3>Top 10 fantasy athletes</h3><div class="chartarea" id="leaguePosition"></div></div></div><div class="card"><h3>Manager comparison</h3><div class="tablewrap"><table class="table"><thead><tr><th>Manager</th><th>Record</th><th>Starter FP</th><th>Bench FP</th><th>Avg FP / week</th></tr></thead><tbody id="leagueRows"></tbody></table></div><p class="smallnote">Live scoring summaries appear above. Stats refresh when new results are available.</p></div><div class="grid2 spaced"><div class="card"><div class="kicker">PLAYER SCOUTING</div><h3>🔍 Compare Two Athletes</h3><p class="muted">Choose any two athletes to compare total FP, FP/match, recent form, scheduled matches and weekly trends.</p><div class="disabled-form"><label>Player A<select disabled=""><option>Available after player import</option></select></label><label>Player B<select disabled=""><option>Available after player import</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Player comparisons will unlock with official athlete scoring.</div></div></div><div class="card"><div class="kicker">UNIVERSITY HOME COURT ADVANTAGE</div><h3>🏠 Home vs Away Performance</h3><p class="muted">Compare university and athlete FP per match at home vs away, opponent strength and sample size. No automatic home-court fantasy bonus.</p><div class="disabled-form"><label>University<select disabled=""><option>All universities · awaiting stats</option></select></label><label>Position<select disabled=""><option>All positions · awaiting stats</option></select></label></div><div class="chartarea" style="margin-top:12px"><div class="emptychart">Home/away splits will appear once match-level results are imported.</div></div></div></div></div><div class="section" id="rules"><div class="kicker">OFFICIAL LEAGUE GUIDE · 2026–27</div><h2>📖 League Rules</h2><p class="muted">The roster, scoring, waivers, schedule and league traditions in one place. The handbook is the reference for any commissioner interpretation.</p>
 <details class="rulesdetails" open=""><summary>🏐 Rosters &amp; lineup lock</summary><div class="rulesbody"><p><b>11 assets per manager:</b> 9 starters (4 OH, 2 MB, 1 setter, 1 libero and 1 OUA university team), plus 2 bench athletes of any player position. Outside, left-side, right-side and opposite hitters qualify for OH.</p><p>Players and university teams can only have one fantasy owner. Bench points are visible but do not count toward weekly matchup scores unless moved to an eligible starting position <b>before lineup lock</b>. Lineups and transactions lock one hour before the first OUA game of that fantasy week. Only OUA regular-season matches earn points.</p></div></details>
 <details class="rulesdetails"><summary>🧮 Fantasy scoring</summary><div class="rulesbody"><div class="tablewrap"><table class="table"><thead><tr><th>Action</th><th>Fantasy points</th></tr></thead><tbody><tr><td>Kill</td><td>+2</td></tr><tr><td>Attack error</td><td>−2</td></tr><tr><td>Attack attempt</td><td>+0.5</td></tr><tr><td>Dig</td><td>+2.25 (libero: +3.375)</td></tr><tr><td>Service ace / service error</td><td>+2 / −1</td></tr><tr><td>Assist</td><td>+0.5</td></tr><tr><td>Solo block</td><td>+3 (MB: +4.5)</td></tr><tr><td>Block assist</td><td>+1.5 (MB: +2.25)</td></tr></tbody></table></div><p>Libero digs and middle-blocker blocks use their enhanced point value <b>instead of</b> the standard value, not in addition to it.</p><p><b>University team scoring:</b> set won +1; match won +1; sweep +1; reverse sweep +5.</p></div></details>
 <details class="rulesdetails"><summary>🎟️ Draft format</summary><div class="rulesbody"><p>Six managers, eleven snake-draft rounds (66 picks total). First-round order: <b>Amit → Alex → Robbie → Josh T. → Nolan → Josh</b>. Even-numbered rounds reverse the order. Commissioner records draft picks in the shared Draft Room.</p></div></details>
 <details class="rulesdetails"><summary>📅 Regular season, standings &amp; playoffs</summary><div class="rulesbody"><p>Nine regular fantasy weeks and three playoff weeks. Week 6 is Battle of the Seeds; Week 7 is David vs Goliath; Week 8 is Ex’s &amp; OHs; Week 9 is Rivalry Week.</p><p>Standings use head-to-head wins and losses, then cumulative fantasy points. A tied matchup is broken by higher season cumulative FP (including that week), then higher entering-week rank or seed.</p><p><b>All six GMs qualify:</b> Week 10 quarterfinals (seeds 1–2 get byes; seed 3 chooses between seeds 5–6); Week 11 semifinals (seed 1 selects a quarterfinal winner); Week 12 championship, bronze and fifth-place matchups.</p></div></details>
 <details class="rulesdetails"><summary>💰 Waivers &amp; free agency</summary><div class="rulesbody"><p>Every GM starts with <b>100 Waiver Bucks (WB)</b>. Blind waiver claims close <b>Tuesday at 11:59 PM Toronto time</b>. The commissioner processes bids Wednesday: highest bid wins, losing bids cost 0 WB. Ties go to the lower-ranked GM; Week 1 uses reverse draft order as the tiebreaker.</p><p>Once waivers process, free agency is first come, first served, at <b>0 WB</b> until weekly roster lock. Unused WB carry forward, and awards may raise balances above 100. Legal roster composition and a nonnegative wallet must be maintained.</p></div></details>
 <details class="rulesdetails"><summary>🏅 Extra WB, penalties &amp; league shenanigans</summary><div class="rulesbody"><ul><li><b>Chirp of the Week:</b> +5 WB for the best roast or meme, voted by the league.</li><li><b>Get Licht Tax:</b> −5 WB for a full week of group-chat silence.</li><li><b>Bounty of the Week:</b> +5 WB for beating the first-ranked GM entering the week (regular season).</li><li><b>Comeback King:</b> +5 WB for the biggest increase in weekly FP over the previous week.</li><li><b>Weekly Press Conference:</b> Biggest matchup loser delivers a post-game press conference.</li><li><b>Compliment Rule:</b> Lowest scorer sincerely compliments the highest scorer.</li></ul><p>Only the first four adjust WB. Commissioner awards and penalties will be recorded in the league's transaction ledger.</p></div></details>
-<p class="smallnote">Unofficial, non-commercial league. Rules are based on the league handbook; changes require a commissioner decision.</p></div><div aria-label="Commissioner-only area" class="section" id="admin"><h2>Commissioner HQ 🛡️</h2><div class="card spaced" id="hqCommishRosterDesk">
+<p class="smallnote">Unofficial, non-commercial league. Rules are based on the league handbook; changes require a commissioner decision.</p></div><div aria-label="Commissioner-only area" class="section" id="admin"><h2>Commissioner HQ 🛡️</h2><div class="card spaced" id="hqCommissionerBank">
+ <div class="flex" style="align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="kicker">LEAGUE FINANCES</div><h3 style="margin:5px 0">💰 Waiver Bucks Bank</h3><p class="tiny">Current balances for all six managers. Completed waiver awards and league adjustments affect these totals.</p></div><button class="smallbtn" id="hqBankRefresh" type="button">Refresh balances</button></div>
+ <div id="hqBankStatus" class="tiny" aria-live="polite">Open Commissioner HQ to view current balances.</div>
+ <div id="hqBankTiles" class="hq-bank-grid"></div>
+ <div class="hq-bank-foot" id="hqBankFoot"></div>
+ </div><div class="card spaced" id="hqCommishTradeReview">
+  <div class="flex" style="align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <div><div class="kicker">COMMISSIONER · TRADE DESK</div><h3 style="margin:5px 0">🤝 Trade Offers & Approval Queue</h3>
+    <p class="tiny">Review every offer, both sides of the deal, and any roster issues before approval.</p></div>
+    <button class="smallbtn" id="hqTradeQueueRefresh" type="button">Refresh trades</button>
+  </div>
+  <div id="hqTradeQueueSummary" class="hq-trade-queue-summary" aria-live="polite">Loading trade status…</div>
+  <div id="hqTradeQueueList" class="hq-trade-queue-list"></div>
+  <p class="smallnote">Trades execute only after both managers agree and the commissioner approves. Final approval checks ownership, roster eligibility, available Waiver Bucks and deadlines before making any changes.</p>
+</div><div class="card spaced" id="hqCommishRosterDesk">
  <div class="flex" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
  <div><div class="kicker">ROSTER OVERSIGHT</div><h3 style="margin:5px 0">🔄 Recent Roster & Lineup Activity</h3><p class="tiny">See roster moves and meaningful lineup changes, grouped by save. Pending bids are in Waiver Review below.</p></div>
  <button class="smallbtn" type="button" id="hqMovesRefresh">Refresh moves</button></div>
@@ -447,7 +509,7 @@ const samples=[{name:'Chris Hoffman',uni:'York',pos:'OH'},{name:'Matthew McCarth
 let previewGm='Amit';let bench=new Set();let rosterWeek=2;
 function el(id){return document.getElementById(id)}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function changeTab(id){if(id==='admin'&&!window.hqIsCommissioner){id='home';}document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));window.scrollTo(0,0)}
+function changeTab(id){if(id==='trades'&&!(typeof leagueManager!=='undefined'&&leagueManager)){id='roster';}if(id==='admin'&&!window.hqIsCommissioner){id='home';}document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));window.scrollTo(0,0)}
 el('nav').innerHTML=navs.filter(([id])=>id!=='admin'||window.hqIsCommissioner).map(([id,t],i)=>`<button data-tab="${id}" class="${i===0?'active':''}" onclick="changeTab('${id}')">${t}</button>`).join('');
 // Real manager selection is now determined by authenticated Supabase account.
 // League Home shows the public roster wall only. Personalized lineup/schedule alerts
@@ -949,6 +1011,11 @@ async function hqLoadCommissionerQueue(){
 function hqRefreshCommissionerNav(){
   const nav=document.getElementById('nav');
   if(!nav)return;
+  const tradeNav=nav.querySelector('[data-tab="trades"]');
+  const canTrade=!!(typeof leagueManager!=='undefined'&&leagueManager);
+  if(canTrade&&!tradeNav){const b=document.createElement('button');b.dataset.tab='trades';b.textContent='🤝 Trades';b.onclick=()=>changeTab('trades');const waivers=nav.querySelector('[data-tab="waivers"]');waivers?.after(b);}
+  if(!canTrade&&tradeNav)tradeNav.remove();
+  if(!canTrade&&document.getElementById('trades')?.classList.contains('active'))changeTab('roster');
   const button=nav.querySelector('[data-tab="admin"]');
   if(window.hqIsCommissioner){
     document.body.classList.add('hq-commissioner');
@@ -995,7 +1062,7 @@ function renderAccountBar(){
 async function authLoad(){
   window.hqIsCommissioner=false;hqRefreshCommissionerNav();
   const {data:{session}}=await leagueClient.auth.getSession();leagueSession=session;leagueManager=null;leagueAssets=[];leagueWeeks=[];leagueBaseline=[];
-  if(!session){renderSignedOut();if(faState.loaded){faState.wallet=null;faState.bids=[];renderFreeAgents();}return;}
+  if(!session){hqRefreshCommissionerNav();window.hqSyncTradeManager?.();renderSignedOut();if(faState.loaded){faState.wallet=null;faState.bids=[];renderFreeAgents();}return;}
   // Server-verified commissioner permission. Fail closed if RPC is missing or errors.
   try {
     const {data:allowed,error:permError}=await leagueClient.rpc('is_league_hq_commissioner');
@@ -1007,7 +1074,7 @@ async function authLoad(){
   if(mapError){authCard.innerHTML=messageHtml('Unable to verify manager permissions: '+mapError.message);return;}
   if(window.hqIsCommissioner)hqLoadCommissionerQueue();
   if(!map){authCard.innerHTML='<h3>🛡️ Signed in</h3><p class="tiny">This account is not assigned to a manager. '+(window.hqIsCommissioner?'Commissioner access verified. Open Commissioner HQ in the navigation.':'No commissioner privileges are assigned to this account.')+'</p>';return;}
-  leagueManager=map;renderAccountBar();
+  leagueManager=map;renderAccountBar();hqRefreshCommissionerNav();window.hqSyncTradeManager?.();
   const [assetsResult,weeksResult]=await Promise.all([
     leagueClient.from('league_rosters').select('manager_id,asset_id,asset_type,asset_name,university,position').eq('manager_id',map.manager_id).order('asset_name'),
     leagueClient.from('league_week_windows').select('fantasy_week,opens_at,locks_at,waivers_close_at,waivers_processed_at,trade_deadline_at').order('fantasy_week')
@@ -1919,4 +1986,283 @@ window.hqRefreshRosterMoves=load;
 #hqMovesRosters .hq-commish-role.benched{color:#ff9bc4;background:rgba(255,138,187,.13);border:1px solid rgba(255,138,187,.35)}
 #hqMovesRosters .hq-commish-projected{padding:7px 9px;border:1px solid rgba(243,196,123,.4);border-radius:7px;color:#f3c47b;font-size:11px;margin:9px 0 4px}
 </style>
+<style id="hq-trade-wallet-style">
+#hqBankTiles.hq-bank-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.hq-bank-tile{background:#102d40;border:1px solid #35566a;border-top:3px solid var(--gm-color);border-radius:12px;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hq-bank-tile strong{color:var(--gm-color);font-size:15px}.hq-bank-tile .balance{font-size:23px;font-weight:800;color:#69dad4;font-variant-numeric:tabular-nums}
+.hq-bank-foot{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#b3c9d6}
+.hq-trade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:14px 0}
+.hq-trade-grid label{min-width:0}.hq-trade-side{border:1px solid #345269;background:#102a3c;padding:13px;border-radius:11px}
+.hq-trade-side>strong{display:block;margin-bottom:10px}.hq-trade-checks{display:flex;flex-direction:column;gap:5px;max-height:230px;overflow:auto;margin-bottom:12px;padding:4px}
+.hq-trade-check{display:flex;align-items:center;gap:9px;color:#d6e7ef;font-size:12px;padding:6px 7px;border-radius:7px;background:rgba(255,255,255,.035)}
+.hq-trade-check input{width:auto;accent-color:#69dad4}.hq-trade-check small{color:#a2bece}
+.hq-trade-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.hq-trade-summary{border:1px solid #43687b;padding:12px 14px;border-radius:9px;margin-top:13px;white-space:pre-wrap;color:#d5e6ef;font-size:12px;line-height:1.65}
+@media(max-width:750px){#hqBankTiles.hq-bank-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hq-trade-grid{grid-template-columns:1fr}}
+@media(max-width:480px){#hqBankTiles.hq-bank-grid{grid-template-columns:1fr}}
+</style>
+<script>
+/* Read-only commissioner wallet overview; does not mutate wallets or bids. */
+(function(){
+ const managerNames={1:'Amit',2:'Alex',3:'Robbie',4:'Josh T.',5:'Nolan',6:'Josh N.'};
+ const managerColors={1:'#69DAD4',2:'#F3C47B',3:'#A89CFF',4:'#9FE293',5:'#FF8ABB',6:'#62A6FF'};
+ const el=x=>document.getElementById(x);
+ async function loadBalances(){
+  if(!el('hqBankTiles'))return;
+  if(!window.hqIsCommissioner||typeof leagueClient==='undefined'||!leagueClient){el('hqBankStatus').textContent='Commissioner sign-in required.';return;}
+  el('hqBankStatus').textContent='Checking current balances…';
+  const {data,error}=await leagueClient.rpc('get_league_commissioner_wallet_balances');
+  if(error){el('hqBankStatus').textContent='Balances unavailable. Install the read-only wallet lookup SQL.';el('hqBankTiles').innerHTML='';el('hqBankFoot').textContent='';return;}
+  const byId=new Map((data||[]).map(r=>[Number(r.manager_id),r]));
+  el('hqBankTiles').innerHTML=Object.entries(managerNames).map(([id,n])=>{const row=byId.get(Number(id));const b=row&&row.balance!=null?Number(row.balance):null;return `<div class="hq-bank-tile" style="--gm-color:${managerColors[id]}"><strong>${n}</strong><span class="balance">${b===null?'—':b+' WB'}</span></div>`}).join('');
+  const valid=[...byId.values()].map(r=>Number(r.balance)).filter(Number.isFinite);
+  const total=valid.reduce((a,b)=>a+b,0);
+  el('hqBankStatus').textContent='Balances checked '+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',hour:'numeric',minute:'2-digit'}).format(new Date())+' ET';
+  el('hqBankFoot').textContent=valid.length===6?'League bank total: '+total+' WB · Six verified wallets':'Only '+valid.length+' of 6 wallet balances could be verified.';
+ }
+ el('hqBankRefresh')?.addEventListener('click',loadBalances);
+ const previousTab=window.changeTab;
+ if(typeof previousTab==='function')window.changeTab=function(id){previousTab(id);if(id==='admin')loadBalances();};
+ // Allow the pre-existing account authorization to complete before requesting.
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&el('admin')?.classList.contains('active')&&window.hqIsCommissioner)loadBalances();});
+ window.hqRefreshBankBalances=loadBalances;
+})();
+/* Manager-only trade proposal, preview, sending and acceptance. Executing ownership transfers is a separate commissioner-only action. */
+(function(){
+ const $=id=>document.getElementById(id),names={1:'Amit',2:'Alex',3:'Robbie',4:'Josh T.',5:'Nolan',6:'Josh N.'};
+ if(!$('hqTradeDraft'))return;
+ const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const myId=()=>typeof leagueManager!=='undefined'&&leagueManager?Number(leagueManager.manager_id):null;
+ const roster=()=>typeof hqPublicRosters!=='undefined'&&Array.isArray(hqPublicRosters)?hqPublicRosters:[];
+ const freePool=()=>typeof faState!=='undefined'&&Array.isArray(faState.pool)?faState.pool:[];
+ const balanceGroups=['sender_releases','recipient_releases','sender_claims','recipient_claims'];
+ let balanceKey='';
+ const selectionIds=group=>[...document.querySelectorAll('[data-trade-balance="'+group+'"]')].map(x=>x.value).filter(Boolean);
+ function renderBalance(){
+  const from=myId(),to=Number($('hqTradeTo').value),give=chosen('hqTradeSendA'),get=chosen('hqTradeSendB');
+  const difference=give.length-get.length;
+  const tasks=[];
+  if(difference>0){tasks.push({group:'sender_claims',count:difference,gm:from,type:'claim'});tasks.push({group:'recipient_releases',count:difference,gm:to,type:'release'});}
+  else if(difference<0){tasks.push({group:'sender_releases',count:-difference,gm:from,type:'release'});tasks.push({group:'recipient_claims',count:-difference,gm:to,type:'claim'});}
+  const holder=$('hqTradeBalance'),box=$('hqTradeBalanceChoices');
+  if(!holder||!box)return;
+  if(!tasks.length){holder.hidden=true;box.innerHTML='';balanceKey='';return;}
+  holder.hidden=false;
+  const fap=freePool().filter(p=>p&&p.asset_id&&p.asset_name&&!roster().some(r=>r.asset_id===p.asset_id)&&
+    !(String(p.university||'').toLowerCase().includes('western')&&['nicolas silon','kendall homenick','brody skeoch','ethan field'].includes(String(p.asset_name||'').toLowerCase())));
+  const key=JSON.stringify({from,to,give,get,free:fap.map(p=>p.asset_id)});
+  if(key===balanceKey)return;
+  const old=Object.fromEntries(balanceGroups.map(g=>[g,selectionIds(g)]));balanceKey=key;
+  box.innerHTML=tasks.map(task=>{
+   const candidates=task.type==='release' ? roster().filter(p=>Number(p.manager_id)===task.gm&&String(p.asset_type).toLowerCase()==='player'&&!give.includes(p.asset_id)&&!get.includes(p.asset_id)):fap;
+   const options=(i)=>'<option value="">Choose '+(task.type==='claim'?'free agent':'player to drop')+'</option>'+candidates.map(p=>`<option value="${safe(p.asset_id)}" ${old[task.group]?.[i]===p.asset_id?'selected':''}>${safe(p.asset_name)} · ${safe(p.position||'')}</option>`).join('');
+   return `<div class="hq-trade-balance-side"><strong>${safe(names[task.gm]||'GM')}: ${task.type==='release'?'drop':'add free agent'} ${task.count}</strong>${Array.from({length:task.count},(_,i)=>`<label class="tiny">${task.type==='release'?'Additional drop':'Free agent pickup'} ${i+1}<select data-trade-balance="${task.group}">${options(i)}</select></label>`).join('')}</div>`;
+  }).join('');
+ }
+
+ $('hqTradeTo').innerHTML='<option value="">Choose a manager</option>'+Object.entries(names).map(([id,n])=>`<option value="${id}">${safe(n)}</option>`).join('');
+ let previewSignature='',draftData=null,loadedKey='';
+ function invalidate(){previewSignature='';draftData=null;$('hqTradeDraftSend').disabled=true;$('hqTradeSendStep').hidden=true;$('hqTradeDraftSummary').hidden=true;$('hqTradeDraftStatus').textContent='Changes made — preview your offer before sending.';}
+ function chosen(id){return [...$(id).querySelectorAll('input:checked')].map(x=>x.value);}
+ function buildList(id,managerId){
+  const area=$(id),selected=new Set(chosen(id));
+  const list=roster().filter(x=>Number(x.manager_id)===Number(managerId)&&String(x.asset_type||'').toLowerCase()==='player');
+  area.innerHTML=!managerId?'Choose the other manager first.':!roster().length?'Loading current rosters…':!list.length?'No players available.':list.map(p=>`<label class="hq-trade-check"><input type="checkbox" value="${safe(p.asset_id)}" ${selected.has(p.asset_id)?'checked':''}/><span>${safe(p.asset_name)} <small>· ${safe(p.position||'')}</small></span></label>`).join('');
+ }
+ function refreshRosters(){const key=String(myId())+'|'+$('hqTradeTo').value+'|'+roster().map(p=>p.asset_id+':'+p.manager_id).join(';');if(key===loadedKey){renderBalance();return;}loadedKey=key;buildList('hqTradeSendA',myId());buildList('hqTradeSendB',$('hqTradeTo').value);balanceKey='';renderBalance();invalidate();}
+ function syncManager(){
+  const id=myId();
+  $('hqTradeMyName').textContent=id?names[id]:'Sign in through My Roster to trade';
+  [...$('hqTradeTo').options].forEach(x=>x.disabled=Boolean(id&&x.value===String(id)));
+  if(id&&$('hqTradeTo').value===String(id))$('hqTradeTo').value='';
+  refreshRosters();refreshOffers();
+ }
+ window.hqSyncTradeManager=syncManager;
+ $('hqTradeTo').addEventListener('change',()=>{loadedKey='';refreshRosters();});
+ $('hqTradeDraft').addEventListener('change',e=>{if(e.target.id==='hqTradeTo')return;if(e.target.type==='checkbox')renderBalance();invalidate();});
+ $('hqTradeDraft').addEventListener('input',e=>{if(e.target.type==='number')invalidate();});
+ function build(){
+  const from=myId(),to=Number($('hqTradeTo').value);if(!from)throw Error('Please sign in as a league manager.');
+  if(!to||to===from)throw Error('Choose a different manager to trade with.');
+  const give=chosen('hqTradeSendA'),get=chosen('hqTradeSendB');
+  const giveWb=Number($('hqTradeWBA').value),getWb=Number($('hqTradeWBB').value);
+  if(![giveWb,getWb].every(x=>Number.isSafeInteger(x)&&x>=0))throw Error('Waiver Bucks must be nonnegative whole numbers.');
+  if(giveWb&&getWb)throw Error('Enter Waiver Bucks on one side only.');
+  if(give.length+get.length===0)throw Error('Choose at least one player.');
+  if(!give.every(id=>roster().some(p=>p.asset_id===id&&Number(p.manager_id)===from)))throw Error('One of your selected players is no longer on your roster.');
+  if(!get.every(id=>roster().some(p=>p.asset_id===id&&Number(p.manager_id)===to)))throw Error('The other manager’s selected players have changed. Refresh and try again.');
+  renderBalance();
+  const releasesA=selectionIds('sender_releases'),releasesB=selectionIds('recipient_releases');
+  const claimsA=selectionIds('sender_claims'),claimsB=selectionIds('recipient_claims');
+  const diff=give.length-get.length;
+  if(releasesA.length!==Math.max(-diff,0)||claimsB.length!==Math.max(-diff,0)||
+     releasesB.length!==Math.max(diff,0)||claimsA.length!==Math.max(diff,0))
+    throw Error('Choose all required balancing drops and free-agent pickups.');
+  const all=[...give,...get,...releasesA,...releasesB,...claimsA,...claimsB];
+  if(new Set(all).size!==all.length)throw Error('The same athlete cannot appear twice in a trade.');
+  if(!claimsA.concat(claimsB).every(id=>freePool().some(p=>p.asset_id===id)&&!roster().some(r=>r.asset_id===id)))
+    throw Error('A balancing free agent is no longer available.');
+  return {from,to,give,get,giveWb,getWb,releasesA,releasesB,claimsA,claimsB};
+ }
+ const nameOf=id=>roster().find(p=>p.asset_id===id)?.asset_name||freePool().find(p=>p.asset_id===id)?.asset_name||id;
+ const summaryItems=(ids,wb)=>'<ul>'+ids.map(id=>`<li>${safe(nameOf(id))}</li>`).join('')+(wb?`<li><strong>${wb} WB</strong></li>`:'')+(!ids.length&&!wb?'<li>No assets</li>':'')+'</ul>';
+ function currentSignature(x){return JSON.stringify(x);}
+ function preview(){
+  try{
+   const x=build();draftData=x;previewSignature=currentSignature(x);
+   const balancing=[...x.releasesA.map(id=>`${names[x.from]} drops ${nameOf(id)}`),...x.releasesB.map(id=>`${names[x.to]} drops ${nameOf(id)}`),...x.claimsA.map(id=>`${names[x.from]} adds free agent ${nameOf(id)}`),...x.claimsB.map(id=>`${names[x.to]} adds free agent ${nameOf(id)}`)];
+   $('hqTradeDraftSummary').innerHTML=`<div class="kicker">REVIEW YOUR OFFER</div><div class="hq-trade-summary-grid"><div><strong>${safe(names[x.from])} sends</strong>${summaryItems(x.give,x.giveWb)}</div><div><strong>${safe(names[x.to])} sends</strong>${summaryItems(x.get,x.getWb)}</div></div>${balancing.length?`<div class="hq-trade-roster-warning"><strong>Roster balancing — also included in this offer:</strong><ul>${balancing.map(z=>`<li>${safe(z)}</li>`).join('')}</ul></div>`:''}<p class="tiny">Sending notifies the other manager. They can accept or decline; accepted trades still need commissioner approval. No assets or WB move on submission.</p>`;
+   $('hqTradeDraftSummary').hidden=false;$('hqTradeSendStep').hidden=false;$('hqTradeDraftSend').disabled=false;$('hqTradeDraftStatus').textContent='Preview ready — review both sides below, then send.';$('hqTradeDraftSummary').scrollIntoView({behavior:'smooth',block:'nearest'});return x;
+  }catch(e){invalidate();$('hqTradeDraftStatus').textContent=e.message;return null;}
+ }
+ $('hqTradeDraftPreview').addEventListener('click',preview);
+ $('hqTradeDraftCopy').addEventListener('click',async()=>{const x=preview();if(!x)return;const desc=(ids,wb)=>[...ids.map(nameOf),...(wb?[`${wb} WB`]:[])].join(', ')||'nothing';const msg=`Trade offer: ${names[x.from]} sends ${desc(x.give,x.giveWb)}; ${names[x.to]} sends ${desc(x.get,x.getWb)}. Subject to GM acceptance and commissioner approval.`;try{await navigator.clipboard.writeText(msg);$('hqTradeDraftStatus').textContent='Offer preview copied.';}catch(e){$('hqTradeDraftStatus').textContent='Copy unavailable in this browser.';}});
+ $('hqTradeDraftSend').addEventListener('click',async()=>{
+  try{
+   const x=build();if(previewSignature!==currentSignature(x)||!draftData)throw Error('Your offer changed. Preview again before sending.');
+   if(!leagueClient)throw Error('Trade connection unavailable.');
+   if(!confirm(`Send this trade offer to ${names[x.to]}? No players or WB will move yet.`))return;
+   const button=$('hqTradeDraftSend');button.disabled=true;$('hqTradeDraftStatus').textContent='Sending offer…';
+   const {data,error}=await leagueClient.rpc('oua_submit_balanced_trade_offer',{p_recipient_manager_id:x.to,p_sender_assets:x.give,p_recipient_assets:x.get,p_sender_wb:x.giveWb,p_recipient_wb:x.getWb,p_sender_releases:x.releasesA,p_recipient_releases:x.releasesB,p_sender_claims:x.claimsA,p_recipient_claims:x.claimsB});
+   if(error)throw Error(error.message);
+   $('hqTradeDraftStatus').textContent=`Trade offer #${data} sent to ${names[x.to]}.`;
+   $('hqTradeDraftSummary').hidden=true;$('hqTradeSendStep').hidden=true;previewSignature='';draftData=null;
+   $('hqTradeDraft').querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false);
+   $('hqTradeWBA').value=0;$('hqTradeWBB').value=0;balanceKey='';renderBalance();
+   await refreshOffers();
+  }catch(e){$('hqTradeDraftStatus').textContent=e.message;$('hqTradeDraftSend').disabled=false;}
+ });
+ function listItem(x,kind){const incoming=kind==='incoming',other=incoming?x.sender_manager_id:x.recipient_manager_id;
+  const offer=(ids,wb)=>[...(ids||[]).map(nameOf),...(wb?[wb+' WB']:[])].join(', ')||'nothing';
+  const canAnswer=incoming&&x.status==='proposed';const canWithdraw=!incoming&&x.status==='proposed';
+  return `<div class="hq-trade-offer"><strong>Offer #${x.id} · ${safe(names[other])} · ${safe(x.status.replaceAll('_',' '))}</strong><p>${safe(names[x.sender_manager_id])} sends: ${safe(offer(x.sender_assets,x.sender_wb))}</p><p>${safe(names[x.recipient_manager_id])} sends: ${safe(offer(x.recipient_assets,x.recipient_wb))}</p>${[...(x.sender_releases||[]).map(id=>names[x.sender_manager_id]+' drops '+nameOf(id)),...(x.recipient_releases||[]).map(id=>names[x.recipient_manager_id]+' drops '+nameOf(id)),...(x.sender_claims||[]).map(id=>names[x.sender_manager_id]+' adds FA '+nameOf(id)),...(x.recipient_claims||[]).map(id=>names[x.recipient_manager_id]+' adds FA '+nameOf(id))].length?`<p><strong>Roster balancing:</strong> ${safe([...(x.sender_releases||[]).map(id=>names[x.sender_manager_id]+' drops '+nameOf(id)),...(x.recipient_releases||[]).map(id=>names[x.recipient_manager_id]+' drops '+nameOf(id)),...(x.sender_claims||[]).map(id=>names[x.sender_manager_id]+' adds FA '+nameOf(id)),...(x.recipient_claims||[]).map(id=>names[x.recipient_manager_id]+' adds FA '+nameOf(id))].join('; '))}</p>`:''}${x.status==='accepted' ? '<p>Accepted · Awaiting commissioner review. No assets moved.</p>':''}<div class="hq-trade-offer-actions">${canAnswer?`<button class="smallbtn" data-trade-action="accepted" data-trade-id="${x.id}">Accept</button><button class="smallbtn" data-trade-action="declined" data-trade-id="${x.id}">Decline</button>`:''}${canWithdraw?`<button class="smallbtn" data-trade-action="withdrawn" data-trade-id="${x.id}">Withdraw</button>`:''}</div></div>`;
+ }
+ async function refreshOffers(){
+  const manager=myId();if(!manager||!leagueClient)return;
+  const {data,error}=await leagueClient.rpc('oua_get_my_trade_offers');
+  if(error){const msg=error.code==='42883'?'Trade sending is not active yet. Install the trade offer SQL.':'Unable to load offers: '+error.message;$('hqIncomingTradeStatus').textContent=msg;$('hqSentTradeStatus').textContent=msg;return;}
+  const rows=data||[],incoming=rows.filter(x=>Number(x.recipient_manager_id)===manager),sent=rows.filter(x=>Number(x.sender_manager_id)===manager);
+  $('hqIncomingTradeStatus').textContent=incoming.length?`${incoming.length} offer(s)`:'No incoming offers yet.';
+  $('hqSentTradeStatus').textContent=sent.length?`${sent.length} offer(s)`:'No offers sent yet.';
+  $('hqIncomingTradeList').innerHTML=incoming.map(x=>listItem(x,'incoming')).join('');
+  $('hqSentTradeList').innerHTML=sent.map(x=>listItem(x,'sent')).join('');
+ }
+ $('trades').addEventListener('click',async e=>{
+  const button=e.target.closest('[data-trade-action]');if(!button)return;
+  const action=button.dataset.tradeAction,id=Number(button.dataset.tradeId);
+  if(!confirm(`Confirm ${action} trade offer #${id}?`))return;
+  button.disabled=true;const {error}=await leagueClient.rpc('oua_respond_trade_offer',{p_offer_id:id,p_action:action});
+  if(error){alert(error.message);button.disabled=false;return;}await refreshOffers();
+ });
+ let previousManager='';
+ setInterval(()=>{if(!$('trades').classList.contains('active'))return;const mine=String(myId()||'');if(mine!==previousManager){previousManager=mine;syncManager();}else refreshRosters();},2500);
+ const previousChangeTab=window.changeTab;window.changeTab=function(tab){previousChangeTab(tab);if(tab==='trades'&&myId()){syncManager();refreshOffers();}};
+ syncManager();
+})();
+</script>
+
+<style id="hq-trade-review-styles">
+#hqCommishTradeReview .hq-trade-queue-summary{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;color:#b5ccd8;font-size:12px}
+#hqCommishTradeReview .hq-trade-pill{display:inline-block;padding:5px 10px;border:1px solid #385870;border-radius:999px;background:#1c3a4e;color:#cfe3ed;font-size:11px;font-weight:800;letter-spacing:.035em}
+#hqCommishTradeReview .hq-trade-pill.attention{border-color:#e8bd73;color:#ffd58f;background:#42351f}
+#hqCommishTradeReview .hq-trade-pill.good{border-color:#66d5ca;color:#66d5ca}
+#hqCommishTradeReview .hq-trade-queue-list{display:grid;gap:12px}
+#hqCommishTradeReview .hq-trade-entry{padding:16px;border:1px solid #385870;border-radius:13px;background:#11283b;display:grid;gap:12px}
+#hqCommishTradeReview .hq-trade-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+#hqCommishTradeReview .hq-trade-sides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#hqCommishTradeReview .hq-trade-side{border:1px solid #314d61;background:#152f44;border-radius:10px;padding:12px;min-width:0}
+#hqCommishTradeReview .hq-trade-side strong{display:block;margin-bottom:7px}
+#hqCommishTradeReview .hq-trade-side .hq-trade-assets{display:grid;gap:4px;font-size:13px}
+#hqCommishTradeReview .hq-trade-risk{color:#ffcf91;font-size:12px;line-height:1.65}
+#hqCommishTradeReview .hq-trade-muted{color:#afc4d1;font-size:12px}
+#hqTradeDraftSummary .hq-trade-roster-warning{padding:10px;border:1px solid #bd8b4d;border-radius:9px;background:#42351f;color:#ffe1aa;font-size:12px;line-height:1.6}
+@media(max-width:650px){#hqCommishTradeReview .hq-trade-sides{grid-template-columns:1fr}}
+</style>
+
+<script id="hq-commissioner-trade-queue-script">
+(function(){
+ const gmNames={1:'Amit',2:'Alex',3:'Robbie',4:'Josh T.',5:'Nolan',6:'Josh N.'};
+ const gmColors={1:'#62d7d0',2:'#f3c47b',3:'#a89cff',4:'#94de8e',5:'#ff83b5',6:'#60a5fa'};
+ const get=id=>document.getElementById(id);
+ const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const num=x=>Number.isFinite(Number(x))?Number(x):0;
+ const names=(arr, roster)=> (arr||[]).map(id=>{
+   const player=(roster||[]).find(r=>r.asset_id===id);
+   return safe(player?.asset_name||id);
+ });
+ const playerRows=roster=>(roster||[]).filter(r=>String(r.asset_type||'').toLowerCase()==='player');
+ const offerStatus=o=>({proposed:'Awaiting recipient',accepted:'Commissioner review needed',declined:'Declined',withdrawn:'Withdrawn',rejected:'Commissioner rejected',executed:'Completed'}[o.status]||o.status);
+ function warnings(o){
+   const a=playerRows(o.sender_roster), b=playerRows(o.recipient_roster);
+   const aGive=o.sender_assets||[],bGive=o.recipient_assets||[];
+   const aAfter=a.length-aGive.length+bGive.length-(o.sender_releases||[]).length+(o.sender_claims||[]).length;
+   const bAfter=b.length-bGive.length+aGive.length-(o.recipient_releases||[]).length+(o.recipient_claims||[]).length;
+   const out=[];
+   if(aAfter!==10) out.push(`${gmNames[o.sender_manager_id]||'Sender'} would have ${aAfter} players (${aAfter>10?'drop '+(aAfter-10):'add '+(10-aAfter)} required).`);
+   if(bAfter!==10) out.push(`${gmNames[o.recipient_manager_id]||'Recipient'} would have ${bAfter} players (${bAfter>10?'drop '+(bAfter-10):'add '+(10-bAfter)} required).`);
+   if(aGive.some(id=>!a.some(p=>p.asset_id===id))||bGive.some(id=>!b.some(p=>p.asset_id===id)))out.push('At least one player has changed ownership since this offer was made.');
+   const ba=Number(o.sender_balance),bb=Number(o.recipient_balance);
+   if(!Number.isFinite(ba)||!Number.isFinite(bb))out.push('Unable to verify both waiver wallets.');
+   else if(ba<num(o.sender_wb)||bb<num(o.recipient_wb))out.push('Waiver Bucks offered exceed a current balance.');
+   // Team balance / positional legality must be checked at execution, after any necessary drops or additions.
+   return out;
+ }
+ function card(o){
+   const a=gmNames[o.sender_manager_id]||`GM ${o.sender_manager_id}`,
+         b=gmNames[o.recipient_manager_id]||`GM ${o.recipient_manager_id}`;
+   const risks=warnings(o);const isAccepted=o.status==='accepted';
+   const date=o.created_at?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(o.created_at)):'';
+   const sendPlayers=names(o.sender_assets,o.sender_roster),recvPlayers=names(o.recipient_assets,o.recipient_roster);
+   return `<article class="hq-trade-entry">
+     <div class="hq-trade-head"><div><strong>Offer #${safe(o.id)} · <span style="color:${gmColors[o.sender_manager_id]||'#62d7d0'}">${safe(a)}</span> ↔ <span style="color:${gmColors[o.recipient_manager_id]||'#62d7d0'}">${safe(b)}</span></strong><div class="hq-trade-muted">Proposed ${safe(date)} · ${safe(offerStatus(o))}</div></div>
+     <span class="hq-trade-pill ${isAccepted?'attention':o.status==='executed'?'good':''}">${safe(isAccepted?'AWAITING YOUR REVIEW':o.status.toUpperCase())}</span></div>
+     <div class="hq-trade-sides">
+       <div class="hq-trade-side"><strong style="color:${gmColors[o.sender_manager_id]||'#62d7d0'}">${safe(a)} sends</strong><div class="hq-trade-assets">${sendPlayers.map(p=>`<div>${p}</div>`).join('')||'<span class="hq-trade-muted">No players</span>'}<div>${num(o.sender_wb)} WB</div></div></div>
+       <div class="hq-trade-side"><strong style="color:${gmColors[o.recipient_manager_id]||'#62d7d0'}">${safe(b)} sends</strong><div class="hq-trade-assets">${recvPlayers.map(p=>`<div>${p}</div>`).join('')||'<span class="hq-trade-muted">No players</span>'}<div>${num(o.recipient_wb)} WB</div></div></div>
+     </div>
+     ${risks.length?`<div class="hq-trade-risk"><strong>⚠ Roster / wallet review:</strong> ${risks.map(safe).join(' ')}</div>`:'<div class="hq-trade-muted">Player count and current ownership checks passed. Final position and trade-window validation still required.</div>'}
+     ${[...(o.sender_releases||[]).map(id=>a+' drops '+(o.sender_roster||[]).find(r=>r.asset_id===id)?.asset_name),...(o.recipient_releases||[]).map(id=>b+' drops '+(o.recipient_roster||[]).find(r=>r.asset_id===id)?.asset_name),...(o.sender_claims||[]).map(id=>a+' adds free agent '+id),...(o.recipient_claims||[]).map(id=>b+' adds free agent '+id)].length?`<div class="hq-trade-approval-note"><strong>Agreed roster balancing:</strong> ${safe([...(o.sender_releases||[]).map(id=>a+' drops '+((o.sender_roster||[]).find(r=>r.asset_id===id)?.asset_name||id)),...(o.recipient_releases||[]).map(id=>b+' drops '+((o.recipient_roster||[]).find(r=>r.asset_id===id)?.asset_name||id)),...(o.sender_claims||[]).map(id=>a+' adds free agent '+id),...(o.recipient_claims||[]).map(id=>b+' adds free agent '+id)].join('; '))}</div>`:''}
+     ${isAccepted?`<div class="hq-trade-approval-buttons"><button class="primary" type="button" data-commish-trade-action="approve" data-offer-id="${o.id}">Approve & execute trade</button><button class="smallbtn" type="button" data-commish-trade-action="reject" data-offer-id="${o.id}">Reject trade</button></div><div class="hq-trade-muted">Final checks run on the server. If assets, balance, or roster positions have changed, approval will fail without moving anything.</div>`:''}
+   </article>`;
+ }
+ let loading=false;
+ async function load(){
+   const el=get('hqTradeQueueList'),summary=get('hqTradeQueueSummary');if(!el||!summary)return;
+   if(!window.hqIsCommissioner)return;
+   if(typeof leagueClient==='undefined'||!leagueClient){summary.textContent='Sign in as commissioner to review trades.';return;}
+   if(loading)return;loading=true;summary.textContent='Loading private trade offers…';
+   try{
+     const {data,error}=await leagueClient.rpc('oua_get_commissioner_trade_queue');
+     if(error)throw error;
+     const rows=Array.isArray(data)?data:[];
+     const accepted=rows.filter(o=>o.status==='accepted').length;
+     const proposed=rows.filter(o=>o.status==='proposed').length;
+     const flagged=rows.filter(o=>warnings(o).length>0).length;
+     summary.innerHTML=`<span class="hq-trade-pill ${accepted?'attention':''}">${accepted} awaiting commissioner</span><span class="hq-trade-pill">${proposed} awaiting GM</span><span class="hq-trade-pill">${rows.length} offers total</span><span class="hq-trade-pill ${flagged?'attention':''}">${flagged} need roster / wallet review</span>`;
+     el.innerHTML=rows.length?rows.map(card).join(''):'<div class="hq-trade-muted">No trade offers have been submitted yet.</div>';
+   }catch(e){summary.textContent='Trade review not available yet. The Commissioner Trade Review SQL may need to be installed.';el.textContent=e?.message||String(e);}
+   finally{loading=false;}
+ }
+ get('hqTradeQueueRefresh')?.addEventListener('click',load);
+ get('hqTradeQueueList')?.addEventListener('click',async event=>{
+   const btn=event.target.closest('[data-commish-trade-action]');if(!btn)return;
+   if(!window.hqIsCommissioner)return;
+   const action=btn.dataset.commishTradeAction,offerId=Number(btn.dataset.offerId);
+   const message=action==='approve'?
+     `FINAL APPROVAL for trade #${offerId}? This will immediately transfer all agreed players, balancing additions/drops and Waiver Bucks. It cannot be undone with a single click.`:
+     `Reject trade #${offerId}? This closes the offer with no roster or wallet changes.`;
+   if(!confirm(message))return;
+   btn.disabled=true;
+   const response=await leagueClient.rpc('oua_commissioner_trade_decision',{p_offer_id:offerId,p_action:action,p_note:null});
+   if(response.error){alert('Trade was NOT executed: '+response.error.message);btn.disabled=false;await load();return;}
+   alert(action==='approve'?'Trade executed. Rosters and WB balances were updated.':'Trade rejected.');
+   if(typeof loadPublicRosters==='function')await loadPublicRosters();
+   if(typeof window.hqRefreshBankBalances==='function')window.hqRefreshBankBalances();
+   await load();
+ });
+ document.addEventListener('click',event=>{if(event.target.closest('nav button[data-tab="admin"]'))setTimeout(load,100);});
+ let prev=false;
+ setInterval(()=>{const active=get('admin')?.classList.contains('active')&&window.hqIsCommissioner;if(active&&!prev)load();prev=!!active;},1500);
+ window.hqRefreshCommissionerTrades=load;
+})();
+</script>
 </body></html>
