@@ -196,6 +196,46 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 .hq-wallet-amounts div:last-child b{color:var(--wallet-gm)}.hq-wallet-warning{margin-top:8px;color:#ffd088;font-size:12px}
 @media(max-width:800px){.hq-wallet-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.hq-wallet-preview-grid{grid-template-columns:1fr}}
+
+/* Home: true current ownership plus separately grouped weekly lineup assignments */
+.dr-lineup-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 10px;padding:9px 11px;background:#1a394d;border:1px solid #365b70;border-radius:9px;font-size:11px;color:#c9e7ed;line-height:1.45}
+.dr-lineup-meta span:first-child{color:#72dfd9;font-weight:750}
+.dr-home-role{border-top:1px solid #36546b;padding-top:13px;display:flex;flex-direction:column;gap:9px}
+.dr-home-role-head{display:flex;align-items:center;justify-content:space-between;color:#ff90c0;font-size:11px;letter-spacing:.8px;text-transform:uppercase}
+.dr-home-role-head span{color:#bdcbd8;letter-spacing:0;font-weight:650}
+.dr-home-role.unassigned .dr-home-role-head{color:#e9c28c}
+.dr-home-unassigned{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dr-home-unassigned .dr-player{background:#1b374b;padding:9px 10px;border-radius:9px}
+.dr-home-help{margin:0!important;line-height:1.5;color:#a9becc}
+
+/* Separate, distinct transaction cards; no nested bid/history clutter. */
+#hqMarketActions .hq-market-waiver-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:17px}
+#hqMarketActions .hq-market-waiver-stack{display:grid;gap:17px}
+#hqMarketActions .hq-market-form-fields,
+#hqMarketActions .hq-market-bids{
+  padding:21px 22px;border-radius:15px;min-width:0;
+  border:1px solid rgba(115,173,197,.31);
+  background:linear-gradient(145deg,rgba(28,62,84,.53),rgba(11,35,55,.65));
+}
+#hqMarketActions .hq-market-waiver-card{margin:0}
+#hqMarketActions .hq-market-bids-card{margin:0}
+#hqMarketActions .hq-market-form-fields{border-top:3px solid rgba(105,218,212,.75)}
+#hqMarketActions .hq-market-form-fields:before{
+  content:'PLACE A BID';color:#72dfd8;font-size:11px;font-weight:850;letter-spacing:.13em;
+}
+#hqMarketActions .hq-market-bids{border-top:3px solid rgba(255,138,187,.7)}
+#hqMarketActions .hq-market-bids h4{font-size:17px;margin-bottom:8px}
+#hqMarketActions .hq-market-bids .tiny{line-height:1.6}
+#hqMarketActions .hq-transfers-history{background:linear-gradient(145deg,rgba(17,51,74,.8),rgba(11,34,53,.8));border-color:rgba(105,218,212,.35);border-top:3px solid #69dad4;margin-top:17px}
+#hqMarketActions #hqMarketFree .hq-market-free-form{
+  border:1px solid rgba(105,218,212,.3);border-top:3px solid #69dad4;
+  border-radius:15px;padding:20px;background:rgba(18,54,74,.35);
+}
+#hqMarketActions .hq-market-pane-head{margin-bottom:16px}
+.dr-home-lineup-warning{margin:10px 0;padding:10px 12px;border-radius:9px;
+  border:1px solid rgba(243,196,123,.45);color:#f3c47b;background:rgba(243,196,123,.08);
+  font-size:12px;line-height:1.5}
+@media(max-width:760px){#hqMarketActions .hq-market-form-fields,#hqMarketActions .hq-market-bids{padding:15px}}
 </style><style>.fa-pager{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:13px;flex-wrap:wrap}.fa-pager .tiny{margin-right:auto}.fa-opponents{white-space:nowrap;color:#a8d9db;font-size:12px}.fa-table td:first-child{min-width:170px}.fa-table th[data-sort]:hover{color:#ff8abb}@media(max-width:650px){.fa-pager{justify-content:center}.fa-pager .tiny{width:100%;text-align:center}} </style><style>.hq-review-target{padding:17px 0;border-bottom:1px solid #35546b}.hq-review-target:last-child{border-bottom:0}#hqCommissionerInbox{background:#10283c;border:1px solid #34516a;border-radius:12px;padding:17px}#hqCommissionerInbox .table th,#hqCommissionerInbox .table td{padding:10px 12px} .fa-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}.fa-summary .card{min-width:0}.fa-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.fa-filters label{min-width:0;font-size:12px;color:var(--muted)}.fa-filters input,.fa-filters select{width:100%;margin-top:6px}.fa-legend{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:16px 0}.fa-table th[data-sort]{cursor:pointer}.fa-table td{white-space:nowrap}.fa-table td:first-child{min-width:175px}.fa-bid{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}@media(max-width:900px){.fa-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.fa-summary{grid-template-columns:1fr}.fa-filters{grid-template-columns:1fr}}</style><style>
 /* Week 1 scoring polish and manager colour system */
 .hq-matchup-detail{margin:17px 0 24px;display:grid;grid-template-columns:minmax(240px,.72fr) minmax(0,1.5fr);gap:13px;align-items:start}
@@ -494,6 +534,99 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 #hqWaiverProcessingCard .hq-wp-footnote{display:flex;align-items:flex-start;gap:10px;background:#122a3e;border:1px solid #2c4b62;border-radius:11px;padding:12px 13px;font-size:11px;color:#a9c5d5;line-height:1.6}
 #hqWaiverProcessingCard .hq-wp-info-icon{border:1.5px solid #68d9d5;color:#68d9d5;width:18px;height:18px;line-height:16px;text-align:center;font-weight:800;border-radius:50%;flex:none}
 @media(max-width:720px){#hqWaiverProcessingCard{padding:19px 15px}#hqWaiverProcessingCard .hq-wp-step{grid-template-columns:1fr;gap:0}#hqWaiverProcessingCard .hq-wp-step-marker{padding:7px 0}#hqWaiverProcessingCard .hq-wp-step-marker:after{display:none}#hqWaiverProcessingCard .hq-wp-step-content{padding:7px 0 18px}#hqWaiverProcessingCard .hq-wp-review-box{margin:7px 0 17px}#hqWaiverProcessingCard .hq-wp-readiness{flex-wrap:wrap}#hqWaiverProcessingCard .hq-wp-refresh{margin-left:auto}#hqWaiverProcessingCard .hq-wp-logo{width:42px;height:42px;font-size:22px}#hqWaiverProcessingCard h3{font-size:19px}}
+
+/* Waiver / Free Agency: separate the two transaction workflows */
+#hqMarketActions{background:linear-gradient(135deg,rgba(21,48,72,.98),rgba(16,37,57,.98));border:1px solid rgba(109,190,208,.27);border-radius:19px;padding:22px;box-shadow:0 12px 32px rgba(0,0,0,.1)}
+#hqMarketActions .hq-market-topline{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:17px}
+#hqMarketActions h3{margin:5px 0 8px;font-size:21px}#hqMarketActions h4{margin:0 0 8px}
+#hqMarketActions .hq-market-live-status{font-size:11px;font-weight:800;color:#74e5d9;border:1px solid rgba(105,218,212,.38);padding:8px 12px;border-radius:25px;background:rgba(105,218,212,.08)}
+#hqMarketActions .hq-market-toggle{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:6px;border-radius:13px;background:rgba(5,21,35,.5);border:1px solid rgba(122,167,192,.17);margin-bottom:16px}
+#hqMarketActions .hq-market-tab{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;border-radius:10px;padding:13px 10px;background:transparent;color:#bad0dc;font-size:15px;font-weight:850;cursor:pointer;transition:background .15s,border-color .15s}
+#hqMarketActions .hq-market-tab small{font-size:11px;font-weight:600;opacity:.78}#hqMarketActions .hq-market-tab.is-active{background:rgba(105,218,212,.14);border-color:rgba(105,218,212,.5);color:#78e8dc}
+#hqMarketActions .hq-market-tab:focus-visible{outline:3px solid #ff8abb;outline-offset:2px}
+#hqMarketActions .hq-market-pane{border:1px solid rgba(130,176,200,.25);border-radius:13px;background:rgba(7,28,46,.34);padding:20px}
+#hqMarketActions .hq-market-pane[hidden],#hqMarketActions #faFreeAddForm[hidden]{display:none!important}
+#hqMarketActions .hq-market-pane-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+#hqMarketActions .hq-market-pane-head .tiny{max-width:620px;line-height:1.55}
+#hqMarketActions .hq-market-waiver-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,.7fr);gap:19px}
+#hqMarketActions .hq-market-form-fields,#hqMarketActions .hq-market-free-form{display:grid;gap:12px;align-content:start}
+#hqMarketActions label{display:grid;gap:6px;font-size:13px;font-weight:700;min-width:0}
+#hqMarketActions select,#hqMarketActions input{width:100%;min-width:0;font-size:14px;min-height:43px;margin:0}
+#hqMarketActions .hq-market-form-fields .primary{width:max-content;max-width:100%;padding:12px 20px}
+#hqMarketActions .hq-market-bids{background:rgba(38,75,99,.22);border-radius:12px;padding:17px;min-width:0}
+#hqMarketActions .fa-bid{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#hqMarketActions .hq-market-free-pill{border-radius:99px;background:rgba(105,218,212,.15);color:#74e5d9;border:1px solid rgba(105,218,212,.3);font-size:11px;letter-spacing:.04em;font-weight:800;padding:8px 11px}
+#hqMarketActions .hq-market-free-rule{display:flex;gap:11px;align-items:center;margin-bottom:14px;color:#e1f0f5}
+#hqMarketActions .hq-market-free-rule>span{border-radius:50%;height:31px;width:31px;display:grid;place-items:center;background:rgba(105,218,212,.15);border:1px solid #69dad4;color:#69dad4;font-weight:850}
+#hqMarketActions .hq-market-free-rule small{display:block;color:#adc5d2;margin-top:5px}
+#hqMarketActions .hq-market-free-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#hqMarketActions .hq-market-swap-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+#hqMarketActions .hq-market-swap-actions .primary{width:auto;padding:12px 22px}
+#hqMarketActions .hq-market-free-result:not(:empty){padding:12px 14px;background:rgba(105,218,212,.09);border:1px solid rgba(105,218,212,.35);border-radius:9px}
+#hqMarketActions .hq-market-free-closed{padding:13px;border:1px solid rgba(243,196,123,.25);border-radius:9px;color:#eecf99;background:rgba(243,196,123,.06);font-size:12px}
+@media(max-width:760px){#hqMarketActions{padding:14px}#hqMarketActions .hq-market-waiver-layout,#hqMarketActions .hq-market-free-fields{grid-template-columns:1fr}#hqMarketActions .hq-market-tab{flex-wrap:wrap;font-size:13px}#hqMarketActions .hq-market-tab small{width:100%;text-align:center}}
+
+#hqMarketActions .hq-fa-preview-btn{color:#77e8df;border:1px solid rgba(105,218,212,.55);background:rgba(105,218,212,.10);border-radius:10px;font-weight:800;padding:12px 17px;min-height:44px}
+#hqMarketActions .hq-fa-preview-btn:hover{background:rgba(105,218,212,.19)}
+#hqMarketActions .hq-fa-preview-panel{padding:18px;border-radius:12px;border:1px solid rgba(105,218,212,.35);background:linear-gradient(125deg,rgba(105,218,212,.10),rgba(12,35,57,.7));display:grid;gap:12px}
+#hqMarketActions .hq-fa-preview-panel[hidden]{display:none!important}
+#hqMarketActions .hq-fa-preview-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#hqMarketActions .hq-fa-preview-badge{font-size:11px;font-weight:900;border-radius:20px;padding:6px 11px;border:1px solid rgba(105,218,212,.4);color:#78e8dc}
+#hqMarketActions .hq-fa-preview-badge.warn{border-color:rgba(243,196,123,.5);color:#f3c47b}
+#hqMarketActions .hq-fa-preview-badge.invalid{border-color:rgba(255,138,187,.65);color:#ff8abb}
+#hqMarketActions .hq-fa-preview-players{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#hqMarketActions .hq-fa-preview-player{background:rgba(8,29,47,.5);border:1px solid rgba(124,168,190,.24);border-radius:10px;padding:12px}
+#hqMarketActions .hq-fa-preview-player small{display:block;color:#aac2ce;margin-bottom:5px}
+#hqMarketActions .hq-fa-position-grid{display:flex;flex-wrap:wrap;gap:8px}
+#hqMarketActions .hq-fa-position-grid span{border:1px solid rgba(124,168,190,.3);border-radius:8px;padding:7px 10px;font-weight:750;font-size:12px}
+#hqMarketActions .hq-fa-position-grid span.short{border-color:rgba(243,196,123,.75);color:#f3c47b}
+#hqMarketActions .hq-fa-refresh-note{margin:0;color:#a9c4d2}
+@media(max-width:600px){#hqMarketActions .hq-fa-preview-players{grid-template-columns:1fr}}
+
+/* Completed transaction history: visually distinct and cost-free */
+.hq-transfers-history{margin-top:24px;border:1px solid rgba(105,218,212,.20);background:linear-gradient(140deg,rgba(105,218,212,.045),rgba(255,138,187,.025));border-radius:16px;padding:20px}
+.hq-transfers-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:13px}
+.hq-transfers-head h4{font-size:18px;letter-spacing:-.3px;margin:3px 0 4px}
+.hq-transfers-head p{margin:0;color:var(--muted);font-size:12px}
+.hq-transfers-update{border:1px solid rgba(105,218,212,.30);color:var(--teal);background:rgba(105,218,212,.07);border-radius:10px;padding:7px 11px;cursor:pointer;font-size:12px}
+.hq-transfers-list{display:grid;gap:9px}
+.hq-transfer-entry{background:rgba(7,21,34,.38);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.hq-transfer-entry{border-left:4px solid var(--move-gm,#69DAD4)}
+.hq-transfer-gm{color:var(--move-gm,#69DAD4)}
+.hq-transfer-player-details{display:block;color:var(--muted);font-size:11px;line-height:1.45;margin-top:4px}
+
+.hq-transfer-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.hq-transfer-gm{font-weight:850;font-size:13px}.hq-transfer-week{color:var(--muted);font-size:11px}
+.hq-transfer-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hq-transfer-side{border-radius:9px;padding:9px 11px;background:rgba(105,218,212,.065);min-width:0}
+.hq-transfer-side.drop{background:rgba(255,138,187,.07)}
+.hq-transfer-side small{display:block;color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.07em;margin-bottom:3px}
+.hq-transfer-side.drop small{color:#ff9dc6}.hq-transfer-side strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.hq-transfer-empty{color:var(--muted);font-size:13px;padding:15px 5px}
+@media(max-width:560px){.hq-transfer-sides{grid-template-columns:1fr}.hq-transfers-history{padding:14px}}
+
+/* Compact transaction history: group completed swaps by GM. */
+.hq-gm-move-group{padding:14px 16px}
+.hq-gm-move-group .hq-transfer-top{margin-bottom:5px}
+.hq-gm-move-count{font-size:11px;font-weight:800;color:var(--muted);background:rgba(255,255,255,.045);border:1px solid var(--line);padding:4px 9px;border-radius:99px}
+.hq-gm-move-rows{display:grid;gap:0}
+.hq-gm-move-row{display:grid;grid-template-columns:105px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0;border-top:1px solid rgba(135,174,192,.16)}
+.hq-gm-move-date{line-height:1.4}
+.hq-gm-move-row .hq-transfer-sides{gap:8px}
+.hq-gm-move-row .hq-transfer-side{padding:8px 10px}
+@media(max-width:650px){.hq-gm-move-row{grid-template-columns:1fr;gap:5px}.hq-gm-move-row .hq-transfer-sides{grid-template-columns:1fr 1fr}}
+@media(max-width:410px){.hq-gm-move-row .hq-transfer-sides{grid-template-columns:1fr}}
+</style><style>
+/* Standalone completed moves section — intentionally independent from action tabs */
+#hqCompletedMovesSection{margin-top:23px;padding:22px;border:1px solid rgba(105,218,212,.31);border-radius:17px;background:linear-gradient(150deg,#152f45,#10283d)}
+#hqCompletedMovesSection .hq-moves-standalone-header{margin-bottom:17px}
+#hqCompletedMovesSection h3{margin:4px 0 7px;font-size:21px}
+#hqCompletedMovesSection .hq-moves-switcher{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 17px;padding:7px;background:#0c2335;border:1px solid #29465c;border-radius:14px}
+#hqCompletedMovesSection .hq-moves-tab{border:1px solid transparent;padding:13px 15px;border-radius:10px;background:transparent;color:#c0d1dc;font-weight:750;text-align:center}
+#hqCompletedMovesSection .hq-moves-tab.is-active{background:rgba(105,218,212,.15);border-color:rgba(105,218,212,.55);color:#75e9e2}
+#hqCompletedMovesSection .hq-moves-panel[hidden]{display:none!important}
+#hqCompletedMovesSection .hq-transfers-history{margin:0!important}
+@media(max-width:620px){#hqCompletedMovesSection{padding:14px}#hqCompletedMovesSection .hq-moves-switcher{grid-template-columns:1fr}}
 </style></head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><div class="hq-roster-title"><div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p></div><span id="hqRosterChecked" class="hq-roster-checked" aria-live="polite">Checking roster moves…</span></div><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
@@ -506,14 +639,70 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 <div class="market-status-foot"><span id="faMarketNext">Select a fantasy week to see its deadlines.</span><button class="smallbtn" id="faJumpToMarket" type="button">Browse players ↓</button></div>
 </div>
 <div class="fa-summary"><div class="card"><div class="tiny">AVAILABLE PLAYERS</div><div class="metric" id="faAvailable">—</div><div class="tiny">Excludes drafted athletes</div></div><div class="card"><div class="tiny">MY WAIVER WALLET</div><div class="metric" id="faWallet">—</div><div class="tiny" id="faWalletNote">Sign in to see your WB</div></div><div class="card"><div class="tiny">NEXT WAIVER DEADLINE</div><div class="metric" id="faDeadline">—</div><div class="tiny" id="faWindowStatus">Loading schedule…</div></div></div>
-<div class="card spaced" id="faMarketTable"><div class="kicker">SCOUT THE MARKET</div><div class="fa-filters"><label>Search player / school<input autocomplete="off" id="faSearch" placeholder="Search athletes…"/></label><label>Position<select id="faPos"><option value="all">All positions</option><option value="OH">OH / Opposite</option><option value="MB">Middle</option><option value="S">Setter</option><option value="L">Libero</option></select></label><label>University<select id="faUni"><option value="all">All universities</option></select></label><label>Upcoming fantasy week<select id="faWeek"></select></label><label>Sort by<select id="faSort"><option value="lastweek">Last completed week · total FP</option><option value="lastavg">Last completed week · FP / game</option><option value="weekendavg">Season · FP / played weekend</option><option value="seasonavg">Season · FP / game</option><option value="upcoming">Upcoming OUA games</option><option value="games">Season games played</option><option value="name">Player name</option></select></label><label>Min. season games<select id="faMinGames"><option value="0">Any</option><option value="1">1+</option><option value="3">3+</option><option value="5">5+</option></select></label></div><div class="fa-legend"><span class="pill">AVAILABLE PLAYER POOL</span><span class="pill warn" id="faScoresBadge">SEASON STATS UNAVAILABLE</span><span class="tiny" id="faCount">Loading…</span></div><div class="tablewrap"><table class="table fa-table"><thead><tr><th data-sort="name">PLAYER / UNIVERSITY</th><th data-sort="position">POS</th><th data-sort="lastweek">LAST WK FP</th><th data-sort="lastavg">LAST WK FP/GP</th><th data-sort="weekendavg">SEASON FP/WKND</th><th data-sort="seasonavg">SEASON FP/GP</th><th data-sort="games">SEASON GP</th><th data-sort="upcoming">UPCOMING GAMES</th><th>UPCOMING OPPONENTS</th><th>CLAIM</th></tr></thead><tbody id="faRows"><tr><td colspan="10">Loading available players…</td></tr></tbody></table></div><div class="fa-pager"><span class="tiny" id="faPageSummary">Showing top 25</span><button class="smallbtn" id="faPrev" type="button">Previous</button><button class="smallbtn" id="faNext" type="button">Next</button></div><p class="smallnote" id="faDataNote">Stats update after each completed fantasy week.</p></div>
-<div class="grid2 spaced"><div class="card stack"><div class="flex" style="align-items:center;justify-content:space-between"><h3 style="margin:0">💰 Place a Waiver Bid</h3><span class="pill" id="faClaimBadge">SIGN IN REQUIRED</span></div><p class="tiny" id="faClaimHelp">During blind bidding, pick a free agent, choose who to drop, and enter your bid. Only winning bids cost Waiver Bucks. Minimum bid: 1 WB.</p><label>Player to claim<select id="waiverPlayer"><option value="">Choose free agent</option></select></label><label>Player to drop<select id="waiverDrop"><option value="">Sign in to load your roster</option></select></label><label>Bid (Waiver Bucks)<input id="bid" min="1" step="1" type="number" value="10"/></label><button class="primary" disabled="" id="faSubmitBid" type="button">Submit private bid</button><p aria-live="polite" class="tiny" id="bidResult" role="status"></p></div><div class="card"><h3>🧾 My Pending Bids</h3><p class="tiny">Only your own bids will be shown. Editing a bid on the same player replaces the earlier amount and drop selection.</p><div class="tiny" id="faMyBids">Sign in to see your bids.</div><hr class="separator"/><h3>⚡ Free Agency</h3><p class="tiny" id="faFreeAgencyHelp">Free pickups open after waiver processing and close Thursday at 11:59 PM.</p>
-<div id="faFreeAddForm" class="hq-free-add" hidden>
-  <label>Free agent to add<select id="faFreeAddPlayer"><option value="">Choose a player</option></select></label>
-  <label>Your player to drop<select id="faFreeDropPlayer"><option value="">Choose a player</option></select></label>
-  <button type="button" id="faFreeSubmit" class="primary">Add / drop · 0 WB</button>
-  <p class="tiny" role="status" aria-live="polite" id="faFreeResult"></p>
-</div></div></div></div><div class="section" id="trades"><div class="kicker">MANAGER TRADING DESK</div><h2>🤝 Trade Centre</h2><p class="muted">Build an offer, review incoming requests, and track trades awaiting approval.</p><div class="card spaced" id="hqTradeDraft" style="margin-top:20px">
+<div class="card spaced" id="faMarketTable"><div class="kicker">SCOUT THE MARKET</div><div class="fa-filters"><label>Search player / school<input autocomplete="off" id="faSearch" placeholder="Search athletes…"/></label><label>Position<select id="faPos"><option value="all">All positions</option><option value="OH">OH / Opposite</option><option value="MB">Middle</option><option value="S">Setter</option><option value="L">Libero</option></select></label><label>University<select id="faUni"><option value="all">All universities</option></select></label><label>Upcoming fantasy week<select id="faWeek"></select></label><label>Sort by<select id="faSort"><option value="lastweek">Last completed week · total FP</option><option value="lastavg">Last completed week · FP / game</option><option value="weekendavg">Season · FP / played weekend</option><option value="seasonavg">Season · FP / game</option><option value="upcoming">Upcoming OUA games</option><option value="games">Season games played</option><option value="name">Player name</option></select></label><label>Min. season games<select id="faMinGames"><option value="0">Any</option><option value="1">1+</option><option value="3">3+</option><option value="5">5+</option></select></label></div><div class="fa-legend"><span class="pill">AVAILABLE PLAYER POOL</span><span class="pill warn" id="faScoresBadge">SEASON STATS UNAVAILABLE</span><span class="tiny" id="faCount">Loading…</span></div><div class="tablewrap"><table class="table fa-table"><thead><tr><th data-sort="name">PLAYER / UNIVERSITY</th><th data-sort="position">POS</th><th data-sort="lastweek">LAST WK FP</th><th data-sort="lastavg">LAST WK FP/GP</th><th data-sort="weekendavg">SEASON FP/WKND</th><th data-sort="seasonavg">SEASON FP/GP</th><th data-sort="games">SEASON GP</th><th data-sort="upcoming">UPCOMING GAMES</th><th>UPCOMING OPPONENTS</th><th>CLAIM</th></tr></thead><tbody id="faRows"><tr><td colspan="10">Loading available players…</td></tr></tbody></table></div><div class="fa-pager"><span class="tiny" id="faPageSummary">Showing top 10</span><button class="smallbtn" id="faPrev" type="button">Previous</button><button class="smallbtn" id="faNext" type="button">Next</button></div><p class="smallnote" id="faDataNote">Stats update after each completed fantasy week.</p></div>
+<div class="hq-market-actions spaced" id="hqMarketActions">
+ <div class="hq-market-topline"><div><div class="kicker">MANAGER TRANSACTIONS</div><h3>Make your next move</h3><p class="tiny">Waivers are blind bids. Free Agency is an immediate 0-WB swap after the waiver cycle is processed.</p></div><span class="hq-market-live-status" id="hqMarketLiveStatus">Checking transaction window…</span></div>
+ <div class="hq-market-toggle" role="tablist" aria-label="Transaction type">
+  <button type="button" role="tab" id="hqMarketTabWaivers" aria-controls="hqMarketWaivers" aria-selected="true" class="hq-market-tab is-active"><span>💰</span> Waivers <small>Bid + history</small></button>
+  <button type="button" role="tab" id="hqMarketTabFree" aria-controls="hqMarketFree" aria-selected="false" class="hq-market-tab"><span>⚡</span> Free Agency <small>Instant add / drop</small></button>
+ </div>
+ <section id="hqMarketWaivers" class="hq-market-pane" role="tabpanel" aria-labelledby="hqMarketTabWaivers">
+  <div class="hq-market-pane-head"><div><div class="kicker">WAIVER WIRE</div><h3>💰 Place a Waiver Bid</h3><p class="tiny" id="faClaimHelp">Bid privately before Tuesday at 11:59 PM. Only winning bids cost WB.</p></div><span class="pill" id="faClaimBadge">SIGN IN REQUIRED</span></div>
+  <div class="hq-market-waiver-stack">
+   <div class="hq-market-form-fields hq-market-waiver-card">
+    <label>Player to claim<select id="waiverPlayer"><option value="">Choose free agent</option></select></label>
+    <label>Player to drop<select id="waiverDrop"><option value="">Sign in to load your roster</option></select></label>
+    <label>Bid (Waiver Bucks)<input id="bid" min="1" step="1" type="number" value="10"/></label>
+    <button class="primary" disabled id="faSubmitBid" type="button">Submit private bid</button>
+    <p aria-live="polite" class="tiny" id="bidResult" role="status"></p>
+   </div>
+   <aside class="hq-market-bids hq-market-bids-card">
+    <div class="kicker">WAIVER SUMMARY</div>
+    <h4 id="hqMarketBidsTitle">🧾 My Waiver Bids</h4>
+    <p class="tiny" id="hqMarketBidsExplainer">Only your own bids appear here.</p>
+    <div class="tiny" id="faMyBids">Sign in to see your bids.</div>
+   </aside>
+  </div>
+
+
+ </section>
+ <section id="hqMarketFree" class="hq-market-pane" role="tabpanel" aria-labelledby="hqMarketTabFree" hidden>
+  <div class="hq-market-pane-head"><div><div class="kicker">FREE AGENCY · NO BIDDING</div><h3>⚡ Instant roster swap</h3><p class="tiny" id="faFreeAgencyHelp">After waivers are processed, add an available player and drop one of yours for 0 WB. The roster updates immediately when the transaction succeeds.</p></div><span class="hq-market-free-pill" id="hqMarketFreeStatus">CHECKING</span></div>
+  <div class="hq-market-free-rule"><span>1</span><div><strong>Pick an available athlete</strong><small>First come, first served. Other GMs can claim the same player until your swap completes.</small></div></div>
+  <div id="faFreeAddForm" class="hq-market-free-form" hidden>
+   <div class="hq-market-free-fields"><label>Free agent to add<select id="faFreeAddPlayer"><option value="">Choose a player</option></select></label><label>Your player to drop<select id="faFreeDropPlayer"><option value="">Choose a player</option></select></label></div>
+   <div class="hq-market-swap-actions"><button type="button" id="faFreePreview" class="smallbtn hq-fa-preview-btn">👁 Preview swap · no changes</button><button type="button" id="faFreeSubmit" class="primary">Confirm add / drop · 0 WB</button></div>
+   <div class="hq-fa-preview-panel" id="faFreePreviewPanel" role="status" aria-live="polite" hidden></div>
+   <p class="tiny hq-fa-refresh-note">Preview only checks current roster/availability and projected positions. Final eligibility is checked again by the database when you confirm. A successful swap updates Home, My Roster and the free-agent list.</p>
+   <p class="tiny hq-market-free-result" role="status" aria-live="polite" id="faFreeResult"></p>
+  </div>
+  <div id="hqMarketFreeClosed" class="hq-market-free-closed">Free Agency becomes available once waivers have been processed for the selected week.</div>
+
+
+ </section>
+</div>
+<!-- Independent completed move history: outside the action mode switcher -->
+<div class="hq-moves-standalone spaced" id="hqCompletedMovesSection">
+ <div class="hq-moves-standalone-header"><div><div class="kicker">LEAGUE TRANSACTION HISTORY</div><h3>🏐 Pickups &amp; drops</h3><p class="tiny">See completed player moves from across the league. No bids or costs displayed.</p></div></div>
+ <div class="hq-moves-switcher" role="tablist" aria-label="Completed move history type">
+  <button id="hqMovesTabWaivers" class="hq-moves-tab is-active" type="button" role="tab" aria-controls="hqMovesPanelWaivers" aria-selected="true">💰 Waiver pickups &amp; drops</button>
+  <button id="hqMovesTabFree" class="hq-moves-tab" type="button" role="tab" aria-controls="hqMovesPanelFree" aria-selected="false">⚡ Free Agency pickups &amp; drops</button>
+ </div>
+ <div class="hq-moves-panel" id="hqMovesPanelWaivers" role="tabpanel" aria-labelledby="hqMovesTabWaivers">
+ <div class="hq-transfers-history" id="hqWaiverMovesHistory">
+  <div class="hq-transfers-head"><div><div class="kicker">COMPLETED TRANSACTIONS</div><h4>🏐 Picked up &amp; dropped on waivers</h4><p>Successful waiver moves only · no bid amounts shown</p></div><button class="hq-transfers-update" type="button" onclick="window.hqReloadMoveHistory?.()">↻ Refresh</button></div>
+  <div class="hq-transfers-list" id="hqWaiverMovesList" aria-live="polite"><div class="hq-transfer-empty">Checking waiver moves…</div></div>
+ </div>
+ </div>
+ <div class="hq-moves-panel" id="hqMovesPanelFree" role="tabpanel" aria-labelledby="hqMovesTabFree" hidden>
+ <div class="hq-transfers-history" id="hqFreeMovesHistory">
+  <div class="hq-transfers-head"><div><div class="kicker">COMPLETED TRANSACTIONS</div><h4>⚡ Picked up &amp; dropped in Free Agency</h4><p>Completed add/drop moves · no costs shown</p></div><button class="hq-transfers-update" type="button" onclick="window.hqReloadMoveHistory?.()">↻ Refresh</button></div>
+  <div class="hq-transfers-list" id="hqFreeMovesList" aria-live="polite"><div class="hq-transfer-empty">Checking Free Agency moves…</div></div>
+ </div>
+ </div>
+</div>
+</div><!-- close Waivers & Free Agency section; keep other tabs independent -->
+<div class="section" id="trades"><div class="kicker">MANAGER TRADING DESK</div><h2>🤝 Trade Centre</h2><p class="muted">Build an offer, review incoming requests, and track trades awaiting approval.</p><div class="card spaced" id="hqTradeDraft" style="margin-top:20px">
  <div class="flex" style="justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><div class="kicker">TRADE CENTRE</div><h3 style="margin:5px 0">🤝 Build a Trade Offer</h3><p class="tiny">Uneven player trades and Waiver Bucks are allowed in a proposal. Both managers and the commissioner must approve before ownership changes.</p></div><span class="pill warn">PROPOSAL DRAFT · NOT SUBMITTED</span></div>
  <div class="hq-trade-grid"><label>Your GM<div id="hqTradeMyName" class="hq-trade-identity">Sign in to manage offers</div></label><label>Trade with<select id="hqTradeTo"><option value="">Select manager</option></select></label></div>
  <div class="hq-trade-grid">
@@ -561,7 +750,7 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
  <div><div class="kicker">CURRENT OWNERSHIP</div><h3 style="margin:5px 0">🏐 All Manager Rosters</h3></div>
  <div class="hq-commish-filters"><label>Fantasy week<select id="hqMovesWeek" aria-label="Commissioner roster week"></select></label><label>Manager<select id="hqMovesGM"><option value="all">All six managers</option><option value="1">Amit</option><option value="2">Alex</option><option value="3">Robbie</option><option value="4">Josh T.</option><option value="5">Nolan</option><option value="6">Josh N.</option></select></label></div>
  </div><p class="tiny hq-commish-context">Current roster ownership, saved starters/bench, and projected assignments from the most recent prior lineup when this week has not been saved. No-game flags use the published match schedule.</p><div id="hqMovesHealthSummary" class="hq-commish-health-summary" aria-live="polite"></div><div id="hqMovesRosters" class="hq-commish-rosters"></div>
- </div><div class="card spaced"><div class="flex" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div class="kicker">PRIVATE COMMISSIONER VIEW</div><h3 style="margin:5px 0">📥 Waiver Review Desk</h3><p class="tiny">Review incoming waiver bids.</p></div><button class="smallbtn" onclick="hqLoadCommissionerQueue()" type="button">Refresh bids</button></div><div class="flex" style="flex-wrap:wrap;margin:10px 0 17px"><label style="max-width:215px">Review fantasy week<select id="hqReviewWeek"><option value="2">Week 2</option></select></label><span class="pill warn">REVIEW ONLY · AWARDS DISABLED</span></div><div class="fa-summary" id="hqCommissionerSummary" style="margin:14px 0"></div><div class="notice" id="hqWaiverReviewNote" style="margin-bottom:12px">Review each target. Positional shortages are warnings, not claim disqualifications.</div><div id="hqWaiverReviewProgress" class="tiny" aria-live="polite" style="margin:8px 0"></div><div class="notice" id="hqCommissionerInbox">Sign in with your commissioner account to see pending bids.</div><p class="smallnote">Highest bid and tied bids are indications only. Final awards must account for standings priority, multiple claims, player ownership, roster legality and available WB. This review is not a verified processing simulation.</p></div>
+ </div><div id="hqWaiverCompletedSummary" class="card spaced" hidden aria-live="polite"></div><div class="card spaced" id="hqWaiverActiveReview"><div class="flex" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div class="kicker">PRIVATE COMMISSIONER VIEW</div><h3 style="margin:5px 0">📥 Waiver Review Desk</h3><p class="tiny">Review incoming waiver bids.</p></div><button class="smallbtn" onclick="hqLoadCommissionerQueue()" type="button">Refresh bids</button></div><div class="flex" style="flex-wrap:wrap;margin:10px 0 17px"><label style="max-width:215px">Review fantasy week<select id="hqReviewWeek"><option value="2">Week 2</option></select></label><span class="pill warn">REVIEW ONLY · AWARDS DISABLED</span></div><div class="fa-summary" id="hqCommissionerSummary" style="margin:14px 0"></div><div class="notice" id="hqWaiverReviewNote" style="margin-bottom:12px">Review each target. Positional shortages are warnings, not claim disqualifications.</div><div id="hqWaiverReviewProgress" class="tiny" aria-live="polite" style="margin:8px 0"></div><div class="notice" id="hqCommissionerInbox">Sign in with your commissioner account to see pending bids.</div><p class="smallnote">Highest bid and tied bids are indications only. Final awards must account for standings priority, multiple claims, player ownership, roster legality and available WB. This review is not a verified processing simulation.</p></div>
 <div class="card spaced" id="hqWaiverBalancesPreview">
  <div class="flex" style="align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="kicker">PRE-AWARD WALLET CHECK · COMMISSIONER</div><h3 style="margin:5px 0">💸 Waiver Bucks Balance Preview</h3><p class="tiny">All six managers · current wallet versus hypothetical highest-bid exposure for the selected week.</p></div><span class="pill warn">ESTIMATE · NOT FINAL AWARDS</span></div>
  <div class="notice" style="margin:10px 0">This is a <b>what-if</b> summary, not the processor's results: for each target, the highest listed bid is counted once. Ineligible wins, dependencies, tie rules and sequential claims can change deductions. Only actual winning bids cost WB.</div>
@@ -643,34 +832,96 @@ const HQ_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_LJmiRdrg6_GWUhAbtR0nPg_pG3xT
 const HQ_MANAGER_NAMES = {1:'Amit',2:'Alex',3:'Robbie',4:'Josh T.',5:'Nolan',6:'Josh N.'};
 let hqPublicRosters = null;
 let hqWeek1Lineups = null;
+let hqPublicLineupRoles = [];
+let hqPublicLineupWeek = 2;
+let hqHomeLineupSource = 'loading';
+let hqPrivateLineupSnapshot = null; // Own verified saved week, refreshed immediately after Save
+let hqLineupRefreshRunning = false;
 let hqLineupError = null;
 let hqRosterError = null;
+function hqHomeWeek(){
+  // Always show the currently playing week on Home, not a historical week
+  // chosen in Analytics / Schedule.
+  return Math.max(1,Math.min(12,Number(typeof hqCurrentWeek!=='undefined'&&hqCurrentWeek>0?hqCurrentWeek:2)));
+}
 function renderOverview(){
   const mByName = Object.fromEntries(managers.map(m=>[m.name,m]));
-  el('homeRosters').classList.add('draft-style-rosters');
-  el('homeRosters').innerHTML=Object.entries(HQ_MANAGER_NAMES).map(([id,name])=>{
+  const root=el('homeRosters');
+  root.classList.add('draft-style-rosters');
+  const week=hqHomeWeek();
+  const rolesByManager=new Map();
+  for(const item of (hqPublicLineupRoles||[])){
+    const key=String(item.manager_id),list=rolesByManager.get(key)||[];
+    list.push(item);rolesByManager.set(key,list);
+  }
+  // The signed-in manager's authenticated exact-week save outranks a stale public
+  // snapshot. This prevents recently acquired waiver starters from looking unassigned.
+  if(hqPrivateLineupSnapshot && Number(hqPrivateLineupSnapshot.week)===week &&
+     leagueManager && Number(hqPrivateLineupSnapshot.manager_id)===Number(leagueManager.manager_id)){
+    rolesByManager.set(String(leagueManager.manager_id), hqPrivateLineupSnapshot.rows);
+  }
+  const normPos=x=>({LS:'OH',RS:'OH',OPP:'OH',OS:'OH',M:'MB',LIB:'L'}[String(x||'').trim().toUpperCase()]||String(x||'').trim().toUpperCase());
+  const posOrder={OH:0,MB:1,S:2,L:3};
+  const sortPlayers=arr=>[...arr].sort((a,b)=>(posOrder[normPos(a.position)]??9)-(posOrder[normPos(b.position)]??9)||String(a.asset_name).localeCompare(String(b.asset_name)));
+  const renderPlayer=p=>`<div class="dr-player"><div class="dr-player-name">${escapeHtml(p.asset_name)}</div><div class="dr-player-meta"><span class="dr-pos-pill">${escapeHtml(normPos(p.position)||'—')}</span><span>${escapeHtml(p.university||'—')}</span></div></div>`;
+  root.innerHTML=Object.entries(HQ_MANAGER_NAMES).map(([id,name])=>{
     const m=mByName[name]||{color:'#69DAD4'};
-    const assets=hqPublicRosters ? hqPublicRosters.filter(p=>String(p.manager_id)===id) : null;
-    const lineups=hqWeek1Lineups ? hqWeek1Lineups.filter(p=>String(p.manager_id)===id) : null;
-    const isWeek1Known=!!lineups && lineups.length===11;
-    const roleById=new Map((lineups||[]).map(p=>[p.asset_id,p.lineup_role]));
-    const status=assets ? `${assets.length} assets` : (hqRosterError?'Connection unavailable':'Loading…');
-    const renderPlayer=(p)=>`<div class="dr-player"><div class="dr-player-name">${escapeHtml(p.asset_name)}</div><div class="dr-player-meta"><span class="dr-pos-pill">${escapeHtml(p.position||'—')}</span><span>${escapeHtml(p.university||'—')}</span></div></div>`;
-    const group=(pos,label,target)=>{
-      const players=assets.filter(p=>p.asset_type==='player' && p.position===pos && (!isWeek1Known || roleById.get(p.asset_id)==='starter'))
-        .sort((a,b)=>a.asset_name.localeCompare(b.asset_name));
-      return `<section class="dr-position"><div class="dr-position-head"><span>${label}</span><span>${players.length}${isWeek1Known?' / '+target:''}</span></div>`+
-        (players.map(renderPlayer).join('') || '<span class="tiny">—</span>')+'</section>';
+    const assets=Array.isArray(hqPublicRosters)?hqPublicRosters.filter(p=>String(p.manager_id)===id):null;
+    const players=(assets||[]).filter(p=>String(p.asset_type).toLowerCase()==='player');
+    const university=(assets||[]).filter(p=>['university','team'].includes(String(p.asset_type).toLowerCase()));
+    const roles=rolesByManager.get(id)||[];
+    const roleById=new Map(roles.map(r=>[String(r.asset_id),String(r.lineup_role||'').toLowerCase()]));
+    const starters=sortPlayers(players.filter(p=>roleById.get(String(p.asset_id))==='starter'));
+    const bench=sortPlayers(players.filter(p=>roleById.get(String(p.asset_id))==='bench'));
+    const unassigned=sortPlayers(players.filter(p=>!['starter','bench'].includes(roleById.get(String(p.asset_id)))));
+    const sourceWeeks=roles.map(r=>Number(r.source_week||r.fantasy_week||1));
+    const sourceWeek=sourceWeeks.length?Math.max(...sourceWeeks):null;
+    const savedHere=sourceWeek===week;
+    const label=savedHere?`Week ${week} saved selections`:sourceWeek!==null?`Projected from Week ${sourceWeek} · Week ${week} not saved`:'No saved lineup available';
+    const lineupWarning=savedHere && (starters.length!==8||bench.length!==2)?`<div class="dr-home-lineup-warning" role="status">⚠ Saved lineup shows ${starters.length}/8 starters and ${bench.length}/2 bench. Refresh My Roster or save again before lock.</div>`:'';
+    const group=(pos,title)=>{
+      const items=starters.filter(p=>normPos(p.position)===pos);
+      return `<section class="dr-position"><div class="dr-position-head"><span>${title}</span><span>${items.length}</span></div>${items.map(renderPlayer).join('')||'<span class="tiny">—</span>'}</section>`;
     };
-    const benchPlayers=isWeek1Known ? assets.filter(p=>roleById.get(p.asset_id)==='bench').sort((a,b)=>a.asset_name.localeCompare(b.asset_name)) : [];
-    const benchSection=isWeek1Known ? `<section class="dr-bench"><div class="dr-position-head"><span>BENCH</span><span>${benchPlayers.length} / 2</span></div><div class="dr-bench-players">${benchPlayers.map(renderPlayer).join('')||'<span class="tiny">No matching current players</span>'}</div></section>` : `<div class="dr-bench-pending">Bench details are temporarily unavailable.</div>`;
-    const content=!assets ? `<p class="tiny">${escapeHtml(hqRosterError||'Fetching current rosters…')}</p>` :
-      `<div class="dr-top-positions">${group('OH','OH',4)}${group('MB','MB',2)}</div>`+
-      `<div class="dr-bottom-positions">${group('S','S',1)}${group('L','L',1)}</div>`+
-      benchSection+
-      `<div class="dr-team"><span>University team</span><strong>${assets.filter(p=>p.asset_type==='university').map(p=>escapeHtml(p.university||p.asset_name)).join(', ')||'—'}</strong></div>`;
+    const row=(title,items,cls)=>`<section class="dr-home-role ${cls}"><div class="dr-home-role-head"><b>${title}</b><span>${items.length}</span></div><div class="${cls==='bench'?'dr-bench-players':'dr-home-unassigned'}">${items.map(renderPlayer).join('')||'<span class="tiny">None</span>'}</div></section>`;
+    const status=assets?`${assets.length} assets`:(hqRosterError?'Connection unavailable':'Loading…');
+    const content=!assets?`<p class="tiny">${escapeHtml(hqRosterError||'Fetching current rosters…')}</p>`:
+      `<div class="dr-lineup-meta"><span>${escapeHtml(label)}</span><span>${starters.length}/8 starters · ${bench.length}/2 bench</span></div>`+lineupWarning+
+      `<div class="dr-top-positions">${group('OH','Starting OH')}${group('MB','Starting MB')}</div>`+
+      `<div class="dr-bottom-positions">${group('S','Starting S')}${group('L','Starting L')}</div>`+
+      row('Bench',bench,'bench')+
+      (unassigned.length?row('Unassigned · currently owned',unassigned,'unassigned'):'')+
+      `<div class="dr-team"><span>University team</span><strong>${university.map(p=>escapeHtml(p.university||p.asset_name)).join(', ')||'—'}</strong></div>`+
+      `<p class="tiny dr-home-help">Current ownership shown throughout. New waiver / free-agent acquisitions appear as unassigned until a manager saves an updated lineup.</p>`;
     return `<article class="dr-roster" style="--gm:${m.color}"><div class="dr-roster-head"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(status)}</span></div>${content}</article>`;
   }).join('');
+  if(typeof enhanceHomeRosters==='function')enhanceHomeRosters();
+}
+async function hqRefreshHomeLineups(){
+  if(hqLineupRefreshRunning)return;
+  hqLineupRefreshRunning=true;
+  const week=hqHomeWeek();
+  const headers={apikey:HQ_SUPABASE_PUBLISHABLE_KEY,Accept:'application/json'};
+  try{
+    // Read-only public RPC exposes only lineup roles and a source week.
+    const resp=await fetch(HQ_SUPABASE_URL+'/rest/v1/rpc/oua_get_public_lineup_snapshots',{
+      method:'POST',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({p_week:week}),cache:'no-store'
+    });
+    if(!resp.ok)throw Error('Public lineup snapshot unavailable ('+resp.status+')');
+    const rows=await resp.json();
+    if(!Array.isArray(rows))throw Error('Unexpected lineup snapshot');
+    hqPublicLineupRoles=rows;hqPublicLineupWeek=week;hqHomeLineupSource='live';hqLineupError=null;
+  }catch(err){
+    // Graceful pre-install fallback: use the pre-existing Week 1 public view.
+    // Never claim a Week 1 lineup is the currently saved Week 2 lineup.
+    hqLineupError=err.message||'Current lineup snapshot unavailable';
+    if(Array.isArray(hqWeek1Lineups)){
+      hqPublicLineupRoles=hqWeek1Lineups.map(r=>({...r,source_week:1}));
+      hqHomeLineupSource='week1-fallback';
+    }else{
+      hqPublicLineupRoles=[];hqHomeLineupSource='unavailable';
+    }
+  }finally{hqLineupRefreshRunning=false;renderOverview();}
 }
 async function loadPublicRosters(){
   hqRosterError=null;renderOverview();
@@ -692,6 +943,7 @@ async function loadPublicRosters(){
     hqWeek1Lineups=data;
   }catch(error){hqLineupError=error.message||'Unable to load lineups';}
   renderOverview();
+  await hqRefreshHomeLineups();
   if(!hqRosterError)hqStampRosterCheck(true);
   // Player leaderboard may have rendered before the ownership request finished.
   if(typeof window.hqRenderGMAnalytics==='function')window.hqRenderGMAnalytics();
@@ -727,6 +979,7 @@ async function hqRefreshOwnership(){
    // A completed waiver or free-agent move must update the leaderboard owner labels.
    if(typeof window.hqRenderGMAnalytics==='function')window.hqRenderGMAnalytics();
   }
+  await hqRefreshHomeLineups();
   hqStampRosterCheck(true);
  }catch(error){hqStampRosterCheck(false);console.warn('Ownership refresh:',error);}
  finally{hqRosterRefreshRunning=false;}
@@ -828,7 +1081,7 @@ function renderLeagueAnalytics(){
  if(typeof window.hqRenderGMAnalytics==='function') window.hqRenderGMAnalytics();
 }
 
-const faState={pool:[],owned:new Set(),wallet:null,walletError:false,bids:[],weekWindows:[],scoring:[],loaded:false,page:0,pageSize:25};
+const faState={pool:[],owned:new Set(),wallet:null,walletError:false,bids:[],weekWindows:[],scoring:[],loaded:false,page:0,pageSize:10};
 const faElement=id=>document.getElementById(id);
 const faSafe=x=>escapeHtml(String(x??''));
 const faNumber=x=>x==null||!Number.isFinite(Number(x))?'—':Number(x).toFixed(1);
@@ -870,43 +1123,6 @@ function faFreeOpen(){
  const lock=w.locks_at?Date.parse(w.locks_at):Infinity;
  return now>=Date.parse(w.waivers_processed_at)&&now<Math.min(fridayClose,lock);
 }
-function faRenderFreeAdd(){
- const box=faElement('faFreeAddForm');if(!box)return;
- const open=faFreeOpen();box.hidden=!open;
- if(!open)return;
- const add=faElement('faFreeAddPlayer'),drop=faElement('faFreeDropPlayer');
- const available=faState.pool.filter(p=>!faState.owned.has(p.asset_id));
- hqReconcileWaiverSelect(add,'Choose an available player',available,
-  p=>`${p.asset_name} · ${p.university} (${p.position})`);
- const players=leagueManager?leagueAssets.filter(p=>p.asset_type==='player'):[];
- hqReconcileWaiverSelect(drop,'Choose your player to drop',players,
-  p=>`${p.asset_name} · ${p.university}`,String(leagueManager?.manager_id??'signed-out'));
- faElement('faFreeSubmit').disabled=!leagueManager;
-}
-async function faSubmitFreeAdd(){
- const msg=faElement('faFreeResult');
- if(!leagueManager){msg.textContent='Sign in to make a free pickup.';return;}
- if(!faFreeOpen()){msg.textContent='Free agency is closed for this week.';return;}
- const target=faElement('faFreeAddPlayer').value,drop=faElement('faFreeDropPlayer').value;
- if(!target||!drop||target===drop){msg.textContent='Choose an available player and a different player to drop.';return;}
- const button=faElement('faFreeSubmit');button.disabled=true;msg.textContent='Checking your roster change…';
- try{
-  // This server action must be installed separately; no direct table writes from the browser.
-  const {error}=await leagueClient.rpc('execute_league_free_agent_add',{
-   p_week:Number(faElement('faWeek').value),p_target_asset_id:target,p_drop_asset_id:drop
-  });
-  if(error){msg.textContent=/function.*does not exist|not found|schema cache/i.test(error.message||'')?'Free-agent pickups are not activated yet. Contact the commissioner.':error.message;return;}
-  msg.textContent='Free pickup completed · 0 WB charged.';
-  await faFetch();await authLoad();
- }catch(err){msg.textContent='Could not complete pickup: '+(err?.message||'Please try again.');}
- finally{button.disabled=false;}
-}
-function faIsOpen(){const w=faWindow(),now=Date.now();return Boolean(w&&Date.parse(w.opens_at)<=now&&now<Date.parse(w.waivers_close_at)&&!w.waivers_processed_at);}
-function renderFreeAgents(){if(!faState.loaded)return;const rows=faRowsFiltered(),w=faWindow(),open=faIsOpen(),last=faLastCompletedWeek();faElement('faAvailable').textContent=faState.pool.filter(p=>!faState.owned.has(p.asset_id)).length;faElement('faWallet').textContent=faState.wallet===null?'—':faState.wallet+' WB';faElement('faWalletNote').textContent=!leagueManager?'Sign in to view your balance':faState.walletError?'Balance unavailable · try refreshing':faState.wallet===null?'Checking balance…':'Available waiver bucks';faElement('faDeadline').textContent=w?.waivers_close_at?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(w.waivers_close_at)):'—';faElement('faWindowStatus').textContent=open?'Bidding OPEN':w?.waivers_processed_at?'Waivers processed':Date.now()<Date.parse(w?.opens_at)?'Bidding not open yet':'Bidding closed';faElement('faClaimBadge').textContent=open&&leagueManager?'BIDDING OPEN':!leagueManager?'SIGN IN REQUIRED':'BIDDING CLOSED';faElement('faSubmitBid').disabled=!(open&&leagueManager&&faState.wallet!==null);faElement('faCount').textContent=rows.length+' matching available players';faElement('faScoresBadge').textContent=faState.scoring.length?'WEEKLY FP AVAILABLE':'NO WEEKLY POINTS YET';faElement('faDataNote').textContent=faState.scoring.length?'Latest completed week: '+(last?'Week '+last:'none')+'.':'A dash means no current score is available.';
-const pages=Math.max(1,Math.ceil(rows.length/faState.pageSize));faState.page=Math.max(0,Math.min(faState.page,pages-1));const first=faState.page*faState.pageSize;const visibleRows=rows.slice(first,first+faState.pageSize);faElement('faPageSummary').textContent=rows.length?`Showing ${first+1}–${Math.min(first+faState.pageSize,rows.length)} of ${rows.length} players · Page ${faState.page+1} of ${pages}`:'No matching players';faElement('faPrev').disabled=faState.page===0;faElement('faNext').disabled=faState.page>=pages-1;faElement('faRows').innerHTML=visibleRows.length?visibleRows.map(p=>`<tr><td><b>${faSafe(p.asset_name)}</b><div class="tiny">${faSafe(p.university)}</div></td><td><span class="tag">${faSafe(p.position)}</span></td><td>${faNumber(p.lastweek)}</td><td>${faNumber(p.lastavg)}</td><td>${faNumber(p.weekendavg)}</td><td>${faNumber(p.seasonavg)}</td><td>${p.games||'—'}</td><td><b>${p.upcoming}</b></td><td class="fa-opponents">${faSafe(p.opponents)}</td><td><button class="smallbtn fa-claim" data-id="${faSafe(p.asset_id)}">Select</button></td></tr>`).join(''):'<tr><td colspan="10" class="empty">No available athletes match these filters.</td></tr>';
-// Never replace <option> nodes while a manager has a native dropdown open.
-// Safari can close/reposition a popup when its children are rewritten, even
-// when the selected ID remains identical. Reconcile on blur instead.
 function hqReconcileWaiverSelect(select, placeholder, assets, label, keyScope=''){
  if(!select)return;
  const ids=assets.map(a=>String(a.asset_id));
@@ -930,6 +1146,136 @@ function hqReconcileWaiverSelect(select, placeholder, assets, label, keyScope=''
  select.value=ids.includes(previous)?previous:'';
  select.dataset.poolKey=key;
 }
+
+let hqMarketSelectedMode=null;
+let hqMarketLastWeek=null;
+function hqSetMarketMode(mode){
+ const selected=mode==='free'?'free':'waivers';hqMarketSelectedMode=selected;
+ for(const [name,tab,pane] of [['waivers','hqMarketTabWaivers','hqMarketWaivers'],['free','hqMarketTabFree','hqMarketFree']]){
+  const active=name===selected;
+  const b=faElement(tab),p=faElement(pane);
+  if(b){b.classList.toggle('is-active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;}
+  if(p)p.hidden=!active;
+ }
+}
+function hqUpdateMarketMode(){
+ const week=Number(faElement('faWeek')?.value||2),w=faWindow(),processed=!!w?.waivers_processed_at;
+ // Default to the active transaction workflow; do not override manual tab switches.
+ if(hqMarketSelectedMode===null||hqMarketLastWeek!==week){hqMarketLastWeek=week;hqSetMarketMode(processed?'free':'waivers');}
+ const status=faElement('hqMarketLiveStatus'),freeStatus=faElement('hqMarketFreeStatus');
+ if(status)status.textContent=processed?(faFreeOpen()?'⚡ Free Agency OPEN':'Waivers processed · Free Agency closed'):(faIsOpen()?'💰 Waiver bidding OPEN':'Waivers not open');
+ if(freeStatus)freeStatus.textContent=faFreeOpen()?'OPEN · 0 WB':'CLOSED';
+ const closed=faElement('hqMarketFreeClosed');if(closed){closed.hidden=faFreeOpen();closed.textContent=processed?'Free Agency is closed for this week. Completed roster moves remain saved.':'Free Agency opens after commissioner waiver processing.';}
+ const title=faElement('hqMarketBidsTitle'),hint=faElement('hqMarketBidsExplainer');
+ if(title)title.textContent=processed?'🧾 My completed-week bids':'🧾 My pending bids';
+ if(hint)hint.textContent=processed?'Historical bids from this cycle — these are not active new charges.':'Only your own bids are shown. You can edit or cancel before bidding closes.';
+}
+document.addEventListener('change',event=>{if(event.target.matches('#faFreeAddPlayer,#faFreeDropPlayer,#faWeek'))hqClearFaPreview();});
+document.addEventListener('click',event=>{
+ if(event.target.closest('#hqMarketTabWaivers'))hqSetMarketMode('waivers');
+ if(event.target.closest('#hqMarketTabFree'))hqSetMarketMode('free');
+});
+function faRenderFreeAdd(){
+ const box=faElement('faFreeAddForm');if(!box)return;
+ const open=faFreeOpen();box.hidden=!open;
+ if(!open)return;
+ const add=faElement('faFreeAddPlayer'),drop=faElement('faFreeDropPlayer');
+ const available=faState.pool.filter(p=>!faState.owned.has(p.asset_id));
+ hqReconcileWaiverSelect(add,'Choose an available player',available,
+  p=>`${p.asset_name} · ${p.university} (${p.position})`);
+ const players=leagueManager?leagueAssets.filter(p=>p.asset_type==='player'):[];
+ hqReconcileWaiverSelect(drop,'Choose your player to drop',players,
+  p=>`${p.asset_name} · ${p.university} (${p.position||'—'})`,String(leagueManager?.manager_id??'signed-out'));
+ if(hqFaPreviewKey&&hqFaPreviewKey!==hqFaCurrentSelectionKey())hqClearFaPreview();
+ faElement('faFreeSubmit').disabled=!leagueManager;
+}
+let hqFaPreviewKey = null;
+function hqClearFaPreview(){
+ hqFaPreviewKey=null;
+ const panel=faElement('faFreePreviewPanel');if(panel){panel.hidden=true;panel.innerHTML='';}
+}
+function hqFaCurrentSelectionKey(){return JSON.stringify([Number(faElement('faWeek')?.value||2),String(leagueManager?.manager_id||''),faElement('faFreeAddPlayer')?.value||'',faElement('faFreeDropPlayer')?.value||'']);}
+function hqFaNormPosition(p){const v=String(p||'').trim().toUpperCase();return ({OPP:'OH',LS:'OH',RS:'OH',OS:'OH',M:'MB',LIB:'L'})[v]||v;}
+async function faPreviewFreeAdd(){
+ const panel=faElement('faFreePreviewPanel');if(!panel)return;
+ panel.hidden=false;
+ panel.textContent='Checking current player ownership and projected roster…';
+ hqFaPreviewKey=null;
+ const target=faElement('faFreeAddPlayer')?.value,drop=faElement('faFreeDropPlayer')?.value;
+ if(!leagueClient||!leagueManager){panel.textContent='Sign in as a league manager to preview a swap.';return;}
+ if(!faFreeOpen()){panel.textContent='Free Agency is currently closed. No swap can be submitted.';return;}
+ if(!target||!drop||target===drop){panel.textContent='Choose an available athlete and one player on your roster to drop first.';return;}
+ const key=hqFaCurrentSelectionKey();
+ try{
+  // Fresh read only: never execute the add/drop RPC in preview mode.
+  const [rosters,pool]=await Promise.all([
+   leagueClient.from('league_rosters').select('manager_id,asset_id,asset_type,asset_name,position').range(0,999),
+   leagueClient.from('league_player_pool').select('asset_id,asset_name,position,university').eq('asset_id',target).maybeSingle()
+  ]);
+  if(rosters.error)throw rosters.error;
+  if(pool.error)throw pool.error;
+  if(key!==hqFaCurrentSelectionKey())return;
+  const rows=rosters.data||[],targetPlayer=pool.data;
+  const mine=rows.filter(r=>String(r.manager_id)===String(leagueManager.manager_id));
+  const dropPlayer=mine.find(r=>String(r.asset_id)===String(drop)&&String(r.asset_type).toLowerCase()==='player');
+  const targetOwned=rows.some(r=>String(r.asset_id)===String(target));
+  const issues=[];
+  if(!targetPlayer)issues.push('Target is missing from the available player pool.');
+  if(targetOwned)issues.push('Target is already owned by a manager.');
+  if(!dropPlayer)issues.push('Selected drop is not on your current roster.');
+  const remaining=mine.filter(r=>String(r.asset_id)!==String(drop));
+  if(targetPlayer)remaining.push({...targetPlayer,asset_type:'player'});
+  const players=remaining.filter(r=>String(r.asset_type).toLowerCase()==='player');
+  const teams=remaining.filter(r=>['team','university'].includes(String(r.asset_type).toLowerCase()));
+  if(players.length!==10||teams.length!==1)issues.push('Projected roster must have 10 players and one university team.');
+  const counts={OH:0,MB:0,S:0,L:0};
+  players.forEach(r=>{const pos=hqFaNormPosition(r.position);if(pos in counts)counts[pos]++;});
+  const minimum={OH:4,MB:2,S:1,L:1};
+  const gaps=Object.entries(minimum).filter(([pos,need])=>counts[pos]<need).map(([pos,need])=>`${pos}: ${counts[pos]}/${need}`);
+  const classification=issues.length?'invalid':gaps.length?'warn':'ok';
+  const label=issues.length?'NOT READY':gaps.length?'ROSTER WARNING':'PREVIEW LOOKS GOOD';
+  panel.innerHTML=`<div class="hq-fa-preview-top"><strong>👁 Preview only · 0 WB</strong><span class="hq-fa-preview-badge ${classification}">${label}</span></div>`+
+   `<div class="hq-fa-preview-players"><div class="hq-fa-preview-player"><small>ADD</small><b>${faSafe(targetPlayer?.asset_name||'Unknown player')}</b></div><div class="hq-fa-preview-player"><small>DROP</small><b>${faSafe(dropPlayer?.asset_name||'Not on roster')}</b></div></div>`+
+   `<div><strong>Projected roster · ${players.length} players + ${teams.length} university team</strong><div class="hq-fa-position-grid">${Object.entries(minimum).map(([pos,need])=>`<span class="${counts[pos]<need?'short':''}">${pos} ${counts[pos]}/${need} minimum</span>`).join('')}</div></div>`+
+   (issues.length?`<div style="color:#ffb2d0">⚠ ${issues.map(faSafe).join(' · ')}</div>`:gaps.length?`<div style="color:#f3c47b">⚠ Position warning: ${faSafe(gaps.join(', '))}. Swap can still proceed if the server permits it; fix your lineup before lock.</div>`:'<div style="color:#77e8df">✓ No immediate ownership, roster-size or positional issues found.</div>')+
+   '<div class="tiny">No changes have been made. A preview is not a reservation and cannot guarantee the server will accept the final transaction.</div>';
+  if(!issues.length)hqFaPreviewKey=key;
+ }catch(err){panel.textContent='Unable to complete live preview: '+(err?.message||String(err))+'. Nothing changed.';}
+}
+async function faSubmitFreeAdd(){
+ const msg=faElement('faFreeResult');
+ if(!leagueManager){msg.textContent='Sign in to make a free pickup.';return;}
+ if(!faFreeOpen()){msg.textContent='Free agency is closed for this week.';return;}
+ const target=faElement('faFreeAddPlayer').value,drop=faElement('faFreeDropPlayer').value;
+ if(!target||!drop||target===drop){msg.textContent='Choose an available player and a different player to drop.';return;}
+ const addName=faState.pool.find(p=>String(p.asset_id)===String(target))?.asset_name||'selected free agent';
+ const dropName=leagueAssets.find(p=>String(p.asset_id)===String(drop))?.asset_name||'selected player';
+ if(!window.confirm(`Confirm immediate 0 WB roster swap?\n\nADD: ${addName}\nDROP: ${dropName}\n\nThis changes your live roster as soon as the server approves it. Your saved historical lineups are not changed.`))return;
+ const button=faElement('faFreeSubmit');button.disabled=true;msg.textContent='Submitting your 0 WB roster swap…';
+ try{
+  // This server action must be installed separately; no direct table writes from the browser.
+  const {error}=await leagueClient.rpc('execute_league_free_agent_add',{
+   p_week:Number(faElement('faWeek').value),p_target_asset_id:target,p_drop_asset_id:drop
+  });
+  if(error){msg.textContent=/function.*does not exist|not found|schema cache/i.test(error.message||'')?'Free-agent pickups are not activated yet. Contact the commissioner.':error.message;return;}
+  msg.textContent=`Success! ${addName} is now on your roster; ${dropName} has been dropped. 0 WB spent. Refreshing rosters…`;
+  await authLoad();
+  await faFetch();
+  try{await hqRefreshOwnership();}catch(e){console.warn('Home roster refresh:',e);}
+  hqClearFaPreview();
+  // All selectors and roster cards now reflect fresh ownership. Do not retain
+  // an old choice from before the successful swap.
+  for(const id of ['faFreeAddPlayer','faFreeDropPlayer']){const field=faElement(id);if(field)field.value='';}
+  msg.textContent=`✓ Roster updated immediately: added ${addName}, dropped ${dropName}. 0 WB spent. Home, My Roster and available players refreshed.`;
+ }catch(err){msg.textContent='Could not complete pickup: '+(err?.message||'Please try again.');}
+ finally{button.disabled=false;}
+}
+function faIsOpen(){const w=faWindow(),now=Date.now();return Boolean(w&&Date.parse(w.opens_at)<=now&&now<Date.parse(w.waivers_close_at)&&!w.waivers_processed_at);}
+function renderFreeAgents(){if(!faState.loaded)return;const rows=faRowsFiltered(),w=faWindow(),open=faIsOpen(),last=faLastCompletedWeek();faElement('faAvailable').textContent=faState.pool.filter(p=>!faState.owned.has(p.asset_id)).length;faElement('faWallet').textContent=faState.wallet===null?'—':faState.wallet+' WB';faElement('faWalletNote').textContent=!leagueManager?'Sign in to view your balance':faState.walletError?'Balance unavailable · try refreshing':faState.wallet===null?'Checking balance…':'Available waiver bucks';faElement('faDeadline').textContent=w?.waivers_close_at?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(w.waivers_close_at)):'—';faElement('faWindowStatus').textContent=open?'Bidding OPEN':w?.waivers_processed_at?'Waivers processed':Date.now()<Date.parse(w?.opens_at)?'Bidding not open yet':'Bidding closed';faElement('faClaimBadge').textContent=open&&leagueManager?'BIDDING OPEN':!leagueManager?'SIGN IN REQUIRED':'BIDDING CLOSED';faElement('faSubmitBid').disabled=!(open&&leagueManager&&faState.wallet!==null);faElement('faCount').textContent=rows.length+' matching available players';faElement('faScoresBadge').textContent=faState.scoring.length?'WEEKLY FP AVAILABLE':'NO WEEKLY POINTS YET';faElement('faDataNote').textContent=faState.scoring.length?'Latest completed week: '+(last?'Week '+last:'none')+'.':'A dash means no current score is available.';
+const pages=Math.max(1,Math.ceil(rows.length/faState.pageSize));faState.page=Math.max(0,Math.min(faState.page,pages-1));const first=faState.page*faState.pageSize;const visibleRows=rows.slice(first,first+faState.pageSize);faElement('faPageSummary').textContent=rows.length?`Showing ${first+1}–${Math.min(first+faState.pageSize,rows.length)} of ${rows.length} players · Page ${faState.page+1} of ${pages}`:'No matching players';faElement('faPrev').disabled=faState.page===0;faElement('faNext').disabled=faState.page>=pages-1;faElement('faRows').innerHTML=visibleRows.length?visibleRows.map(p=>`<tr><td><b>${faSafe(p.asset_name)}</b><div class="tiny">${faSafe(p.university)}</div></td><td><span class="tag">${faSafe(p.position)}</span></td><td>${faNumber(p.lastweek)}</td><td>${faNumber(p.lastavg)}</td><td>${faNumber(p.weekendavg)}</td><td>${faNumber(p.seasonavg)}</td><td>${p.games||'—'}</td><td><b>${p.upcoming}</b></td><td class="fa-opponents">${faSafe(p.opponents)}</td><td><button class="smallbtn fa-claim" data-id="${faSafe(p.asset_id)}">Select</button></td></tr>`).join(''):'<tr><td colspan="10" class="empty">No available athletes match these filters.</td></tr>';
+// Never replace <option> nodes while a manager has a native dropdown open.
+// Safari can close/reposition a popup when its children are rewritten, even
+// when the selected ID remains identical. Reconcile on blur instead.
 // Keep native selects stable while managers are using them. A previous version
 // rebuilt the <option> list on every scoring/ownership refresh, interrupting
 // manual selections. Only update the options when the underlying IDs change.
@@ -941,14 +1287,14 @@ hqReconcileWaiverSelect(claimSelect,'Choose an available athlete',available,
 const dropSelect=faElement('waiverDrop');
 const owned=leagueManager?leagueAssets.filter(p=>p.asset_type==='player'):[];
 hqReconcileWaiverSelect(dropSelect,leagueManager?'Choose player to drop':'Sign in to load your roster',owned,
- p=>`${p.asset_name} · ${p.university}`,String(leagueManager?.manager_id??'signed-out'));
+ p=>`${p.asset_name} · ${p.university} (${p.position||'—'})`,String(leagueManager?.manager_id??'signed-out'));
 for(const button of faElement('faRows').querySelectorAll('.fa-claim'))button.onclick=()=>{
  if(!claimIds.includes(button.dataset.id))return;
  claimSelect.value=button.dataset.id;
  claimSelect.dispatchEvent(new Event('change',{bubbles:true}));
  claimSelect.scrollIntoView({behavior:'smooth',block:'center'});
 };
-faElement('faMyBids').innerHTML=!leagueManager?'Sign in to view private bids.':faState.bids.length?faState.bids.map(b=>{const p=faState.pool.find(x=>x.asset_id===b.target_asset_id);return `<div class="fa-bid"><b>${faSafe(p?.asset_name||b.target_asset_id)}</b><span>${b.bid_amount} WB</span><button class="smallbtn" data-cancel="${b.id}" ${open?'':'disabled'}>Cancel</button></div>`}).join(''):'No pending claims for this week.';faElement('faMyBids').querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>faCancelBid(b.dataset.cancel));faRenderFreeAdd();}
+faElement('faMyBids').innerHTML=!leagueManager?'Sign in to view private bids.':faState.bids.length?faState.bids.map(b=>{const p=faState.pool.find(x=>x.asset_id===b.target_asset_id);return `<div class="fa-bid"><b>${faSafe(p?.asset_name||b.target_asset_id)}</b><span>${b.bid_amount} WB</span><button class="smallbtn" data-cancel="${b.id}" ${open?'':'disabled'}>Cancel</button></div>`}).join(''):'No pending claims for this week.';faElement('faMyBids').querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>faCancelBid(b.dataset.cancel));faRenderFreeAdd();hqUpdateMarketMode();}
 async function faFetch(){if(!leagueClient)return;const [pool,owned,windows]=await Promise.all([leagueClient.from('league_player_pool').select('asset_id,asset_name,university,position,roster_evidence,historical_avg_fp').order('asset_name').range(0,999),leagueClient.from('league_rosters').select('asset_id').range(0,999),leagueClient.from('league_week_windows').select('fantasy_week,opens_at,locks_at,waivers_close_at,waivers_processed_at').order('fantasy_week')]);if(pool.error||owned.error){faElement('faRows').innerHTML='<tr><td colspan="10">Unable to load player pool. '+faSafe(pool.error?.message||owned.error?.message)+'</td></tr>';return;}faState.pool=pool.data||[];faState.owned=new Set((owned.data||[]).map(x=>x.asset_id));faState.weekWindows=windows.data||[];faState.loaded=true;await faRefreshPrivate();renderFreeAgents();}
 async function faRefreshPrivate(){faState.wallet=null;faState.walletError=false;faState.bids=[];if(!leagueClient||!leagueManager)return;const week=Number(faElement('faWeek').value);const [wallet,bids]=await Promise.all([leagueClient.from('league_wallets').select('balance').eq('manager_id',leagueManager.manager_id).maybeSingle(),leagueClient.from('league_waiver_bids').select('id,target_asset_id,drop_asset_id,bid_amount').eq('fantasy_week',week).order('submitted_at',{ascending:false})]);if(wallet.error||!wallet.data||!Number.isFinite(Number(wallet.data.balance))){faState.walletError=true;}else faState.wallet=Number(wallet.data.balance);if(!bids.error)faState.bids=bids.data||[];}
 async function faSubmitBid(){if(!leagueManager||faState.wallet===null){faElement('bidResult').textContent='Sign in and check your waiver balance before placing a bid.';return;}if(!faIsOpen()){faElement('bidResult').textContent='Waiver bidding is not open for this week.';return;}const target=faElement('waiverPlayer').value,drop=faElement('waiverDrop').value,amount=Number(faElement('bid').value);if(!target||!drop||!Number.isInteger(amount)||amount<1||amount>faState.wallet){faElement('bidResult').textContent='Select a player, select a drop, and enter a whole-number bid of at least 1 WB, within your balance.';return;}const b=faElement('faSubmitBid');b.disabled=true;const {error}=await leagueClient.rpc('submit_league_waiver_bid',{p_week:Number(faElement('faWeek').value),p_target_asset_id:target,p_drop_asset_id:drop,p_bid_amount:amount});faElement('bidResult').textContent=error?error.message:'Private bid saved. You will only be charged if it wins.';await faRefreshPrivate();renderFreeAgents();}
@@ -1319,6 +1665,20 @@ let hqWaiverProcessBusy=false;
 let hqWaiverProcessReady=false;
 let hqWaiverProcessWeek=2;
 let hqWaiverProcessNeedsVerification=false;
+// Hide stale bids and hypothetical wallet deductions after the database marks a week processed.
+// Previous waiver results remain in roster/transaction history; this hides only the ACTIVE workflow.
+function hqShowWaiverCycleStatus(week, processedAt){
+ const done=Boolean(processedAt);
+ for(const id of ['hqWaiverActiveReview','hqWaiverBalancesPreview','hqWaiverProcessingCard']){
+   const el=document.getElementById(id);if(el)el.hidden=done;
+ }
+ const summary=document.getElementById('hqWaiverCompletedSummary');if(!summary)return;
+ summary.hidden=!done;
+ if(done){
+   const date=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(new Date(processedAt));
+   summary.innerHTML=`<div class="flex" style="align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="kicker">COMPLETED WAIVER CYCLE</div><h3 style="margin:6px 0">✅ Week ${week} waivers finalized</h3><p class="tiny" style="margin:0">Processed ${date}. The previous bids and estimated wallet exposures are archived from the active dashboard. See Recent Roster &amp; Lineup Activity for completed moves, and current wallet balances for actual spending.</p></div><span class="pill" style="background:#174b46;color:#88e8d7;border:1px solid #3b9186">PROCESSED</span></div>`;
+ }
+}
 function hqShowWaiverProcessResult(message,success=false){
  const el=document.getElementById('hqWaiverProcessResult');if(!el)return;
  el.hidden=!message;
@@ -1350,10 +1710,12 @@ async function hqRefreshWaiverProcessStatus(){
  const lock=data.locks_at?Date.parse(data.locks_at):NaN;
  const fmt=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(new Date(d));
  if(data.waivers_processed_at){
+   hqShowWaiverCycleStatus(week,data.waivers_processed_at);
    badge.textContent='PROCESSED';status.textContent='Week '+week+' waivers processed: '+fmt(data.waivers_processed_at)+'. Do not process again.';
    checks.textContent='Check updated team rosters and WB balances, then confirm Free Agency is available to managers within its permitted window.';
    return;
  }
+ hqShowWaiverCycleStatus(week,null);
  if(!Number.isFinite(cutoff)){badge.textContent='NOT CONFIGURED';status.textContent='The waiver bidding close time is not configured.';return;}
  if(Date.now()<cutoff){badge.textContent='BIDDING OPEN';status.textContent='Bidding closes '+fmt(data.waivers_close_at)+'. Processing is blocked until then.';return;}
  if(Number.isFinite(lock)&&Date.now()>=lock){badge.textContent='ROSTER LOCKED';status.textContent='The roster lock has passed. Do not process late waivers without investigating the schedule and downstream lineups.';return;}
@@ -1416,8 +1778,18 @@ async function hqProcessWaivers(){
    try{localStorage.removeItem(hqWaiverReviewStorageKey(week));}catch(e){}
    document.getElementById('hqWaiverConfirmChecks').checked=false;
    document.getElementById('hqWaiverConfirmText').value='';
-   if(typeof faFetch==='function')await faFetch();
-   if(typeof hqLoadCommissionerQueue==='function')await hqLoadCommissionerQueue();
+   // The processing timestamp has already been verified above. A dashboard
+   // refresh failure must never reclassify a completed award as a failed award.
+   const refreshWarnings=[];
+   if(typeof faFetch==='function'){
+     try{await faFetch();}catch(refreshError){refreshWarnings.push('Free Agency refresh: '+(refreshError?.message||String(refreshError)));}
+   }
+   if(typeof hqLoadCommissionerQueue==='function'){
+     try{await hqLoadCommissionerQueue();}catch(refreshError){refreshWarnings.push('Commissioner bid view refresh: '+(refreshError?.message||String(refreshError)));}
+   }
+   if(refreshWarnings.length){
+     hqShowWaiverProcessResult('Week '+week+' IS PROCESSED; the database completion timestamp was verified. The page could not refresh everything automatically: '+refreshWarnings.join('; ')+'. Refresh the page to load current rosters and wallets. Do NOT process again.',true);
+   }
  }catch(e){
    hqShowWaiverProcessResult('Processing request could not be confirmed: '+(e?.message||String(e))+'\n\nCheck the database status and wallets before trying again.');
  }finally{
@@ -1481,6 +1853,7 @@ function renderAccountBar(){
   document.getElementById('hqLogout').onclick=leagueSignOut;
 }
 async function authLoad(){
+  hqPrivateLineupSnapshot=null;
   window.hqIsCommissioner=false;hqRefreshCommissionerNav();
   const {data:{session}}=await leagueClient.auth.getSession();leagueSession=session;leagueManager=null;leagueAssets=[];leagueWeeks=[];leagueBaseline=[];
   if(!session){hqRefreshCommissionerNav();window.hqSyncTradeManager?.();renderSignedOut();if(faState.loaded){faState.wallet=null;faState.bids=[];renderFreeAgents();}return;}
@@ -1514,6 +1887,16 @@ async function loadPrivateLineup(){
   const result=await leagueClient.from('league_lineups').select('asset_id,lineup_role,position,asset_name,university').eq('manager_id',leagueManager.manager_id).eq('fantasy_week',leagueSelectedWeek);
   if(result.error){rosterLive.innerHTML=messageHtml('Unable to read your lineup: '+result.error.message);return;}
   const exact=result.data||[];
+  if(exact.length){
+    hqPrivateLineupSnapshot={week:leagueSelectedWeek,manager_id:leagueManager.manager_id,
+      rows:exact.filter(r=>['starter','bench'].includes(String(r.lineup_role||'').toLowerCase()))
+        .map(r=>({manager_id:leagueManager.manager_id,asset_id:r.asset_id,
+          lineup_role:String(r.lineup_role).toLowerCase(),source_week:leagueSelectedWeek}))};
+  }else if(hqPrivateLineupSnapshot?.manager_id===leagueManager.manager_id &&
+           hqPrivateLineupSnapshot?.week===leagueSelectedWeek){
+    hqPrivateLineupSnapshot=null;
+  }
+  if(typeof renderOverview==='function')renderOverview();
   let source=exact;
   let inherited=false;
   if(!exact.length&&leagueSelectedWeek>1){
@@ -1577,7 +1960,10 @@ function renderLeagueEditor(inherited=false,saved=false){
     const {error}=await leagueClient.rpc('save_league_lineup',{p_week:leagueSelectedWeek,p_bench_asset_ids:[...leagueSelectedBench]});
     if(error){const status=document.getElementById('hqSaveStatus');status.textContent='Could not save: '+error.message;status.classList.add('status-bad');save.disabled=false;return;}
     await loadPrivateLineup();
-    document.getElementById('hqSaveStatus').textContent='✓ Lineup saved successfully.';
+    // Refresh the public version in the same session; a new signup or waiver move
+    // does not require waiting for the minute timer to show the saved starter.
+    if(typeof hqRefreshHomeLineups==='function')await hqRefreshHomeLineups();
+    document.getElementById('hqSaveStatus').textContent='✓ Lineup saved successfully. Home roster synced.';
   };
 }
 async function initLeagueAuth(){
@@ -1648,6 +2034,8 @@ function style(){const e=document.createElement('style');e.textContent=`
 .hq-w1{margin:20px 0}.hq-w1 h3{margin:0 0 13px}.hq-w1-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.hq-w1-game{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:17px}.hq-w1-game .line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:9px 0}.hq-w1-game .won{color:var(--teal);font-weight:850}.hq-w1-game strong{font-size:18px;font-variant-numeric:tabular-nums}.hq-w1-rosters details{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px;margin:9px 0}.hq-w1-rosters summary{cursor:pointer;font-weight:750;display:flex;justify-content:space-between;gap:8px}.hq-w1-rosters table{width:100%;border-collapse:collapse;margin-top:12px}.hq-w1-rosters td,.hq-w1-rosters th{font-size:12px;padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}.hq-w1-rosters td:last-child,.hq-w1-rosters th:last-child{text-align:right}.hq-w1-muted{color:var(--muted);font-size:12px}.hq-w1-out{opacity:.7}.hq-w1-standings{margin:22px 0;min-width:0}.hq-w1-standings .hq-standings-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.hq-w1-standings table{width:100%;min-width:580px;border-collapse:collapse;table-layout:auto}.hq-w1-standings th,.hq-w1-standings td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;white-space:nowrap}.hq-w1-standings th:first-child,.hq-w1-standings td:first-child{width:54px;padding-left:14px}.hq-w1-standings th:nth-child(2),.hq-w1-standings td:nth-child(2){width:30%;font-weight:700}.hq-w1-standings th:nth-child(n+3),.hq-w1-standings td:nth-child(n+3){text-align:center;font-variant-numeric:tabular-nums}.hq-w1-standings tbody tr:hover{background:rgba(105,218,212,.05)}.hq-w1-standings th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.7px}.hq-w1-standings td:last-child,.hq-w1-standings th:last-child{text-align:right;padding-right:18px}.hq-w1-standings .leader{color:var(--teal);font-weight:800}.hq-w1-status{margin:13px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}.hq-now-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:15px;margin-bottom:22px}.hq-now-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}.hq-now-panel h3{font-size:clamp(20px,2vw,26px);letter-spacing:-.5px;margin:7px 0 12px}.hq-now-panel .hq-w1-grid{grid-template-columns:1fr;gap:8px}.hq-now-panel .hq-w1-game{padding:11px 14px}.hq-now-panel .hq-w1-game .line{margin:5px 0}.hq-next-step{padding:10px 0;border-bottom:1px solid var(--line)}.hq-next-step:last-child{border:0}.hq-next-step strong{display:block;color:var(--text);font-size:13px}.hq-next-step span{color:var(--muted);font-size:12px}.hq-now-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.hq-now-actions button{font-size:12px}.hq-now-sub{font-size:13px;color:var(--muted);line-height:1.6}.hq-home-section-title{margin:15px 0 8px}.hq-now-summary{font-size:12px;color:var(--teal)}@media(max-width:900px){.hq-now-grid{grid-template-columns:1fr}}@media(max-width:850px){.hq-w1-grid{grid-template-columns:1fr}}
 
 .hq-upcoming-panel{display:flex;flex-direction:column;gap:0;overflow:hidden}.hq-upcoming-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:20px}.hq-upcoming-head h3{font-size:clamp(22px,2.1vw,29px);margin:7px 0 4px}.hq-upcoming-head .hq-now-sub{margin:0}.hq-upcoming-label{border:1px solid rgba(255,138,187,.36);background:rgba(255,138,187,.10);color:#ff9dc6;border-radius:999px;padding:6px 9px;font-size:10px;letter-spacing:.1em;font-weight:850;white-space:nowrap}.hq-upcoming-callout{display:flex;align-items:center;gap:13px;padding:18px 16px;background:linear-gradient(115deg,rgba(105,218,212,.17),rgba(105,218,212,.04));border:1px solid rgba(105,218,212,.4);border-radius:13px;margin-bottom:22px}.hq-upcoming-callout-icon{display:grid;place-items:center;flex:0 0 37px;width:37px;height:37px;background:rgba(105,218,212,.15);border-radius:11px;font-size:20px}.hq-upcoming-callout strong,.hq-upcoming-callout span:not(.hq-upcoming-callout-icon){display:block}.hq-upcoming-callout strong{font-size:17px;color:var(--text);margin:3px 0 2px}.hq-upcoming-callout div>span{color:#c0d5dd;font-size:12px}.hq-upcoming-kicker{color:var(--teal);font-weight:850;letter-spacing:.1em;font-size:10px}.hq-upcoming-timeline{border-left:1px solid rgba(105,218,212,.25);margin:0 0 18px 7px;display:grid;gap:18px}.hq-upcoming-event{position:relative;padding-left:24px}.hq-upcoming-dot{position:absolute;left:-5px;top:5px;width:9px;height:9px;background:var(--teal);border-radius:50%;box-shadow:0 0 0 4px #142c43}.hq-upcoming-event strong,.hq-upcoming-event small,.hq-upcoming-day{display:block}.hq-upcoming-day{color:var(--teal);font-size:10px;font-weight:850;letter-spacing:.09em;margin-bottom:4px}.hq-upcoming-event strong{font-size:14px;margin-bottom:3px}.hq-upcoming-event small{font-size:12px;color:var(--muted)}.hq-upcoming-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.hq-upcoming-buttons button{flex:1;min-width:120px;padding:11px 13px;border-radius:10px;font-size:12px;font-weight:750}.hq-upcoming-buttons button:first-child{background:var(--teal);color:#0b1a29;border:1px solid var(--teal)}.hq-upcoming-buttons button:last-child{background:transparent;color:var(--text);border:1px solid var(--line)}.hq-upcoming-buttons button span{margin-left:5px}.hq-upcoming-foot{color:var(--muted);font-size:11px;margin:12px 0 0;line-height:1.5}@media(max-width:510px){.hq-upcoming-head{gap:7px}.hq-upcoming-label{font-size:9px}.hq-upcoming-buttons{flex-direction:column}}
+.hq-upcoming-event.hq-week-event-active{background:linear-gradient(100deg,rgba(105,218,212,.15),rgba(105,218,212,.025));border:1px solid rgba(105,218,212,.43);border-radius:12px;padding:10px 12px 10px 25px;margin:-10px -12px -10px -8px}.hq-upcoming-event.hq-week-event-active .hq-upcoming-dot{left:3px;top:16px;background:#ff8abb;box-shadow:0 0 0 5px rgba(255,138,187,.17)}.hq-upcoming-event.hq-week-event-active strong{color:#e9fbff}.hq-upcoming-event.hq-week-event-done strong{color:#b6cbd3}.hq-upcoming-event.hq-week-event-done small{color:#8aabb5}
+.hq-upcoming-event.hq-week-event-done{opacity:.56}.hq-upcoming-event.hq-week-event-done .hq-upcoming-dot{background:#77e8df;box-shadow:0 0 0 4px rgba(105,218,212,.09)}
 `;document.head.appendChild(e);}
 function reorderNavigation(){
  const nav=document.getElementById('nav');if(!nav)return;
@@ -1716,17 +2104,83 @@ function standings(){
  return `<section class="hq-w1-standings"><div class="kicker">REGULAR SEASON · AFTER WEEK 1</div><h3>📊 League standings</h3><div class="hq-standings-scroll"><table><thead><tr><th>#</th><th>Manager</th><th>Wins</th><th>Losses</th><th>Points For</th><th>Points Against</th></tr></thead><tbody>${ranked.map((x,i)=>`<tr><td>${i+1}</td><td class="${i===0?'leader':''}">${esc(NAMES[x.id])}</td><td>${x.w}</td><td>${x.l}</td><td>${fp(x.pf)}</td><td>${fp(x.pa)}</td></tr>`).join('')}</tbody></table></div><p class="hq-w1-muted">Ranked by head-to-head wins, then cumulative fantasy points. Week 1 results only.</p></section>`;
 }
 
+// Week 2 timeline follows the authoritative waiver cycle state. Never infer
+// processing success from the calendar; only waivers_processed_at confirms it.
+let hqUpcomingWindow=null;
+let hqUpcomingLoading=false;
+let hqUpcomingError=false;
+function hqUpcomingFormat(iso){
+ if(!iso)return 'Not scheduled';
+ const d=new Date(iso);if(!Number.isFinite(d.getTime()))return 'Not scheduled';
+ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(d);
+}
+function hqUpcomingRefreshDisplay(){
+ const root=document.querySelector('.hq-upcoming-panel');if(!root)return;
+ const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+ const win=hqUpcomingWindow,now=Date.now();
+ const steps=[['hqWeekBidEvent','bids'],['hqWeekReviewEvent','review'],['hqWeekFreeEvent','free'],['hqWeekLockEvent','lock']];
+ if(!win){
+  set('hqWeekStageBadge','CHECKING STATUS');set('hqWeekStageKicker','WEEK 2 STATUS');
+  set('hqWeekStageTitle',hqUpcomingError?'Could not verify waiver status':'Checking the waiver calendar…');
+  set('hqWeekStageDetail',hqUpcomingError?'League calendar is temporarily unavailable.':'Loading current deadlines and processed awards');
+  set('hqWeekStageFoot','Previous deadlines are shown for reference. Reload to check the current stage.');
+  for(const [id] of steps){const e=document.getElementById(id);if(e){e.classList.remove('hq-week-event-done','hq-week-event-active');}}
+  return;
+ }
+ const close=Date.parse(win.waivers_close_at||''),lock=Date.parse(win.locks_at||'');
+ const processed=win.waivers_processed_at?Date.parse(win.waivers_processed_at):NaN;
+ const closed=Number.isFinite(close)&&now>=close;
+ const awarded=Number.isFinite(processed);
+ // Thursday 11:59 PM ET = two calendar days after Tuesday's 11:59 PM deadline.
+ const faClose=Number.isFinite(close)?Math.min(close+2*86400000,Number.isFinite(lock)?lock:Infinity):NaN;
+ let stage,badge,title,detail,kicker,icon,foot,action,target;
+ if(!closed){stage='bids';badge='WAIVERS OPEN';title='Waiver bids due Tuesday';detail='Deadline: '+hqUpcomingFormat(win.waivers_close_at);kicker='CURRENT DEADLINE';icon='💰';foot='Submit or edit a private waiver bid before bidding closes.';action='Place a waiver bid →';target='waivers';}
+ else if(!awarded){stage='review';badge='UNDER REVIEW';title='Waivers under review';detail='Bidding closed · commissioner reviewing awards';kicker='CURRENT STAGE';icon='📋';foot='Free Agency opens once the commissioner finishes processing waiver claims.';action='View waiver status →';target='waivers';}
+ else if(Number.isFinite(faClose)&&now<faClose){stage='free';badge='FREE AGENCY OPEN';title='Free Agency closes Thursday';detail='Last free add/drop: '+hqUpcomingFormat(new Date(faClose).toISOString());kicker='CURRENT DEADLINE';icon='⚡';foot='Waivers processed. Free agents can be added for 0 WB until the deadline.';action='Explore free agents →';target='waivers';}
+ else if(Number.isFinite(lock)&&now<lock){stage='lock';badge='LINEUP WINDOW';title='Set your Week 2 lineup';detail='Lineup lock: '+hqUpcomingFormat(win.locks_at);kicker='CURRENT DEADLINE';icon='🏐';foot='Free Agency is closed. Save your starters and bench before lineup lock.';action='Set my lineup →';target='roster';}
+ else {stage='complete';badge='MATCHUPS UNDERWAY';title='Week 2 matchups are underway';detail='Lineups locked: '+hqUpcomingFormat(win.locks_at);kicker='CURRENT STAGE';icon='⚔️';foot='Follow the results as new match statistics are published.';action='View matchups →';target='matchups';}
+ set('hqWeekStageBadge',badge);set('hqWeekStageTitle',title);set('hqWeekStageDetail',detail);set('hqWeekStageKicker',kicker);set('hqWeekStageIcon',icon);set('hqWeekStageFoot',foot);
+ const btn=document.getElementById('hqWeekPrimaryAction');if(btn){btn.textContent=action;btn.onclick=()=>changeTab(target);}
+ set('hqWeekBidStatus',closed?'✓ Bidding closed · '+hqUpcomingFormat(win.waivers_close_at):'Open until '+hqUpcomingFormat(win.waivers_close_at));
+ set('hqWeekWaiverStatus',awarded?'✓ Processed · '+hqUpcomingFormat(win.waivers_processed_at):closed?'Commissioner reviewing claims':'Opens after bidding closes');
+ set('hqWeekFreeStatus',!awarded?'Opens when waivers are processed':Number.isFinite(faClose)&&now<faClose?'Open · closes '+hqUpcomingFormat(new Date(faClose).toISOString()):'✓ Free Agency closed');
+ set('hqWeekLockStatus',Number.isFinite(lock)?hqUpcomingFormat(win.locks_at):'Before the first match');
+ const done={bids:closed,review:awarded,free:awarded&&Number.isFinite(faClose)&&now>=faClose,lock:Number.isFinite(lock)&&now>=lock};
+ for(const [id,key] of steps){const el=document.getElementById(id);if(!el)continue;el.classList.toggle('hq-week-event-done',!!done[key]);el.classList.toggle('hq-week-event-active',key===stage);el.setAttribute('aria-current',key===stage?'step':'false');}
+}
+async function hqUpcomingFetchWindow(){
+ if(hqUpcomingLoading)return;hqUpcomingLoading=true;
+ try{
+  let row=null;
+  // Public RPC returns only calendar status, never bids or private manager data.
+  if(typeof leagueClient!=='undefined'&&leagueClient){
+   const {data,error}=await leagueClient.rpc('oua_get_public_waiver_timeline',{p_week:2});
+   if(!error&&data){row=Array.isArray(data)?data[0]:data;}
+  }
+  if(!row&&typeof leagueClient!=='undefined'&&leagueClient){
+   const {data,error}=await leagueClient.from('league_week_windows').select('fantasy_week,waivers_close_at,waivers_processed_at,locks_at').eq('fantasy_week',2).maybeSingle();
+   if(!error&&data)row=data;
+  }
+  if(!row&&typeof faState!=='undefined'&&Array.isArray(faState.weekWindows)){
+   row=faState.weekWindows.find(x=>Number(x.fantasy_week)===2)||null;
+  }
+  if(!row)throw new Error('Week 2 calendar not publicly readable');
+  hqUpcomingWindow=row;hqUpcomingError=false;
+ }catch(error){hqUpcomingError=true;console.warn('Up Next timeline:',error?.message||error);}
+ finally{hqUpcomingLoading=false;hqUpcomingRefreshDisplay();}
+}
 function nextWeekPanel(){return `<section class="hq-now-panel hq-upcoming-panel">
- <div class="hq-upcoming-head"><div><div class="kicker">UP NEXT · WEEK 2</div><h3>Make your next move.</h3><p class="hq-now-sub">Nov 6–7 · Week 2 matchups</p></div><span class="hq-upcoming-label">NEXT UP</span></div>
+ <div class="hq-upcoming-head"><div><div class="kicker">UP NEXT · WEEK 2</div><h3>Make your next move.</h3><p class="hq-now-sub">Nov 6–7 · Week 2 matchups</p></div><span class="hq-upcoming-label" id="hqWeekStageBadge">NEXT UP</span></div>
  <div class="hq-upcoming-pairings" aria-label="Week 2 head-to-head matchups"><div class="hq-upcoming-pairings-title">⚔️ WEEK 2 MATCHUPS</div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#FF8ABB"></span><b>Nolan</b><em>vs</em><b>Josh N.</b><span class="hq-gm-dot" style="--team:#62A6FF"></span></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#F3C47B"></span><b>Alex</b><em>vs</em><b>Amit</b><span class="hq-gm-dot" style="--team:#69DAD4"></span></div><div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:#A89CFF"></span><b>Robbie</b><em>vs</em><b>Josh T.</b><span class="hq-gm-dot" style="--team:#9FE293"></span></div></div>
- <div class="hq-upcoming-callout"><span class="hq-upcoming-callout-icon">⏳</span><div><div class="hq-upcoming-kicker">FIRST DEADLINE</div><strong>Waivers close Tuesday</strong><span>Nov 3 · 11:59 PM ET</span></div></div>
+ <div class="hq-upcoming-callout" id="hqWeekStageCallout"><span class="hq-upcoming-callout-icon" id="hqWeekStageIcon">⏳</span><div><div class="hq-upcoming-kicker" id="hqWeekStageKicker">CURRENT DEADLINE</div><strong id="hqWeekStageTitle">Checking this week’s status…</strong><span id="hqWeekStageDetail">Fetching league schedule</span></div></div>
  <div class="hq-upcoming-timeline">
-  <div class="hq-upcoming-event"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">WED · NOV 4</span><strong>Waiver review</strong><small>Commissioner processes claims</small></div></div>
-  <div class="hq-upcoming-event"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">THU · NOV 5</span><strong>Free agency closes</strong><small>Last add/drop · 11:59 PM ET</small></div></div>
-  <div class="hq-upcoming-event"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">WEEK 2 · FIRST MATCH</span><strong>Lineups lock</strong><small>One hour before first OUA match</small></div></div>
+  <div class="hq-upcoming-event" id="hqWeekBidEvent"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">TUE · NOV 3</span><strong>Waiver bids due · 11:59 PM</strong><small id="hqWeekBidStatus">Private bids close Tuesday at midnight</small></div></div>
+  <div class="hq-upcoming-event" id="hqWeekReviewEvent"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">WED · NOV 4</span><strong>Waivers under review</strong><small id="hqWeekWaiverStatus">Commissioner reviews and processes claims</small></div></div>
+  <div class="hq-upcoming-event" id="hqWeekFreeEvent"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">THU · NOV 5</span><strong>Free agency closes</strong><small id="hqWeekFreeStatus">Last add/drop · 11:59 PM ET</small></div></div>
+  <div class="hq-upcoming-event" id="hqWeekLockEvent"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">WEEK 2 · FIRST MATCH</span><strong>Lineups lock</strong><small id="hqWeekLockStatus">One hour before first OUA match</small></div></div>
  </div>
- <div class="hq-upcoming-buttons"><button type="button" onclick="changeTab('waivers')">Explore free agents <span aria-hidden="true">→</span></button><button type="button" onclick="changeTab('oua-schedule')">View schedule</button></div>
- <p class="hq-upcoming-foot">Scouting is open. Transactions require manager login.</p>
+ <div class="hq-upcoming-buttons"><button type="button" id="hqWeekPrimaryAction" onclick="changeTab('waivers')">Explore free agents <span aria-hidden="true">→</span></button><button type="button" onclick="changeTab('oua-schedule')">View schedule</button></div>
+ <p class="hq-upcoming-foot" id="hqWeekStageFoot">Checking transaction status…</p>
 </section>`;}
 
 function render(){const good=week1.totals.length===6;const hasLineups=week1.lineups.length>0;
@@ -1748,6 +2202,7 @@ function render(){const good=week1.totals.length===6;const hasLineups=week1.line
   const awards=good?`<section id="hqLatestWeekAwards" class="hq-latest-awards" aria-label="Week 1 awards"><div class="hq-awards-heading"><div><div class="kicker">WEEK 1 HIGHLIGHTS</div><h3>🏅 Latest Week Awards</h3></div></div><div class="hq-awards-grid">${weekAward('Highest Score',highest,highest?.fp,'🏆')}${weekAward('Lowest Score',lowest,lowest?.fp,'📉')}${weekAward('Best Bench',bestBench?{id:bestBench[0]}:null,bestBench?.[1],'💺')}</div></section>`:'';
   const latest=good?`<section class="hq-now-panel hq-latest-panel"><div class="kicker">LATEST WEEK · FINAL</div><h3>Week 1 · At a glance</h3><p class="hq-now-sub">Oct 30–31 · All three matchups decided. Alex, Robbie and Amit open the season 1–0.</p><div class="hq-w1-grid">${scorecards}</div><div class="hq-now-actions"><button type="button" onclick="changeTab('matchups')">See roster points</button></div>${awards}</section>`:`<section class="hq-now-panel"><div class="kicker">LATEST WEEK</div><h3>Week 1 · Results</h3><p class="hq-now-sub">Week 1 results are being updated.</p></section>`;
   document.getElementById('hqW1Home').innerHTML=`<div class="hq-now-grid">${latest}${next}</div>`+(good?standings():'');
+  hqUpcomingRefreshDisplay();
   // Hide old duplicated opening-week and awaiting-recap placeholders; preserve the rest of League Home.
   const snapshot=document.querySelector('#home .weekly-snapshot');if(snapshot)snapshot.style.display='none';
   const oldRecap=[...document.querySelectorAll('#home .card')].find(c=>c.querySelector('h3')?.textContent.includes('Latest Weekly Recap'));if(oldRecap)oldRecap.style.display='none';
@@ -1805,6 +2260,9 @@ async function run(){
  const complete=totals.length===6&&Object.entries(expected).every(([id,want])=>Math.abs(managerTotal(scoreFor(Number(id)))-want)<0.001);
  if(!complete)week1.totals=Object.entries(expected).map(([manager_id,total_points])=>({manager_id:Number(manager_id),total_points}));
  render();enrichFreeAgency();enhanceHomeRosters();
+ hqUpcomingFetchWindow();
+ setInterval(hqUpcomingFetchWindow,60000);
+ setInterval(hqUpcomingRefreshDisplay,30000);
  setTimeout(enhanceHomeRosters,1200);setTimeout(enhanceHomeRosters,3500);
  let tries=0;const timer=setInterval(()=>{if(++tries>20||(typeof faState!=='undefined'&&faState.loaded)){clearInterval(timer);enrichFreeAgency();}},350);
  if(!lineupScores.length)console.info('Week 1 player scoring is not publicly readable yet; showing available locked lineups.');
@@ -1879,6 +2337,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 <script>
 document.addEventListener('click',function(event){
+ if(event.target.closest('#faFreePreview'))faPreviewFreeAdd();
  if(event.target.closest('#faFreeSubmit'))faSubmitFreeAdd();
 });
 </script><style id="hq-analysis-features-css">
@@ -1997,7 +2456,13 @@ const role=r=>String(r.lineup_role??r.role??'').toLowerCase();
 function latestCompleteWeek(){
  const perWeek=new Map();
  for(const r of analytics.managers){const w=rowWeek(r);if(!perWeek.has(w))perWeek.set(w,new Set());perWeek.get(w).add(ownId(r));}
- return [...perWeek.entries()].filter(([week,ids])=>week>=1&&ids.size===6).map(([week])=>week).sort((a,b)=>b-a)[0]??null;
+ return [...perWeek.entries()].filter(([week,ids])=>{
+  if(week<1||ids.size!==6)return false;
+  if(week===1)return true; // Verified opening-week final scores.
+  // Do not give 'completed week' awards for provisional in-week imports.
+  const rows=analytics.managers.filter(r=>rowWeek(r)===week);
+  return rows.length>=6&&rows.every(r=>r.is_final===true||r.finalized===true||String(r.status||'').toLowerCase()==='final');
+ }).map(([week])=>week).sort((a,b)=>b-a)[0]??null;
 }
 function renderLatestAwards(){
  const home=document.getElementById('hqW1Home');if(!home)return;
@@ -2018,9 +2483,41 @@ function renderLatestAwards(){
  const award=(label,person,value,icon)=>`<article class="hq-award" style="--award-color:${person?(GM_PALETTE[person.id]||'#69DAD4'):'#69DAD4'}"><div class="hq-award-eyebrow">${icon} ${label}</div>${person?`<strong class="hq-award-manager">${h(person.name)}</strong><span class="hq-award-points">${fmt(value)} <small>FP</small></span>`:'<span class="hq-award-wait">Awaiting bench scores</span>'}</article>`;
  panel.innerHTML=`<div class="hq-awards-heading"><div><div class="kicker">JUST COMPLETED · WEEK ${week}</div><h3>🏅 Latest Week Awards</h3></div><span class="hq-awards-check">${analytics.checkedAt?'Scores checked '+h(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',hour:'numeric',minute:'2-digit',hour12:true}).format(analytics.checkedAt)):'Latest scores'}</span></div><div class="hq-awards-grid">${award('Highest weekly score',best,best?.fp,'🏆')}${award('Lowest weekly score',lowest,lowest?.fp,'📉')}${award('Best bench',benchWinner?{id:benchWinner[0],name:GM_NAMES[benchWinner[0]]}:null,benchWinner?.[1],'💺')}</div>`;
 }
+function hqRenderLiveHomeWeek(){
+ const home=document.getElementById('hqW1Home');if(!home||!analytics.loaded)return;
+ let panel=document.getElementById('hqLiveHomeWeek');
+ if(!panel){panel=document.createElement('section');panel.id='hqLiveHomeWeek';panel.className='hq-live-home-week';home.insertAdjacentElement('beforebegin',panel);}
+ const weeks=analytics.managers.map(rowWeek).filter(w=>Number.isFinite(w)&&w>=2);
+ if(!weeks.length){panel.hidden=true;return;}
+ const week=Math.max(...weeks),rows=analytics.managers.filter(r=>rowWeek(r)===week);
+ const byId=new Map(rows.map(r=>[ownId(r),r]));
+ const ids=[1,2,3,4,5,6];
+ const scores=ids.map(id=>({id,name:GM_NAMES[id]||`GM ${id}`,fp:byId.has(id)?val(byId.get(id).total_points??byId.get(id).total_fp??byId.get(id).fantasy_points):null}));
+ const pct=(v,max)=>Math.max(0,Math.min(100,(v/max)*100));
+ const max=Math.max(1,...scores.map(x=>x.fp??0));
+ const stamp=analytics.checkedAt?new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',hour:'numeric',minute:'2-digit',hour12:true}).format(analytics.checkedAt):'recently';
+ const pairs=week===2?[[5,6],[2,1],[3,4]]:[];
+ const pairsHtml=pairs.map(([a,b])=>{
+  const x=scores.find(r=>r.id===a),y=scores.find(r=>r.id===b);
+  return `<div class="hq-live-match"><span style="color:${GM_PALETTE[a]}">${h(x.name)}</span> <strong>${x.fp===null?'—':fmt(x.fp)} FP</strong><span class="hq-live-vs">vs</span><strong>${y.fp===null?'—':fmt(y.fp)} FP</strong> <span style="color:${GM_PALETTE[b]}">${h(y.name)}</span></div>`;
+ }).join('');
+ panel.hidden=false;
+ panel.innerHTML=`<div class="hq-live-week-head"><div><div class="kicker">LATEST PUBLISHED SCORING · WEEK ${week}</div><h3>🏐 Week ${week} · Scores so far</h3><p class="tiny">Updates when new OUA match statistics are imported · refreshed every 3 minutes while this page is open.</p></div><span class="hq-live-updated">Checked ${h(stamp)} ET</span></div>`+
+ (pairsHtml?`<div class="hq-live-match-grid">${pairsHtml}</div>`:'')+
+ `<div class="hq-live-week-bars">${[...scores].sort((a,b)=>(b.fp??-Infinity)-(a.fp??-Infinity)).map((r,i)=>`<div class="hq-live-week-row"><span>${i+1}. ${h(r.name)}</span><div class="hq-live-track"><div style="width:${r.fp===null?0:pct(r.fp,max)}%;background:${GM_PALETTE[r.id]||'#69DAD4'}"></div></div><strong>${r.fp===null?'Awaiting data':fmt(r.fp)+' FP'}</strong></div>`).join('')}</div>`+
+ `<p class="tiny" style="margin:10px 0 0">Scores are provisional until the week is finalized. No automatic OUA scraping is performed by this page.</p>`;
+}
+const hqLiveHomeCSS=document.createElement('style');hqLiveHomeCSS.textContent=`
+.hq-live-home-week{padding:20px;margin:12px 0 19px;border:1px solid #306079;border-radius:16px;background:linear-gradient(135deg,#12364a,#13283d);}
+.hq-live-week-head{display:flex;justify-content:space-between;gap:16px;align-items:start;flex-wrap:wrap}.hq-live-week-head h3{margin:5px 0;font-size:20px}
+.hq-live-updated{color:#69dad4;border:1px solid #35647a;border-radius:40px;padding:7px 11px;font-size:11px;white-space:nowrap}
+.hq-live-match-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0}.hq-live-match{border:1px solid #34536a;border-radius:10px;padding:11px;font-size:12px;display:flex;flex-wrap:wrap;align-items:center;gap:5px;justify-content:center}.hq-live-vs{color:#a9bdc9}
+.hq-live-week-bars{display:grid;gap:9px;margin:14px 0}.hq-live-week-row{display:grid;grid-template-columns:110px minmax(0,1fr) 105px;gap:10px;align-items:center;font-size:12px}.hq-live-week-row strong{text-align:right;font-variant-numeric:tabular-nums}.hq-live-track{height:9px;border-radius:20px;background:#0c2335;overflow:hidden}.hq-live-track>div{height:100%;border-radius:20px}
+@media(max-width:800px){.hq-live-match-grid{grid-template-columns:1fr}}@media(max-width:540px){.hq-live-week-row{grid-template-columns:77px minmax(0,1fr) 88px;gap:6px;font-size:11px}}
+`;document.head.appendChild(hqLiveHomeCSS);
 function renderAnalytics(){const root=document.getElementById('analytics');if(!root)return;let container=document.getElementById('hqLiveLeagueAnalytics');if(!container){container=document.createElement('div');container.id='hqLiveLeagueAnalytics';container.className='hq-feature-panel';const explorer=document.getElementById('hqAthleteExplorer');const heading=root.querySelector('.sectionintro')||root.querySelector('h2');if(explorer)explorer.insertAdjacentElement('afterend',container);else heading?.insertAdjacentElement('afterend',container);}
  if(!analytics.loaded){container.innerHTML='<h3>League scoreboards</h3><p class="hq-feature-sub">Loading latest completed-week results…</p>';return;}
- renderLatestAwards();const all=analytics.managers,latest=latestCompleteWeek()??Math.max(1,...all.map(rowWeek));const filtered=all.filter(r=>rowWeek(r)===latest);
+ renderLatestAwards();hqRenderLiveHomeWeek();const all=analytics.managers,latest=latestCompleteWeek()??Math.max(1,...all.map(rowWeek));const filtered=all.filter(r=>rowWeek(r)===latest);
  const summaries=filtered.map(r=>({id:ownId(r),name:GM_NAMES[ownId(r)]||String(r.manager_name||'Manager'),fp:val(r.total_points??r.total_fp??r.fantasy_points)})).sort((a,b)=>b.fp-a.fp);
  const roster=analytics.lineups.filter(r=>rowWeek(r)===latest),byp=Object.values(roster.reduce((acc,r)=>{const id=ownId(r),pos=String(r.position||'').toUpperCase();if(!id)return acc;const key=id+'|'+(pos==='TEAM'?'University':pos||'Other');const o=acc[key]||(acc[key]={id,position:pos,points:0});if(role(r)!=='bench')o.points+=points(r);return acc;},{}));
  const max=Math.max(1,...summaries.map(x=>x.fp));
@@ -2684,6 +3181,84 @@ window.hqRefreshRosterMoves=load;
  let prev=false;
  setInterval(()=>{const active=get('admin')?.classList.contains('active')&&window.hqIsCommissioner;if(active&&!prev)load();prev=!!active;},1500);
  window.hqRefreshCommissionerTrades=load;
+})();
+</script>
+<script>
+/* Public completed player movement. Only successful, server-recorded swaps are shown. */
+(function(){
+ let loading=false, lastLoad=0;
+ const escapeMove=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const dateMove=s=>{if(!s)return '';const d=new Date(s);return isNaN(d)?'':new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric'}).format(d);};
+ const gmPalette={1:'#69DAD4',2:'#F3C47B',3:'#A89CFF',4:'#9FE293',5:'#FF8ABB',6:'#62A6FF'};
+ const gmByName={'amit':1,'alex':2,'robbie':3,'josh t.':4,'nolan':5,'josh n.':6};
+ function playerDetails(position,university){
+  const fields=[String(position||'').trim(),String(university||'').trim()].filter(Boolean);
+  return fields.length?`<span class="hq-transfer-player-details">${fields.map(escapeMove).join(' · ')}</span>`:'';
+ }
+ function renderList(id,items){
+  const host=document.getElementById(id);if(!host)return;
+  if(!items.length){host.innerHTML='<div class="hq-transfer-empty">No completed moves recorded yet.</div>';return;}
+  // One GM card containing every completed transaction for that manager.
+  const groups=new Map();
+  for(const r of items){
+   const managerId=Number(r.manager_id)||gmByName[String(r.manager_name||'').trim().toLowerCase()]||0;
+   const key=managerId?String(managerId):String(r.manager_name||'GM').trim().toLowerCase();
+   if(!groups.has(key))groups.set(key,{managerId,name:r.manager_name||'GM',moves:[]});
+   groups.get(key).moves.push(r);
+  }
+  host.innerHTML=[...groups.values()].map(g=>{
+   const color=gmPalette[g.managerId]||'#69DAD4';
+   const rows=g.moves.map(r=>{
+    const wk=Number(r.fantasy_week),day=dateMove(r.completed_at);
+    const label='Week '+(Number.isInteger(wk)?wk:'—')+(day?' · '+escapeMove(day):'');
+    return `<div class="hq-gm-move-row"><span class="hq-transfer-week hq-gm-move-date">${label}</span><div class="hq-transfer-sides"><div class="hq-transfer-side"><small>↑ PICKED UP</small><strong>${escapeMove(r.added_name||'Unknown player')}</strong>${playerDetails(r.added_position,r.added_university)}</div><div class="hq-transfer-side drop"><small>↓ DROPPED</small><strong>${escapeMove(r.dropped_name||'Unknown player')}</strong>${playerDetails(r.dropped_position,r.dropped_university)}</div></div></div>`;
+   }).join('');
+   return `<article class="hq-transfer-entry hq-gm-move-group" style="--move-gm:${color}"><div class="hq-transfer-top"><span class="hq-transfer-gm">${escapeMove(g.name)}</span><span class="hq-gm-move-count">${g.moves.length} ${g.moves.length===1?'move':'moves'}</span></div><div class="hq-gm-move-rows">${rows}</div></article>`;
+  }).join('');
+ }
+ async function reload(){
+  if(loading)return;
+  const waivers=document.getElementById('hqWaiverMovesList'),free=document.getElementById('hqFreeMovesList');
+  if(!waivers||!free)return;
+  if(typeof leagueClient==='undefined'||!leagueClient){waivers.textContent=free.textContent='Connect to League HQ to view completed moves.';return;}
+  loading=true;
+  try{
+   // Detailed endpoint includes position and university; legacy endpoint remains a safe fallback.
+   let {data,error}=await leagueClient.rpc('oua_get_public_player_moves_detailed');
+   if(error && /schema cache|could not find the function|does not exist|PGRST202|42883/i.test(error.message||'')){
+    ({data,error}=await leagueClient.rpc('oua_get_public_player_moves'));
+   }
+   if(error)throw error;
+   const rows=Array.isArray(data)?data:[];
+   renderList('hqWaiverMovesList',rows.filter(r=>r.move_type==='waiver'));
+   renderList('hqFreeMovesList',rows.filter(r=>r.move_type==='free_agent'));
+   lastLoad=Date.now();
+  }catch(e){
+   const msg=/schema cache|could not find the function|does not exist/i.test(e?.message||'')?'Install the completed player moves SQL to show this history.':'Move history unavailable: '+(e?.message||'Could not load');
+   waivers.textContent=free.textContent=msg;
+  }finally{loading=false;}
+ }
+ window.hqReloadMoveHistory=reload;
+ document.addEventListener('click',e=>{if(e.target.closest('[data-tab="waivers"],#hqMarketTabWaivers,#hqMarketTabFree')&&Date.now()-lastLoad>30000)reload();});
+ // Keep lists up to date when the manager finishes a swap and ownership changes.
+ const observer=new MutationObserver(ms=>{if(ms.some(m=>m.target?.id==='faFreeResult' && /roster updated immediately/i.test(m.target.textContent||'')))reload();});
+ const start=()=>{const el=document.getElementById('faFreeResult');if(el)observer.observe(el,{childList:true,characterData:true,subtree:true});reload();};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+ setInterval(()=>{if(document.getElementById('waivers')?.classList.contains('active')&&Date.now()-lastLoad>60000)reload();},60000);
+})();
+</script>
+
+<script>
+(function(){
+ function selectMoveHistory(type){
+  const waiver = type !== 'free';
+  const buttons = [document.getElementById('hqMovesTabWaivers'),document.getElementById('hqMovesTabFree')];
+  const panels = [document.getElementById('hqMovesPanelWaivers'),document.getElementById('hqMovesPanelFree')];
+  buttons.forEach((button,index)=>{if(!button)return;const active=(index===0)===waiver;button.classList.toggle('is-active',active);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;});
+  panels.forEach((panel,index)=>{if(panel)panel.hidden=(index===0)!==waiver;});
+ }
+ document.getElementById('hqMovesTabWaivers')?.addEventListener('click',()=>selectMoveHistory('waivers'));
+ document.getElementById('hqMovesTabFree')?.addEventListener('click',()=>selectMoveHistory('free'));
 })();
 </script>
 </body></html>
