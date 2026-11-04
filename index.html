@@ -609,6 +609,7 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
       <div class="hq-wp-step-content">
         <button type="button" class="primary hq-wp-submit" id="hqWaiverProcessButton" disabled><span aria-hidden="true">✦</span> Process Week 2 Waivers</button>
         <p class="hq-wp-submit-help">Final confirmation appears before any roster or WB changes.</p>
+        <div id="hqWaiverProcessBlockReason" role="status" aria-live="polite" style="margin-top:10px;color:#d0e6ef;font-size:12px;line-height:1.5">Checking waiver processing requirements…</div>
       </div>
     </div>
   </div>
@@ -1344,7 +1345,7 @@ async function hqRefreshWaiverProcessStatus(){
    data=res.data;error=res.error;
  }catch(e){error={message:e?.message||String(e)};}
  if(week!==Number(document.getElementById('hqReviewWeek')?.value||2))return;
- if(error||!data){status.textContent='Cannot verify waiver schedule: '+(error?.message||'Week not found');badge.textContent='UNAVAILABLE';return;}
+ if(error||!data){status.textContent='Cannot verify waiver schedule: '+(error?.message||'Week not found');badge.textContent='UNAVAILABLE';hqUpdateWaiverProcessButton();return;}
  const cutoff=data.waivers_close_at?Date.parse(data.waivers_close_at):NaN;
  const lock=data.locks_at?Date.parse(data.locks_at):NaN;
  const fmt=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(new Date(d));
@@ -1359,17 +1360,41 @@ async function hqRefreshWaiverProcessStatus(){
  badge.textContent='READY FOR REVIEW';
  status.textContent='Week '+week+' bidding closed '+fmt(data.waivers_close_at)+'. The database processing function must make the final award decisions; the review table above does not guarantee results.';
  checks.textContent='Review each athlete group above and check the preflight messages. Positional shortages are WARNINGS and should not automatically invalidate a bid. The live server processor must independently enforce ownership, WB, bidding priority and one-for-one swaps.';
- hqWaiverProcessReady=true;hqUpdateWaiverProcessButton();
+ hqWaiverProcessReady=true;
+ // A fresh database read has verified this week is still unprocessed.
+ // Clear an old uncertainty lock only when no request is currently in flight.
+ if(!hqWaiverProcessBusy) hqWaiverProcessNeedsVerification=false;
+ hqUpdateWaiverProcessButton();
+}
+function hqWaiverProcessingBlockers(){
+ const expected='PROCESS WEEK '+hqWaiverProcessWeek;
+ const reasons=[];
+ if(!window.hqIsCommissioner) reasons.push('Commissioner login is not verified.');
+ if(hqWaiverProcessBusy) reasons.push('A processing request is already in progress.');
+ if(hqWaiverProcessNeedsVerification) reasons.push('Recheck processing status to verify that the previous request did not complete.');
+ if(!hqWaiverProcessReady) reasons.push('The database has not confirmed that Week '+hqWaiverProcessWeek+' is ready.');
+ if(!hqReviewRosters) reasons.push('Current roster data is not loaded. Refresh the bid review.');
+ if(!hqReviewGroupKeys.length) reasons.push('No waiver bid groups are loaded.');
+ const unfinished=hqReviewGroupKeys.filter(k=>!hqReviewDone.has(k)).length;
+ if(unfinished) reasons.push(unfinished+' athlete group'+(unfinished===1?' still needs':'s still need')+' review.');
+ if(!document.getElementById('hqWaiverConfirmChecks')?.checked) reasons.push('Check All waiver claims reviewed.');
+ if(document.getElementById('hqWaiverConfirmText')?.value.trim().toUpperCase()!==expected) reasons.push('Type '+expected+' in the confirmation field.');
+ return reasons;
 }
 function hqUpdateWaiverProcessButton(){
  const button=document.getElementById('hqWaiverProcessButton');if(!button)return;
- const expected='PROCESS WEEK '+hqWaiverProcessWeek;
- button.disabled=!hqWaiverProcessReady||hqWaiverProcessBusy||hqWaiverProcessNeedsVerification||!hqReviewRosters||!hqReviewGroupKeys.length||hqReviewDone.size!==hqReviewGroupKeys.length||!document.getElementById('hqWaiverConfirmChecks')?.checked||document.getElementById('hqWaiverConfirmText')?.value.trim().toUpperCase()!==expected;
+ const reasons=hqWaiverProcessingBlockers();
+ const explanation=document.getElementById('hqWaiverProcessBlockReason');
+ button.disabled=reasons.length>0;
+ if(explanation){
+  explanation.textContent=reasons.length?('Before processing: '+reasons.join(' ')):'All requirements met. This will update live rosters and WB only after your final confirmation.';
+  explanation.style.color=reasons.length?'#ffd69e':'#83e6d9';
+ }
 }
 async function hqProcessWaivers(){
- if(!hqWaiverProcessReady||hqWaiverProcessBusy||hqWaiverProcessNeedsVerification||!window.hqIsCommissioner||!hqReviewRosters||!hqReviewGroupKeys.length||hqReviewDone.size!==hqReviewGroupKeys.length)return;
+ const blockers=hqWaiverProcessingBlockers();
+ if(blockers.length){hqShowWaiverProcessResult('Cannot process yet: '+blockers.join(' '));hqUpdateWaiverProcessButton();return;}
  const week=hqWaiverProcessWeek;
- if(!document.getElementById('hqWaiverConfirmChecks')?.checked||document.getElementById('hqWaiverConfirmText')?.value.trim().toUpperCase()!=='PROCESS WEEK '+week)return;
  if(!window.confirm('FINAL CONFIRMATION: Process Week '+week+' waivers now? This changes live player ownership and WB balances. Continue only if your database processing function is verified.'))return;
  hqWaiverProcessBusy=true;hqWaiverProcessNeedsVerification=true;hqUpdateWaiverProcessButton();
  const status=document.getElementById('hqWaiverProcessStatus');
@@ -1403,7 +1428,7 @@ async function hqProcessWaivers(){
 }
 for(const id of ['hqWaiverConfirmChecks','hqWaiverConfirmText'])document.getElementById(id)?.addEventListener('input',hqUpdateWaiverProcessButton);
 document.getElementById('hqWaiverProcessButton')?.addEventListener('click',hqProcessWaivers);
-document.getElementById('hqWaiverRetryStatus')?.addEventListener('click',async()=>{await hqRefreshWaiverProcessStatus();const badge=document.getElementById('hqWaiverProcessBadge')?.textContent;if(badge==='READY FOR REVIEW'||badge==='PROCESSED'){hqWaiverProcessNeedsVerification=false;hqUpdateWaiverProcessButton();}});
+document.getElementById('hqWaiverRetryStatus')?.addEventListener('click',async()=>{await hqRefreshWaiverProcessStatus();hqUpdateWaiverProcessButton();});
 function hqRefreshCommissionerNav(){
   const nav=document.getElementById('nav');
   if(!nav)return;
