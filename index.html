@@ -627,6 +627,19 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 #hqCompletedMovesSection .hq-moves-panel[hidden]{display:none!important}
 #hqCompletedMovesSection .hq-transfers-history{margin:0!important}
 @media(max-width:620px){#hqCompletedMovesSection{padding:14px}#hqCompletedMovesSection .hq-moves-switcher{grid-template-columns:1fr}}
+</style><style id="hq-mobile-free-agent-pickup-fix">
+/* Make the mobile selection handoff visible, readable and easy to tap. */
+#faMarketSelectFeedback[hidden]{display:none!important}
+#faMarketSelectFeedback{margin:12px 0;padding:12px 14px;border-radius:10px;border:1px solid #69dad4;background:#123f49;color:#b8fff7;font-size:13px;font-weight:700;line-height:1.5}
+#hqMarketActions{scroll-margin-top:12px}
+#hqMarketFree,#hqMarketWaivers{scroll-margin-top:16px}
+@media(max-width:640px){
+ #faMarketTable .fa-claim{min-height:44px;min-width:79px;font-size:13px;touch-action:manipulation}
+ #hqMarketActions .hq-market-swap-actions{display:grid;grid-template-columns:1fr;gap:10px}
+ #hqMarketActions .hq-market-swap-actions button{width:100%;min-height:48px;padding:13px 12px}
+ #hqMarketFree .hq-market-free-fields{grid-template-columns:minmax(0,1fr)}
+ #hqMarketFree .hq-market-free-form{padding:15px}
+}
 </style></head><body><header><div class="flex" style="align-items:flex-start;flex-wrap:wrap"><div><div class="brand">OUA FANTASY · 2026–27</div><h1>Fantasy League <span style="color:var(--pink)">HQ</span></h1><div class="muted">Six managers. One trophy. Let the games begin. 🏐</div></div><div><span class="pill warn">2026–27 FANTASY LEAGUE</span></div></div></header><main><div class="account-bar" id="hqAccountBar"><span class="tiny">Checking sign-in…</span></div><nav id="nav"></nav><div class="section active" id="home"><div class="flex spaced"><div><div class="kicker">THE LEAGUE AT A GLANCE</div><h2>Welcome back, GMs 🏐</h2><p class="muted">Your fantasy season, all in one place.</p></div></div><div class="hq-roster-title"><div><h3>League roster overview</h3><p class="tiny spaced">Meet the teams competing this season.</p></div><span id="hqRosterChecked" class="hq-roster-checked" aria-live="polite">Checking roster moves…</span></div><div class="grid" id="homeRosters"></div></div><div class="section" id="roster"><div class="flex spaced" style="flex-wrap:wrap"><div><div class="kicker">SIGNED-IN MANAGER DASHBOARD</div><h2>🏐 My Roster</h2><p class="muted">Your own roster, weekly starters, bench and lineup deadlines. No demo players.</p></div></div><div class="card spaced" id="myRosterAuth"><p class="tiny">Checking your login…</p></div><div id="myRosterLive"></div></div><div class="section" id="oua-schedule"><h2>📅 OUA Schedule</h2><p class="muted">Browse the official 2026–27 OUA conference fixtures by fantasy week. This page is public; roster warnings remain on My Roster.</p><div class="card spaced"><div class="flex" style="flex-wrap:wrap"><div><h3 style="margin:0">📅 OUA schedule check</h3><p class="tiny" style="margin:6px 0 0">Verified against the supplied 2026–27 conference schedule. Select a fantasy week to view official fixtures. Private roster alerts appear in My Roster.</p></div><label style="min-width:210px">Fantasy week<select id="scheduleWeek"></select></label></div><div id="scheduleCheck"></div></div><div class="card spaced" id="fixtureList"></div></div><div class="section" id="waivers"><div class="kicker">THE WAIVER WIRE</div><h2>🔄 Waivers &amp; Free Agency</h2><p class="muted sectionintro">Find your next pickup, compare performances, and see when you can make a move.</p>
 <div aria-live="polite" class="market-status" data-phase="loading" id="faMarketStatus">
 <div class="market-status-top"><span aria-hidden="true" class="market-live-dot"></span><span id="faMarketLabel">Checking transaction window</span><span class="market-week" id="faMarketWeek">WEEK 2</span></div>
@@ -639,7 +652,7 @@ label:has(> select) { display: grid; gap: 9px; align-content: start; font-size: 
 <div class="market-status-foot"><span id="faMarketNext">Select a fantasy week to see its deadlines.</span><button class="smallbtn" id="faJumpToMarket" type="button">Browse players ↓</button></div>
 </div>
 <div class="fa-summary"><div class="card"><div class="tiny">AVAILABLE PLAYERS</div><div class="metric" id="faAvailable">—</div><div class="tiny">Excludes drafted athletes</div></div><div class="card"><div class="tiny">MY WAIVER WALLET</div><div class="metric" id="faWallet">—</div><div class="tiny" id="faWalletNote">Sign in to see your WB</div></div><div class="card"><div class="tiny" id="faDeadlineLabel">NEXT WAIVER DEADLINE</div><div class="metric" id="faDeadline">—</div><div class="tiny" id="faWindowStatus">Loading schedule…</div></div></div>
-<div class="card spaced" id="faMarketTable"><div class="kicker">SCOUT THE MARKET</div><div class="fa-filters"><label>Search player / school<input autocomplete="off" id="faSearch" placeholder="Search athletes…"/></label><label>Position<select id="faPos"><option value="all">All positions</option><option value="OH">OH / Opposite</option><option value="MB">Middle</option><option value="S">Setter</option><option value="L">Libero</option></select></label><label>University<select id="faUni"><option value="all">All universities</option></select></label><label>Upcoming fantasy week<select id="faWeek"></select></label><label>Sort by<select id="faSort"><option value="lastweek">Last completed week · total FP</option><option value="lastavg">Last completed week · FP / game</option><option value="weekendavg">Season · FP / played weekend</option><option value="seasonavg">Season · FP / game</option><option value="upcoming">Upcoming OUA games</option><option value="games">Season games played</option><option value="name">Player name</option></select></label><label>Min. season games<select id="faMinGames"><option value="0">Any</option><option value="1">1+</option><option value="3">3+</option><option value="5">5+</option></select></label></div><div class="fa-legend"><span class="pill">AVAILABLE PLAYER POOL</span><span class="pill warn" id="faScoresBadge">SEASON STATS UNAVAILABLE</span><span class="tiny" id="faCount">Loading…</span></div><div class="tablewrap"><table class="table fa-table"><thead><tr><th data-sort="name">PLAYER / UNIVERSITY</th><th data-sort="position">POS</th><th data-sort="lastweek">LAST WK FP</th><th data-sort="lastavg">LAST WK FP/GP</th><th data-sort="weekendavg">SEASON FP/WKND</th><th data-sort="seasonavg">SEASON FP/GP</th><th data-sort="games">SEASON GP</th><th data-sort="upcoming">UPCOMING GAMES</th><th>UPCOMING OPPONENTS</th><th>CLAIM</th></tr></thead><tbody id="faRows"><tr><td colspan="10">Loading available players…</td></tr></tbody></table></div><div class="fa-pager"><span class="tiny" id="faPageSummary">Showing top 10</span><button class="smallbtn" id="faPrev" type="button">Previous</button><button class="smallbtn" id="faNext" type="button">Next</button></div><p class="smallnote" id="faDataNote">Stats update after each completed fantasy week.</p></div>
+<div class="card spaced" id="faMarketTable"><div class="kicker">SCOUT THE MARKET</div><div class="fa-filters"><label>Search player / school<input autocomplete="off" id="faSearch" placeholder="Search athletes…"/></label><label>Position<select id="faPos"><option value="all">All positions</option><option value="OH">OH / Opposite</option><option value="MB">Middle</option><option value="S">Setter</option><option value="L">Libero</option></select></label><label>University<select id="faUni"><option value="all">All universities</option></select></label><label>Upcoming fantasy week<select id="faWeek"></select></label><label>Sort by<select id="faSort"><option value="lastweek">Last completed week · total FP</option><option value="lastavg">Last completed week · FP / game</option><option value="weekendavg">Season · FP / played weekend</option><option value="seasonavg">Season · FP / game</option><option value="upcoming">Upcoming OUA games</option><option value="games">Season games played</option><option value="name">Player name</option></select></label><label>Min. season games<select id="faMinGames"><option value="0">Any</option><option value="1">1+</option><option value="3">3+</option><option value="5">5+</option></select></label></div><div class="fa-legend"><span class="pill">AVAILABLE PLAYER POOL</span><span class="pill warn" id="faScoresBadge">SEASON STATS UNAVAILABLE</span><span class="tiny" id="faCount">Loading…</span></div><p class="hq-market-selection-feedback" id="faMarketSelectFeedback" role="status" aria-live="polite" hidden></p><div class="tablewrap"><table class="table fa-table"><thead><tr><th data-sort="name">PLAYER / UNIVERSITY</th><th data-sort="position">POS</th><th data-sort="lastweek">LAST WK FP</th><th data-sort="lastavg">LAST WK FP/GP</th><th data-sort="weekendavg">SEASON FP/WKND</th><th data-sort="seasonavg">SEASON FP/GP</th><th data-sort="games">SEASON GP</th><th data-sort="upcoming">UPCOMING GAMES</th><th>UPCOMING OPPONENTS</th><th>CLAIM</th></tr></thead><tbody id="faRows"><tr><td colspan="10">Loading available players…</td></tr></tbody></table></div><div class="fa-pager"><span class="tiny" id="faPageSummary">Showing top 10</span><button class="smallbtn" id="faPrev" type="button">Previous</button><button class="smallbtn" id="faNext" type="button">Next</button></div><p class="smallnote" id="faDataNote">Stats update after each completed fantasy week.</p></div>
 <div class="hq-market-actions spaced" id="hqMarketActions">
  <div class="hq-market-topline"><div><div class="kicker">MANAGER TRANSACTIONS</div><h3>Make your next move</h3><p class="tiny">Waivers are blind bids. Free Agency is an immediate 0-WB swap after the waiver cycle is processed.</p></div><span class="hq-market-live-status" id="hqMarketLiveStatus">Checking transaction window…</span></div>
  <div class="hq-market-toggle" role="tablist" aria-label="Transaction type">
@@ -1288,11 +1301,50 @@ const dropSelect=faElement('waiverDrop');
 const owned=leagueManager?leagueAssets.filter(p=>p.asset_type==='player'):[];
 hqReconcileWaiverSelect(dropSelect,leagueManager?'Choose player to drop':'Sign in to load your roster',owned,
  p=>`${p.asset_name} · ${p.university} (${p.position||'—'})`,String(leagueManager?.manager_id??'signed-out'));
+// Route market-table Select to the correct transaction workflow.
+// Previously every Select button populated the hidden WAIVER selector,
+// even while Free Agency was open. This was especially confusing on phones.
 for(const button of faElement('faRows').querySelectorAll('.fa-claim'))button.onclick=()=>{
- if(!claimIds.includes(button.dataset.id))return;
- claimSelect.value=button.dataset.id;
- claimSelect.dispatchEvent(new Event('change',{bubbles:true}));
- claimSelect.scrollIntoView({behavior:'smooth',block:'center'});
+ const assetId=button.dataset.id;
+ if(!claimIds.includes(assetId))return;
+ const isFree=faFreeOpen();
+ const processed=Boolean(faWindow()?.waivers_processed_at);
+ const mode=(isFree||processed)?'free':'waivers';
+ hqSetMarketMode(mode);
+ const destination=faElement(mode==='free'?'faFreeAddPlayer':'waiverPlayer');
+ const targetSection=faElement(mode==='free'?'hqMarketFree':'hqMarketWaivers');
+ if(destination){
+   if([...destination.options].some(o=>o.value===assetId)){
+     destination.value=assetId;
+     destination.dispatchEvent(new Event('change',{bubbles:true}));
+   }else{
+     const feedback=faElement('faMarketSelectFeedback');
+     if(feedback)feedback.textContent='Player list is refreshing. Please refresh and select again.';
+     return;
+   }
+ }
+ const name=faState.pool.find(p=>p.asset_id===assetId)?.asset_name||'Player';
+ const feedback=faElement('faMarketSelectFeedback');
+ if(feedback){
+   feedback.hidden=false;
+   feedback.textContent=isFree
+     ?`${name} selected for Free Agency. Choose someone on your roster to drop below, then preview and confirm.`
+     :faIsOpen()
+       ?`${name} selected for waivers. Choose your drop and enter a bid below.`
+       :`${name} selected, but transactions for this week are currently closed. You can browse the player pool.`;
+ }
+ const result=faElement('faFreeResult');
+ if(result&&isFree)result.textContent=`✓ ${name} selected. Now choose your player to drop, preview, and confirm the 0 WB swap.`;
+ // Scroll the visible transaction panel (not the hidden native select).
+ // Defer until tab visibility/layout has updated on mobile Safari.
+ requestAnimationFrame(()=>{
+   targetSection?.scrollIntoView({behavior:'smooth',block:'start'});
+   if(isFree){
+     const drop=faElement('faFreeDropPlayer');
+     const trigger=drop?.parentElement?.querySelector('.hq-select-button');
+     if(trigger)trigger.setAttribute('aria-label','Your player to drop');
+   }
+ });
 };
 faElement('faMyBids').innerHTML=!leagueManager?'Sign in to view private bids.':faState.bids.length?faState.bids.map(b=>{const p=faState.pool.find(x=>x.asset_id===b.target_asset_id);return `<div class="fa-bid"><b>${faSafe(p?.asset_name||b.target_asset_id)}</b><span>${b.bid_amount} WB</span><button class="smallbtn" data-cancel="${b.id}" ${open?'':'disabled'}>Cancel</button></div>`}).join(''):'No pending claims for this week.';faElement('faMyBids').querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>faCancelBid(b.dataset.cancel));faRenderFreeAdd();hqUpdateMarketMode();}
 async function faFetch(){if(!leagueClient)return;const [pool,owned,windows]=await Promise.all([leagueClient.from('league_player_pool').select('asset_id,asset_name,university,position,roster_evidence,historical_avg_fp').order('asset_name').range(0,999),leagueClient.from('league_rosters').select('asset_id').range(0,999),leagueClient.from('league_week_windows').select('fantasy_week,opens_at,locks_at,waivers_close_at,waivers_processed_at').order('fantasy_week')]);if(pool.error||owned.error){faElement('faRows').innerHTML='<tr><td colspan="10">Unable to load player pool. '+faSafe(pool.error?.message||owned.error?.message)+'</td></tr>';return;}faState.pool=pool.data||[];faState.owned=new Set((owned.data||[]).map(x=>x.asset_id));faState.weekWindows=windows.data||[];faState.loaded=true;await faRefreshPrivate();renderFreeAgents();}
