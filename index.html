@@ -2257,19 +2257,6 @@ function standings(){
 
 // Week 2 timeline follows the authoritative waiver cycle state. Never infer
 // processing success from the calendar; only waivers_processed_at confirms it.
-// Verified head-to-head fantasy pairings (manager IDs). Do not infer unverified weeks.
-const HQ_VERIFIED_MATCHUPS = Object.freeze({
-  1:[[5,2],[3,6],[4,1]],
-  2:[[5,6],[2,1],[3,4]],
-  3:[[5,1],[6,4],[2,3]],
-  4:[[5,4],[1,3],[6,2]],
-  5:[[5,3],[4,2],[1,6]]
-});
-// Read-only live matchup schedule. Known Weeks 1–5 remain available if the public
-// Supabase policy does not expose league_fantasy_matchups.
-let hqLiveMatchups=new Map();
-function hqPublishedMatchups(w){return hqLiveMatchups.get(Number(w))||HQ_VERIFIED_MATCHUPS[Number(w)]||null;}
-
 const hqTimelineWeek=Math.max(2,Math.min(9,Number(hqCurrentWeek)||2));
 let hqUpcomingWindow=null;
 let hqUpcomingLoading=false;
@@ -2344,7 +2331,7 @@ async function hqUpcomingFetchWindow(){
 }
 function nextWeekPanel(){return `<section class="hq-now-panel hq-upcoming-panel">
  <div class="hq-upcoming-head"><div><div class="kicker">UP NEXT · WEEK ${hqTimelineWeek}</div><h3>Make your next move.</h3><p class="hq-now-sub">${(weeks[hqTimelineWeek-1]||[])[1]||'Upcoming'} · Week ${hqTimelineWeek} matchups</p></div><span class="hq-upcoming-label" id="hqWeekStageBadge">NEXT UP</span></div>
- <div class="hq-upcoming-pairings" aria-label="Upcoming fantasy matchups"><div class="hq-upcoming-pairings-title">⚔️ WEEK ${hqTimelineWeek} MATCHUPS</div>${(hqPublishedMatchups(hqTimelineWeek)||[]).map(([a,b])=>`<div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:${GM_COLORS[a]}"></span><b>${NAMES[a]}</b><em>vs</em><b>${NAMES[b]}</b><span class="hq-gm-dot" style="--team:${GM_COLORS[b]}"></span></div>`).join('')||'<p class="tiny">See Matchups & Results for pairings.</p>'}</div>
+ <div class="hq-upcoming-pairings" aria-label="Upcoming fantasy matchups"><div class="hq-upcoming-pairings-title">⚔️ WEEK ${hqTimelineWeek} MATCHUPS</div>${(hqTimelineWeek===3?[[5,1],[6,4],[2,3]]:hqTimelineWeek===4?[[5,4],[1,3],[6,2]]:[]).map(([a,b])=>`<div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:${GM_COLORS[a]}"></span><b>${NAMES[a]}</b><em>vs</em><b>${NAMES[b]}</b><span class="hq-gm-dot" style="--team:${GM_COLORS[b]}"></span></div>`).join('')||'<p class="tiny">See Matchups & Results for pairings.</p>'}</div>
  <div class="hq-upcoming-callout" id="hqWeekStageCallout"><span class="hq-upcoming-callout-icon" id="hqWeekStageIcon">⏳</span><div><div class="hq-upcoming-kicker" id="hqWeekStageKicker">CURRENT DEADLINE</div><strong id="hqWeekStageTitle">Checking this week’s status…</strong><span id="hqWeekStageDetail">Fetching league schedule</span></div></div>
  <div class="hq-upcoming-timeline">
   <div class="hq-upcoming-event" id="hqWeekBidEvent"><span class="hq-upcoming-dot"></span><div><span class="hq-upcoming-day">TUE · NOV 17</span><strong>Waiver bids due · 11:59 PM</strong><small id="hqWeekBidStatus">Private bids close Tuesday at midnight</small></div></div>
@@ -2658,18 +2645,7 @@ function addLeaderboard(){const waivers=document.getElementById('waivers'),marke
 const analytics={managers:[],lineups:[],players:[],locked:[],loading:false,loaded:false,checkedAt:null};
 window.hqUniversityWeeks=new Set();
 async function fetchAnalytics(){if(analytics.loading||analytics.loaded||typeof leagueClient==='undefined'||!leagueClient)return;analytics.loading=true;
- try{const [m,l,p,locked,u,matchupResult]=await Promise.all([leagueClient.from('fantasy_weekly_manager_scores').select('*').limit(1000),leagueClient.from('fantasy_weekly_lineup_scores').select('*').limit(2000),leagueClient.from('fantasy_weekly_player_scores').select('*').limit(4000),leagueClient.from('league_lineups').select('fantasy_week,manager_id,asset_id,position,asset_type,lineup_role').limit(2000),leagueClient.from('fantasy_weekly_university_scores').select('week_num').limit(500),leagueClient.from('league_fantasy_matchups').select('fantasy_week,manager_a_id,manager_b_id').limit(100)]);if(m.error)throw m.error;analytics.managers=m.data||[];analytics.lineups=l.data||[];analytics.locked=locked.error?[]:(locked.data||[]);analytics.players=p.error?[]:(p.data||[]);window.hqUniversityWeeks=new Set((u.error?[]:(u.data||[])).map(x=>Number(x.week_num)));
-   if(!matchupResult.error && Array.isArray(matchupResult.data)){
-    const byWeek=new Map();
-    for(const m of matchupResult.data){
-     const week=Number(m.fantasy_week),a=Number(m.manager_a_id),b=Number(m.manager_b_id);
-     if(!Number.isInteger(week)||week<1||week>12||!Number.isInteger(a)||!Number.isInteger(b)||a===b)continue;
-     if(!byWeek.has(week))byWeek.set(week,[]);
-     byWeek.get(week).push([a,b]);
-    }
-    hqLiveMatchups=new Map([...byWeek].filter(([week,pairs])=>pairs.length===3&&new Set(pairs.flat()).size===6));
-   }
-   analytics.loaded=true;analytics.checkedAt=new Date();if(analytics.players.length&&typeof faState!=='undefined'){faState.scoring=analytics.players.map(r=>({asset_id:r.asset_id,fantasy_week:rowWeek(r),fantasy_points:val(r.fantasy_points??r.raw_points??r.total_points??r.points),games:val(r.games_played??r.games??r.gp)}));if(faState.loaded&&typeof renderFreeAgents==='function')renderFreeAgents();}}catch(e){console.warn('League analytics read:',e?.message||e);}finally{analytics.loading=false;renderAnalytics();}}
+ try{const [m,l,p,locked,u]=await Promise.all([leagueClient.from('fantasy_weekly_manager_scores').select('*').limit(1000),leagueClient.from('fantasy_weekly_lineup_scores').select('*').limit(2000),leagueClient.from('fantasy_weekly_player_scores').select('*').limit(4000),leagueClient.from('league_lineups').select('fantasy_week,manager_id,asset_id,position,asset_type,lineup_role').limit(2000),leagueClient.from('fantasy_weekly_university_scores').select('week_num').limit(500)]);if(m.error)throw m.error;analytics.managers=m.data||[];analytics.lineups=l.data||[];analytics.locked=locked.error?[]:(locked.data||[]);analytics.players=p.error?[]:(p.data||[]);window.hqUniversityWeeks=new Set((u.error?[]:(u.data||[])).map(x=>Number(x.week_num)));analytics.loaded=true;analytics.checkedAt=new Date();if(analytics.players.length&&typeof faState!=='undefined'){faState.scoring=analytics.players.map(r=>({asset_id:r.asset_id,fantasy_week:rowWeek(r),fantasy_points:val(r.fantasy_points??r.raw_points??r.total_points??r.points),games:val(r.games_played??r.games??r.gp)}));if(faState.loaded&&typeof renderFreeAgents==='function')renderFreeAgents();}}catch(e){console.warn('League analytics read:',e?.message||e);}finally{analytics.loading=false;renderAnalytics();}}
 const rowWeek=r=>val(r.week_num??r.fantasy_week??r.week??1);
 const ownId=r=>val(r.manager_id);
 const points=r=>val(r.counted_points??r.counted_fp??r.points_counted??r.fantasy_points??r.raw_points??r.points??0);
@@ -2718,26 +2694,26 @@ function renderLatestAwards(){
  const award=(label,person,value,icon)=>`<article class="hq-award" style="--award-color:${person?(GM_PALETTE[person.id]||'#69DAD4'):'#69DAD4'}"><div class="hq-award-eyebrow">${icon} ${label}</div>${person?`<strong class="hq-award-manager">${h(person.name)}</strong><span class="hq-award-points">${fmt(value)} <small>FP</small></span>`:'<span class="hq-award-wait">Awaiting bench scores</span>'}</article>`;
  panel.innerHTML=`<div class="hq-awards-heading"><div><div class="kicker">JUST COMPLETED · WEEK ${week}</div><h3>🏅 Latest Week Awards</h3></div><span class="hq-awards-check">${analytics.checkedAt?'Scores checked '+h(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',hour:'numeric',minute:'2-digit',hour12:true}).format(analytics.checkedAt)):'Latest scores'}</span></div><div class="hq-awards-grid">${award('Highest weekly score',best,best?.fp,'🏆')}${award('Lowest weekly score',lowest,lowest?.fp,'📉')}${award('Best bench',benchWinner?{id:benchWinner[0],name:GM_NAMES[benchWinner[0]]}:null,benchWinner?.[1],'💺')}</div>`;
 }
+// Verified head-to-head fantasy pairings (manager IDs). Do not infer unverified weeks.
+const HQ_VERIFIED_MATCHUPS = Object.freeze({
+  1:[[5,2],[3,6],[4,1]],
+  2:[[5,6],[2,1],[3,4]],
+  3:[[5,1],[6,4],[2,3]]
+});
+function hqPublishedMatchups(w){return HQ_VERIFIED_MATCHUPS[Number(w)]||null;}
 function hqCompletedMatchupWeeks(){
  if(!analytics.loaded)return [];
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
- const possibleWeeks=[...new Set(analytics.managers.map(rowWeek))].filter(w=>Number.isInteger(w)&&w>=1&&w<=12).sort((a,b)=>a-b);
- return possibleWeeks.filter(w=>{
+ return [1,2,3].filter(w=>{
   const pairs=hqPublishedMatchups(w);
   const weekRows=analytics.managers.filter(r=>rowWeek(r)===w);
   const scores=new Map(weekRows.map(r=>[ownId(r),Number(r.total_points)]));
   const fixtures=ouaFixtures.filter(g=>Number(g.fantasy_week)===w);
   const finalDate=fixtures.reduce((a,g)=>g.date>a?g.date:a,'');
-  return pairs?.length===3 && new Set(pairs.flat()).size===6 && scores.size===6 &&
+  return pairs?.length===3 && scores.size===6 &&
     pairs.every(([a,b])=>Number.isFinite(scores.get(a))&&Number.isFinite(scores.get(b))) &&
-    finalDate && today>finalDate && hqVerifiedFinalWeek(w);
+    finalDate && today>finalDate;
  });
-}
-function hqUpdateUpcomingMatchups(){
- const host=document.querySelector('.hq-upcoming-pairings');if(!host)return;
- const pairs=hqPublishedMatchups(hqTimelineWeek);
- host.innerHTML='<div class="hq-upcoming-pairings-title">⚔️ WEEK '+hqTimelineWeek+' MATCHUPS</div>'+
-  (pairs?.length===3?pairs.map(([a,b])=>`<div class="hq-upcoming-pairing"><span class="hq-gm-dot" style="--team:${GM_COLORS[a]}"></span><b>${h(NAMES[a])}</b><em>vs</em><b>${h(NAMES[b])}</b><span class="hq-gm-dot" style="--team:${GM_COLORS[b]}"></span></div>`).join(''):'<p class="tiny">See Matchups & Results for pairings.</p>');
 }
 function hqRenderLiveHomeWeek(){
  const home=document.getElementById('hqW1Home');if(!home||!analytics.loaded)return;
@@ -2815,7 +2791,7 @@ function hqUpdateCompletedHome(){
 
 function renderAnalytics(){const root=document.getElementById('analytics');if(!root)return;let container=document.getElementById('hqLiveLeagueAnalytics');if(!container){container=document.createElement('div');container.id='hqLiveLeagueAnalytics';container.className='hq-feature-panel';const explorer=document.getElementById('hqAthleteExplorer');const heading=root.querySelector('.sectionintro')||root.querySelector('h2');if(explorer)explorer.insertAdjacentElement('afterend',container);else heading?.insertAdjacentElement('afterend',container);}
  if(!analytics.loaded){container.innerHTML='<h3>League scoreboards</h3><p class="hq-feature-sub">Loading latest completed-week results…</p>';return;}
- hqUpdateUpcomingMatchups();hqRenderLiveHomeWeek();hqUpdateCompletedHome();renderLatestAwards();const all=analytics.managers,latest=latestCompleteWeek()??Math.max(1,...all.map(rowWeek));const filtered=all.filter(r=>rowWeek(r)===latest);
+ hqRenderLiveHomeWeek();hqUpdateCompletedHome();renderLatestAwards();const all=analytics.managers,latest=latestCompleteWeek()??Math.max(1,...all.map(rowWeek));const filtered=all.filter(r=>rowWeek(r)===latest);
  const summaries=filtered.map(r=>({id:ownId(r),name:GM_NAMES[ownId(r)]||String(r.manager_name||'Manager'),fp:val(r.total_points??r.total_fp??r.fantasy_points)})).sort((a,b)=>b.fp-a.fp);
  const roster=analytics.lineups.filter(r=>rowWeek(r)===latest),byp=Object.values(roster.reduce((acc,r)=>{const id=ownId(r),pos=String(r.position||'').toUpperCase();if(!id)return acc;const key=id+'|'+(pos==='TEAM'?'University':pos||'Other');const o=acc[key]||(acc[key]={id,position:pos,points:0});if(role(r)!=='bench')o.points+=points(r);return acc;},{}));
  const max=Math.max(1,...summaries.map(x=>x.fp));
