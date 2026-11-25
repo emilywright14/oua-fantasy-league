@@ -1731,6 +1731,9 @@ let hqReviewRows=[];
 let hqReviewRosters=null;
 let hqReviewDone=new Set();
 let hqReviewGroupKeys=[];
+let hqVerifiedBidWeek=null;
+let hqBidLoadSequence=0;
+function hqEmptyWaiverWeek(){return hqVerifiedBidWeek===hqWaiverProcessWeek && hqVerifiedBidWeek===Number(document.getElementById("hqReviewWeek")?.value||2) && hqReviewRows.length===0;}
 let hqReviewSnapshotKey='';
 // Persist review per athlete: only changed bids for that athlete invalidate its review.
 // This is a commissioner UI acknowledgement, NOT an award or DB approval.
@@ -1825,6 +1828,7 @@ async function hqLoadCommissionerQueue(){
  const target=document.getElementById('hqCommissionerInbox');
  const summary=document.getElementById('hqCommissionerSummary');
  if(!target)return;
+ const loadSequence=++hqBidLoadSequence; hqVerifiedBidWeek=null; hqUpdateWaiverProcessButton();
  if(!window.hqIsCommissioner||!leagueClient){target.textContent='Commissioner authorization required.';if(summary)summary.innerHTML='';hqRefreshWaiverProcessStatus();return;}
  const week=Number(document.getElementById('hqReviewWeek')?.value||window.hqSharedWeek||2);
  hqReviewDone=new Set();hqReviewGroupKeys=[];hqReviewRows=[];hqReviewRosters=null;hqWaiverWallets=[];
@@ -1835,9 +1839,9 @@ async function hqLoadCommissionerQueue(){
   leagueClient.from('league_rosters').select('manager_id,asset_id,asset_name,asset_type,university,position').limit(500),
   leagueClient.rpc('get_league_commissioner_wallet_balances')
  ]);
- if(week!==Number(document.getElementById('hqReviewWeek')?.value||2))return;
- if(bidRes.error){target.textContent='Unable to load commissioner review: '+bidRes.error.message;if(summary)summary.innerHTML='';return;}
- const rows=Array.isArray(bidRes.data)?bidRes.data:[];hqReviewRows=rows;
+ if(loadSequence!==hqBidLoadSequence||week!==Number(document.getElementById('hqReviewWeek')?.value||2))return;
+ if(bidRes.error||!Array.isArray(bidRes.data)){target.textContent='Unable to load commissioner review: '+(bidRes.error?.message||'Unexpected bid response');if(summary)summary.innerHTML='';return;}
+ const rows=bidRes.data;hqReviewRows=rows;hqVerifiedBidWeek=week;
  hqRestoreWaiverReviews(week,rows);
  hqWaiverWallets=walletRes.error?[]:(Array.isArray(walletRes.data)?walletRes.data:[]);hqRenderWaiverWalletPreview();
  hqReviewRosters=rosterRes.error?null:(rosterRes.data||[]);
@@ -1846,7 +1850,7 @@ async function hqLoadCommissionerQueue(){
  const uniqueTargets=new Set(rows.map(b=>b.target_asset_id)).size;
  const topTies=new Set(rows.filter(b=>b.tied_at_top).map(b=>b.target_asset_id)).size;
  if(summary)summary.innerHTML=[['CLAIMS',rows.length],['TARGET ATHLETES',uniqueTargets],['TOP-BID TIES',topTies]].map(([label,value])=>`<div class="card"><div class="tiny">${label}</div><div class="metric">${value}</div></div>`).join('');
- if(!rows.length){target.innerHTML=`<div class="tiny">No waiver claims for Week ${week} yet. Check again after bidding opens.</div>`;hqReviewProgress();return;}
+ if(!rows.length){target.innerHTML=`<div class="tiny">No waiver claims submitted for Week ${week}. Once bidding closes, finalize the empty cycle below.</div>`;hqReviewProgress();return;}
  const esc=t=>escapeHtml(String(t??''));
  const byTarget=new Map();
  for(const bid of rows){const key=String(bid.target_asset_id);if(!byTarget.has(key))byTarget.set(key,[]);byTarget.get(key).push(bid);}
@@ -1921,7 +1925,7 @@ async function hqRefreshWaiverProcessStatus(){
  if(!panel||!status||!badge||!button)return;
  const week=Number(document.getElementById('hqReviewWeek')?.value||2);
  hqWaiverProcessWeek=week;hqWaiverProcessReady=false;
- button.textContent='Process Week '+week+' Waivers';button.disabled=true;
+ button.textContent='Process Week '+week+' Waivers';button.disabled=true;hqUpdateWaiverProcessButton();
  if(!window.hqIsCommissioner||!leagueClient){status.textContent='Commissioner authorization required.';badge.textContent='RESTRICTED';return;}
  badge.textContent='CHECKING STATUS';status.textContent='Checking Week '+week+' waiver schedule…';
  const checkQuery=leagueClient.from('league_week_windows')
@@ -1963,6 +1967,8 @@ function hqWaiverProcessingBlockers(){
  if(hqWaiverProcessBusy) reasons.push('A processing request is already in progress.');
  if(hqWaiverProcessNeedsVerification) reasons.push('Recheck processing status to verify that the previous request did not complete.');
  if(!hqWaiverProcessReady) reasons.push('The database has not confirmed that Week '+hqWaiverProcessWeek+' is ready.');
+ if(hqVerifiedBidWeek!==hqWaiverProcessWeek||hqVerifiedBidWeek!==Number(document.getElementById('hqReviewWeek')?.value||2)) reasons.push('Refresh bids to verify the selected week.');
+ if(hqEmptyWaiverWeek()) return reasons;
  if(!hqReviewRosters) reasons.push('Current roster data is not loaded. Refresh the bid review.');
  if(!hqReviewGroupKeys.length) reasons.push('No waiver bid groups are loaded.');
  const unfinished=hqReviewGroupKeys.filter(k=>!hqReviewDone.has(k)).length;
@@ -1973,11 +1979,16 @@ function hqWaiverProcessingBlockers(){
 }
 function hqUpdateWaiverProcessButton(){
  const button=document.getElementById('hqWaiverProcessButton');if(!button)return;
+ const empty=hqEmptyWaiverWeek() && hqWaiverProcessReady;
+ const steps=document.querySelectorAll('#hqWaiverProcessingCard .hq-wp-step');
+ for(let i=0;i<2;i++)if(steps[i])steps[i].style.display=empty?'none':'';
+ button.textContent=empty?'Finalize Week '+hqWaiverProcessWeek+' & Open Free Agency':'Process Week '+hqWaiverProcessWeek+' Waivers';
+ if(empty){document.getElementById('hqWaiverProcessBadge').textContent='NO CLAIMS';document.getElementById('hqWaiverProcessChecks').textContent='No waiver claims submitted. No awards or WB deductions are expected.';}
  const reasons=hqWaiverProcessingBlockers();
  const explanation=document.getElementById('hqWaiverProcessBlockReason');
  button.disabled=reasons.length>0;
  if(explanation){
-  explanation.textContent=reasons.length?('Before processing: '+reasons.join(' ')):'All requirements met. This will update live rosters and WB only after your final confirmation.';
+  explanation.textContent=reasons.length?('Before processing: '+reasons.join(' ')):(empty?'Zero claims verified. Finalize the cycle using the existing database processor.':'All requirements met. This will update live rosters and WB only after your final confirmation.');
   explanation.style.color=reasons.length?'#ffd69e':'#83e6d9';
  }
 }
@@ -1985,12 +1996,17 @@ async function hqProcessWaivers(){
  const blockers=hqWaiverProcessingBlockers();
  if(blockers.length){hqShowWaiverProcessResult('Cannot process yet: '+blockers.join(' '));hqUpdateWaiverProcessButton();return;}
  const week=hqWaiverProcessWeek;
- if(!window.confirm('FINAL CONFIRMATION: Process Week '+week+' waivers now? This changes live player ownership and WB balances. Continue only if your database processing function is verified.'))return;
+ const empty=hqEmptyWaiverWeek();
+ if(!window.confirm(empty?'Finalize Week '+week+' with zero waiver claims and enable Free Agency within its configured window?':'FINAL CONFIRMATION: Process Week '+week+' waivers now? This changes live player ownership and WB balances. Continue only if your database processing function is verified.'))return;
  hqWaiverProcessBusy=true;hqWaiverProcessNeedsVerification=true;hqUpdateWaiverProcessButton();
  const status=document.getElementById('hqWaiverProcessStatus');
  hqShowWaiverProcessResult('Submitting Week '+week+' waiver processing request. Do not click again or reload until the result is verified.');
  status.textContent='Processing request submitted; checking database result…';
  try{
+   if(empty){
+     const fresh=await leagueClient.rpc('preview_league_waivers',{p_week:week});
+     if(fresh.error||!Array.isArray(fresh.data)||fresh.data.length!==0){hqVerifiedBidWeek=null;throw Error('Zero claims could not be reconfirmed. Refresh bids before processing.');}
+   }
    const {data,error}=await leagueClient.rpc('process_league_waivers',{p_week:week,p_execute:true});
    if(error){
      hqShowWaiverProcessResult('Processing request failed: '+error.message+(error.code?' (Code '+error.code+')':'')+'\n\nNo success is assumed. Check the Week '+week+' processed timestamp and wallet balances before trying again.');
